@@ -1,7 +1,11 @@
 from django.db import models
+from django.utils.translation import ugettext, ugettext_lazy as _
+
+from mptt.models import MPTTModel, TreeForeignKey
 
 from socialapps.core.models import BaseMetadata
-from mptt.models import MPTTModel
+from socialapps.core.fields import ImageWithThumbsField
+
 
 class Template(models.Model):
     """A template displays the content of an object.
@@ -31,7 +35,7 @@ class Template(models.Model):
     def __unicode__(self):
         return self.name
 
-class PortalContentType(models.Model):
+class PortalType(models.Model):
     """Stores all registration relevant information of a registered content
     type.
 
@@ -84,17 +88,35 @@ class PortalContentType(models.Model):
         return self.templates.all()
 
 
-class BaseContent(BaseMetadata, MPTTModel):
-    content_type = models.CharField(_(u"Content type"), max_length=100, blank=True)
-    parent = models.ForeignKey('self', null=True, blank=True, related_name='children', db_index=True)
-    template = models.ForeignKey("Template", verbose_name=_(u"Template"), blank=True, null=True)
+class BaseContent(MPTTModel, BaseMetadata):
+    """Base content object. From this class all content types should inherit.
+    
+    **Attributes:**
+    parent
+        required by MPTT
+    
+    portal_type
+        The portal type of the specific content object.
+        
+    template
+        The current selected template of the object.
+    """
+    parent      = TreeForeignKey('self', null=True, blank=True, related_name='children')
+    portal_type = models.ForeignKey("PortalType", verbose_name=_(u"Portal Type"), blank=True, null=True)
+    template    = models.ForeignKey("Template", verbose_name=_(u"Template"), blank=True, null=True)
 
     def get_absolute_url(self):
         pass
-
+    
+    def get_portal_type(self):
+        pass
+        
+    def get_template(self):
+        pass
+        
 class Folder(BaseContent):
     pass
-
+    
 class MultiPage(BaseContent):
     show_toc = models.BooleanField(default=False)
 
@@ -118,4 +140,3 @@ class File(BaseContent):
     @property
     def filename(self):
         return os.path.split(self.file.name)[1]
-        
