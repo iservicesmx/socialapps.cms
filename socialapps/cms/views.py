@@ -1,29 +1,4 @@
 from socialapps.cms.models import BaseContent
-
-def get_slug(path):
-    """
-    Return the object's slug
-
-        >>> get_slug('/foo/bar/')
-        bar
-    """
-    if path.endswith('/'):
-        path = path[:-1]
-    return path.split("/")[-1]
-
-def get_object(path):
-    """
-    Return the object
-        
-        >>> get_object('/foo/bar/')
-        BaseContent at ...
-    """
-    slug = get_slug(path)
-    obj = BaseContent.objects.get(slug=slug)
-    # if obj is none raise 404
-    # if no is none, get the portal_type
-    # and return de correct type object
-    
     
 class CMSBaseView(TemplateView):
     object = None
