@@ -6,6 +6,8 @@ from mptt.models import MPTTModel, TreeForeignKey
 from socialapps.core.models import BaseMetadata
 from socialapps.core.fields import ImageWithThumbsField
 
+from .managers import BaseContentManager
+
 class BaseContent(MPTTModel, BaseMetadata):
     """Base content object. From this class all content types should inherit.
     
@@ -19,9 +21,19 @@ class BaseContent(MPTTModel, BaseMetadata):
     template
         The current selected template of the object.
     """
+    ACTIVE = 1
+    INACTIVE = 0
+    STATUS_CHOICES = (
+            (ACTIVE,    _('Active')),
+            (INACTIVE,  _('Inactive')),
+    )
+    
     parent      = TreeForeignKey('self', null=True, blank=True, related_name='children')
     #portal_type = models.CharField(_(u"Portal type"), max_length=100, blank=True)
     template    = models.CharField(_(u"Template"), max_length=200, blank=True)
+    status      = models.IntegerField(_('Status'), choices=STATUS_CHOICES, default=INACTIVE)
+    
+    objects = BaseContentManager()
     
     class Meta:
         unique_together = ('parent', 'slug')
