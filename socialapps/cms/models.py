@@ -20,7 +20,7 @@ class BaseContent(MPTTModel, BaseMetadata):
         The current selected template of the object.
     """
     parent      = TreeForeignKey('self', null=True, blank=True, related_name='children')
-    portal_type = models.CharField(_(u"Portal type"), max_length=100, blank=True)
+    #portal_type = models.CharField(_(u"Portal type"), max_length=100, blank=True)
     template    = models.CharField(_(u"Template"), max_length=200, blank=True)
     
     class Meta:
