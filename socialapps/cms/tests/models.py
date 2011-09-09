@@ -98,9 +98,6 @@ class CMSPortalTypeTest(TestCase):
         self.assertRaises(ImproperlyConfigured, raise1)
         self.assertTrue(self.portal_type.get_portal_type(ItemModel) is ItemType)
         self.assertEqual(self.portal_type.get_portal_type(ItemModel).name, 'item')
-        self.assertTrue(hasattr(ItemModel, 'portal_type'))      
-        self.assertTrue(ItemModel.portal_type is ItemType)        
-        self.assertEqual(ItemModel.portal_type.name, 'item')
         self.assertEqual(len(self.portal_type.get_registered()), 1 )
         self.assertEqual(self.portal_type.get_registered(), (('item model','Item'),))
         
@@ -119,7 +116,7 @@ class CMSPortalTypeTest(TestCase):
             self.portal_type.unregistry(ItemModel)
         self.assertRaises(NotRegistered, raise4)
         
-    def test_portal_type_templates(self):
+    def _portal_type_templates(self):
                 
         portal_type = ItemModel.portal_type
         self.assertTrue(len(portal_type.templates) == 1 )
@@ -129,20 +126,3 @@ class CMSPortalTypeTest(TestCase):
         template = portal_type.default_template
         self.assertEqual(template.name, 'item')
 
-"""
-class CMSContentTypeTest(TestCase):
-            
-    def test_object_portal_type(self):
-        from .registration import portal_types
-        from .types import FolderType
-        
-        folder1 = Folder.objects.create(title="Folder 1")
-        folder1.save()
-        
-        self.assertTrue(hasattr(folder1,'portal_type'))
-        self.assertTrue(folder1.portal_type is FolderType)
-        
-        item1 = BaseContent.objects.get_object(path='folder-1',active=False)
-        print item1
-        print item1.portal_type
-"""
