@@ -128,13 +128,21 @@ class CMSPortalTypeTest(TestCase):
         
         template = portal_type.default_template
         self.assertEqual(template.name, 'item')
-        
+
+class CMSContentTypeTest(TestCase):
+            
     def test_object_portal_type(self):
-                
-        item = ItemModel.objects.create(foo = 'bar')
-        item.save()
+        from .registration import portal_types
+        from .types import FolderType
         
-        self.assertTrue(hasattr(item,'portal_type'))
-        self.assertTrue(item.portal_type is ItemType)
+        folder1 = Folder.objects.create(title="Folder 1")
+        folder1.save()
+        
+        self.assertTrue(hasattr(folder1,'portal_type'))
+        self.assertTrue(folder1.portal_type is FolderType)
+        
+        item1 = BaseContent.objects.get_object(path='folder-1',active=False)
+        print item1
+        print item1.portal_type
         
         
