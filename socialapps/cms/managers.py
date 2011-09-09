@@ -18,7 +18,7 @@ class BaseContentManager(models.Manager):
     def active(self):
         return self.get_query_set().active()
 
-    def get_object(self, path, active=True,raise404=False):
+    def get_base_object(self, path, active=True,raise404=False):
         if path.endswith('/'):
             path = path[:-1]
         slug = path.split("/")[-1]

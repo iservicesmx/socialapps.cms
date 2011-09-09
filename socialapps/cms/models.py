@@ -29,7 +29,7 @@ class BaseContent(MPTTModel, BaseMetadata):
     )
     
     parent      = TreeForeignKey('self', null=True, blank=True, related_name='children')
-    #portal_type = models.CharField(_(u"Portal type"), max_length=100, blank=True)
+    portal_type = models.CharField(_(u"Portal type"), max_length=100, blank=True)
     template    = models.CharField(_(u"Template"), max_length=200, blank=True)
     status      = models.IntegerField(_('Status'), choices=STATUS_CHOICES, default=INACTIVE)
     
@@ -65,7 +65,10 @@ class BaseContent(MPTTModel, BaseMetadata):
         pass
         
     def get_template(self):
-        pass
+        if not self.template:
+            pt = portal_types.get_portal_type(self)
+            return pt.default_template.path
+        return self.template
         
 class Folder(BaseContent):
     pass

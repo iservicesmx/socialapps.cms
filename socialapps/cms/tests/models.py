@@ -129,6 +129,7 @@ class CMSPortalTypeTest(TestCase):
         template = portal_type.default_template
         self.assertEqual(template.name, 'item')
 
+"""
 class CMSContentTypeTest(TestCase):
             
     def test_object_portal_type(self):
@@ -144,5 +145,4 @@ class CMSContentTypeTest(TestCase):
         item1 = BaseContent.objects.get_object(path='folder-1',active=False)
         print item1
         print item1.portal_type
-        
-        
+"""
