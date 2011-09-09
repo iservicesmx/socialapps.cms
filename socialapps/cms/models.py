@@ -5,6 +5,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 
 from socialapps.core.models import BaseMetadata
 from socialapps.core.fields import ImageWithThumbsField
+from .registration import portal_types
 
 from .managers import BaseContentManager
 
@@ -66,7 +67,9 @@ class BaseContent(MPTTModel, BaseMetadata):
         
     def get_template(self):
         if not self.template:
-            pt = portal_types.get_portal_type(self)
+            print self.get_object()
+            print portal_types.get_registered()
+            pt = portal_types.get_portal_type(self.get_object())
             return pt.default_template.path
         return self.template
         

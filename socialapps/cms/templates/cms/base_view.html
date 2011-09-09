@@ -1,1 +1,13 @@
-<html></html>
+{% block content_tabs %}
+{% endblock %}
+
+{% block content %}
+<div class="">
+    <div class="content-left">
+        {% block content_left %}{% endblock %}
+    </div>
+        <div id="content-right">
+        {% block content_right %}{% endblock %}
+    </div>
+</div>
+{% endblock %}

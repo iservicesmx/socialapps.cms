@@ -6,9 +6,12 @@ from django.core.exceptions import ImproperlyConfigured
 
 from ..models import *
 from socialapps.core.exceptions import *
-from ..registration import PortalTemplate, PortalType, SiteTypes, portal_types
-from ..registration import PortalTypeBase, PortalTemplateBase
+from ..registration import portal_types
+from .. import autodiscover
+from ..types import *
+autodiscover()
 
+#print portal_types.get_registered()
 
 class CMSViewTest(TestCase):
     urls = "socialapps.cms.tests.urls"
@@ -18,7 +21,9 @@ class CMSViewTest(TestCase):
         pass
 
     def test_views(self):
-        folder = Folder.objects.create(title="folder 1")
+        folder = Folder.objects.create(title="folder 1", status = 1, portal_type="folder")
         folder.save()
         response = self.client.get(reverse('base_view', kwargs={'path' : 'folder-1/'}))
         self.assertEqual(response.status_code, 200)
+
+        print response

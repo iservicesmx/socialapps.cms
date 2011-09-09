@@ -7,7 +7,7 @@ class CMSBaseView(TemplateView):
     
     def get_context_data(self, **kwargs):
         kwargs.update({
-                'context': self.object,
+                'object': self.object,
                 'parent': self.parent,
         })
     # en el dispatch obtener el object
@@ -25,9 +25,7 @@ class CMSBaseView(TemplateView):
 
     def get_object(self):
         path = self.kwargs.get('path', None)
-        print path
         obj = BaseContent.objects.get_base_object(path)
-        print obj
         return obj.get_object()
     
 class CMSEditView(object):
