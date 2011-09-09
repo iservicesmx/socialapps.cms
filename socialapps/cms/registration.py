@@ -112,28 +112,30 @@ class SiteTypes(object):
         """
         Return all types registered as a tuple, you can used this for a field choice in a model
         """
-        return tuple([(key._meta.verbose_name, self._types[key].title) for key in self._types.keys()])
+        return tuple([(key, self._types[key].title) for key in self._types.keys()])
 
     def get_portal_type(self, model):
-        if model in self._types.keys():
-            return self._types[model]
-        raise NotRegistered(_("the model %s don't have portal type registered") % model._meta.verbose_name )
+        model_name = model._meta.verbose_name # TODO: verify if isinstance(model, ModelBase)
+        if model_name in self._types.keys():
+            return self._types[model_name]
+        raise NotRegistered(_("the model %s don't have portal type registered") % model_name )
 
     def registry(self, model, type):
+        model_name = model._meta.verbose_name # TODO: verify if isinstance(model, ModelBase)
         if isinstance(type, PortalTypeBase):
-            if model in self._types.keys():
-                raise AlreadyRegistered(_('The portal type %s has already been registered.') % model._meta.verbose_name)
-            setattr(model, 'portal_type', type)
-            self._types[model] = type
+            if model_name in self._types.keys():
+                raise AlreadyRegistered(_('The portal type %s has already been registered.') % model_name)
+            self._types[model_name] = type
         else:
             raise ImproperlyConfigured(_("is not a portal type"))
 
     def unregistry(self, model):
         if isinstance(model, ModelBase):
-            if not model in self._types.keys():
-                raise NotRegistered(_("The %s is not registered") % model._meta.verbose_name)
-            del self._types[model]
+            model_name = model._meta.verbose_name
+            if not model_name in self._types.keys():
+                raise NotRegistered(_("The %s is not registered") % model_name)
+            del self._types[model_name]
         else:
-            raise ImproperlyConfigured(_("is not a portal type"))
+            raise ImproperlyConfigured(_("is not a model"))
 
 portal_types = SiteTypes()
