@@ -3,8 +3,20 @@
 {% block content_left %}
     <h1>{{ object.title }}</h1>
     <p>{{ object.description }}</p>
+    <ul class="tagit">
+    {% for tag in object.tags %}
+        <li class="tagit-show ui-state-default ui-corner-all">{{ tag }}</li>
+    {% endfor %}
+    </ul>
+    <br />
 
     {% if children %}
-        {{ children }}
+        {% for child in children %}
+            <a href="{{ child.get_absolute_url }}">{{child.title }}</a>
+        {% endfor %}
     {% endif %}
+{% endblock %}
+
+{% block content_right %}
+Edit
 {% endblock %}

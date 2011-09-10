@@ -33,3 +33,4 @@ class CMSViewTest(TestCase):
 
         children = folder.get_children()
         self.assertTrue(folder2 in [c.get_type_object() for c in children])
+

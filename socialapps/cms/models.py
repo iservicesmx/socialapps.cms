@@ -6,6 +6,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 from socialapps.core.models import BaseMetadata
 from socialapps.core.fields import ImageWithThumbsField
 from .registration import portal_types
+from .forms import EditForm
 
 from .managers import BaseContentManager
 
@@ -70,6 +71,9 @@ class BaseContent(MPTTModel, BaseMetadata):
             pt = portal_types.get_portal_type(self.get_type_object())
             return pt.default_template.path
         return self.template
+
+    def get_edit_form(self):
+        return EditForm
         
 class Folder(BaseContent):
     pass

@@ -1,7 +1,8 @@
 from socialapps.cms.models import BaseContent
+from django.views.generic.edit import FormView
 from django.views.generic import TemplateView
     
-class CMSBaseView(TemplateView):
+class BaseContentView(TemplateView):
     object = None
     parent = None
     children = None
@@ -32,5 +33,6 @@ class CMSBaseView(TemplateView):
         obj = BaseContent.objects.get_base_object(path)
         return obj.get_type_object()
     
-class CMSEditView(object):
+class BaseContentEdit(FormView):
     pass
+
