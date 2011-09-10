@@ -1,7 +1,10 @@
 {% extends "cms/base_view.html" %}
 
 {% block content_left %}
-    {{ object }}
     <h1>{{ object.title }}</h1>
     <p>{{ object.description }}</p>
+
+    {% if children %}
+        {{ children }}
+    {% endif %}
 {% endblock %}

@@ -55,7 +55,7 @@ class BaseContent(MPTTModel, BaseMetadata):
         return url
         #return reverse('base_view', url)
     
-    def get_object(self):
+    def get_type_object(self):
         if self.__class__.__name__.lower() == "basecontent":
             return getattr(self, self.portal_type)
         else:
@@ -67,9 +67,7 @@ class BaseContent(MPTTModel, BaseMetadata):
         
     def get_template(self):
         if not self.template:
-            print self.get_object()
-            print portal_types.get_registered()
-            pt = portal_types.get_portal_type(self.get_object())
+            pt = portal_types.get_portal_type(self.get_type_object())
             return pt.default_template.path
         return self.template
         
