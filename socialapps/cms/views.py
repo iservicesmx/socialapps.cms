@@ -47,7 +47,14 @@ class BaseContentEdit(FormView):
         self.get_form_class()
         self.get_template_name()
         self.get_parent_object()
-        return self.get_context_data(**kwargs)
+        return self.render_to_response(self.get_context_data(**kwargs))
+
+    def get_context_data(self, **kwargs):
+        kwargs.update({
+            'form'  : self.form_class,
+            'parent': self.parent,
+        })
+        return super(BaseContentEdit, self).get_context_data(**kwargs)
 
     def get_model(self):
         if not self.model:
@@ -58,9 +65,9 @@ class BaseContentEdit(FormView):
                 self.model = portal_types.get_model(portal_type)
         return self.model
 
-    def get_fom_class(self):
+    def get_form_class(self):
         if not self.form_class:
-             self.form_class = self.model.get_edit_form()
+             self.form_class = self.model().get_edit_form()
         return self.form_class 
 
     def get_template_name(self):

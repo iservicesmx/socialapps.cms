@@ -1,4 +1,6 @@
-<form method="POST" action="">
+{{ parent }}
+<form method="POST" action="{% url base_edit path=parent.get_absolute_url %}">
 {% csrf_token %}
 {{ form }}
+<input type="submit" value="Save"/>
 </form>
