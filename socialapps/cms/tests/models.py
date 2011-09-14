@@ -98,7 +98,7 @@ class CMSPortalTypeTest(TestCase):
         self.assertRaises(ImproperlyConfigured, raise1)
         self.assertTrue(self.portal_type.get_portal_type(ItemModel) is ItemType)
         self.assertEqual(self.portal_type.get_portal_type(ItemModel).name, 'item')
-        self.assertTrue(('item model','Item') in self.portal_type.get_registered())
+        self.assertTrue(('item model', 'Item') in self.portal_type.get_registered())
         
         def raise2():
             self.portal_type.registry(ItemModel, ItemType)
@@ -124,4 +124,3 @@ class CMSPortalTypeTest(TestCase):
         
         template = portal_type.default_template
         self.assertEqual(template.name, 'item')
-

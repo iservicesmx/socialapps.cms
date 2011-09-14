@@ -95,7 +95,7 @@ class PortalType(BaseDict):
     def get_subtypes(self):
         """Returns all allowed sub types for the belonging content type.
         """
-        return [(sub.type, sub.title) for sub in self.subtypes]
+        return [(sub.name, sub.title) for sub in self.subtypes]
 
     def get_templates(self):
         """Returns all allowed templates for the belonging content type.
@@ -112,29 +112,34 @@ class SiteTypes(object):
         """
         Return all types registered as a tuple, you can used this for a field choice in a model
         """
-        return tuple([(key, self._types[key].title) for key in self._types.keys()])
+        return tuple([(k._meta.verbose_name, v.title) for k,v in self._types.items()])
 
     def get_portal_type(self, model):
         model_name = model._meta.verbose_name # TODO: verify if isinstance(model, ModelBase)
-        if model_name in self._types.keys():
-            return self._types[model_name]
+        if model in self._types.keys():
+            return self._types[model]
         raise NotRegistered(_("the model %s don't have portal type registered") % model_name )
+
+    def get_model(self, type):
+        for k,v in self._types.items():
+            if type == v.name:
+                return k
 
     def registry(self, model, type):
         model_name = model._meta.verbose_name # TODO: verify if isinstance(model, ModelBase)
         if isinstance(type, PortalTypeBase):
-            if model_name in self._types.keys():
+            if model in self._types.keys():
                 raise AlreadyRegistered(_('The portal type %s has already been registered.') % model_name)
-            self._types[model_name] = type
+            self._types[model] = type
         else:
             raise ImproperlyConfigured(_("is not a portal type"))
 
     def unregistry(self, model):
         if isinstance(model, ModelBase):
             model_name = model._meta.verbose_name
-            if not model_name in self._types.keys():
+            if not model in self._types.keys():
                 raise NotRegistered(_("The %s is not registered") % model_name)
-            del self._types[model_name]
+            del self._types[model]
         else:
             raise ImproperlyConfigured(_("is not a model"))
 

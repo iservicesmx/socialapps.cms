@@ -68,7 +68,7 @@ class BaseContent(MPTTModel, BaseMetadata):
         
     def get_template(self):
         if not self.template:
-            pt = portal_types.get_portal_type(self.get_type_object())
+            pt = portal_types.get_portal_type(self.__class__)
             return pt.default_template.path
         return self.template
 

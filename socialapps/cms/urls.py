@@ -4,9 +4,9 @@ from django.conf import settings
 from socialapps.cms.views import *
 
 if settings.APPEND_SLASH:
-    base = url( r'^(?P<path>[0-9A-Za-z-_.//]+)/$' , BaseContentView.as_view(), name="base_view")
+    base = url(r'^(?P<path>[0-9A-Za-z-_.//]+)/$' , BaseContentView.as_view(), name="base_view")
 else:
-    base = url( r'^(?P<path>[0-9A-Za-z-_.//]+)$' , BaseContentView.as_view(), name="base_view")
+    base = url(r'^(?P<path>[0-9A-Za-z-_.//]+)$' , BaseContentView.as_view(), name="base_view")
 
 urlpatterns = patterns('',
     base,

@@ -42,7 +42,7 @@ class MultiPageTemplate(PortalTemplate):
 #=============== Types Definition ===================
 
 class FileType(PortalType):
-    type = "file"
+    name = "file"
     title = "File"
     global_addable = False
     subtypes = []
@@ -50,7 +50,7 @@ class FileType(PortalType):
     default_template = FileTemplate
 
 class ImageType(PortalType):
-    type = "image"
+    name = "image"
     title = "Image"
     global_addable = False
     subtypes = []
@@ -58,7 +58,7 @@ class ImageType(PortalType):
     default_template = ImageTemplate
 
 class PageType(PortalType):
-    type = "page"
+    name = "page"
     title = "Page"
     global_addable = False
     subtypes = [ImageType, FileType,]
@@ -66,7 +66,7 @@ class PageType(PortalType):
     default_template = PageTemplate
 
 class MultiPageType(PortalType):
-    type = "multipage"
+    name = "multipage"
     title = "MultiPage"
     global_addable = False
     subtypes = [PageType, ImageType, FileType]
@@ -74,7 +74,7 @@ class MultiPageType(PortalType):
     default_template = MultiPageTemplate
 
 class FolderType(PortalType):
-    type = 'folder'
+    name = 'folder'
     title = 'Folder'
     global_addable = True
     subtypes = [PageType, MultiPage, FileType, ImageType]
