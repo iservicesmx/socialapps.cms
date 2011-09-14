@@ -3,7 +3,7 @@ from django.views.generic.edit import FormView
 from django.views.generic import TemplateView
 from .registration import portal_types
 from django.http import Http404
-
+from django.forms.models import model_to_dict
     
 class BaseContentView(TemplateView):
     object = None
@@ -41,8 +41,13 @@ class BaseContentEdit(FormView):
     template_name = None
     model = None
     parent = None
+    object = None
 
     def get(self, request, **kwargs):
+        if not 'portal_type' in kwargs:
+            self.object = self.get_object()
+        else:
+            self.object = None
         self.get_model()
         self.get_form_class()
         self.get_template_name()
@@ -51,7 +56,7 @@ class BaseContentEdit(FormView):
 
     def get_context_data(self, **kwargs):
         kwargs.update({
-            'form'  : self.form_class,
+            'form'  : self.form_class(instance=self.object),
             'parent': self.parent,
         })
         return super(BaseContentEdit, self).get_context_data(**kwargs)
@@ -59,15 +64,21 @@ class BaseContentEdit(FormView):
     def get_model(self):
         if not self.model:
             portal_type = self.kwargs.get('portal_type', None)
-            if not portal_type:
-                self.model = BaseContent.objects.get_base_object(self.kwargs.get('path', None)).__class__
-            else:
+            if portal_type:
                 self.model = portal_types.get_model(portal_type)
         return self.model
 
+    def get_object(self):
+        path = self.kwargs.get('path', None)
+        obj = BaseContent.objects.get_base_object(path)
+        return obj.get_type_object()
+
     def get_form_class(self):
         if not self.form_class:
-             self.form_class = self.model().get_edit_form()
+            if 'portal_type' in self.kwargs:
+                self.form_class = self.model().get_edit_form
+            else:
+                self.form_class = self.object.get_edit_form
         return self.form_class 
 
     def get_template_name(self):

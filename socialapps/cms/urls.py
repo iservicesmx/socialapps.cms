@@ -10,6 +10,6 @@ else:
 
 urlpatterns = patterns('',
     base,
-    url( r'^(?P<path>[0-9A-Za-z-_.//]+)/edit$' , BaseContentEdit.as_view(), name="base_edit"),
+    url( r'^(?P<path>[0-9A-Za-z-_.//]+)edit$' , BaseContentEdit.as_view(), name="base_edit"),
     url( r'^(?P<path>[0-9A-Za-z-_.//]+)/add/(?P<portal_type>.+)$' , BaseContentEdit.as_view(), name="base_add"),
 )

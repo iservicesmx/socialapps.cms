@@ -72,8 +72,8 @@ class BaseContent(MPTTModel, BaseMetadata):
             return pt.default_template.path
         return self.template
 
-    def get_edit_form(self):
-        return EditForm
+    def get_edit_form(self, **kwargs):
+        return EditForm(**kwargs)
         
 class Folder(BaseContent):
     pass
