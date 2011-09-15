@@ -59,12 +59,7 @@ class BaseContentEdit(FormView):
             return reverse('base_edit', kwargs={'path' : self.object.get_absolute_url()})
 
     def get_success_url(self):
-        if not self.success_url:
-            if self.object:
-                return self.object.get_absolute_url()
-            else:
-                return self.parent.get_absolute_url()
-        return self.success_url
+        return "/%s" % self.object.get_absolute_url()
 
     def post(self, request, *args, **kwargs):
         self.add = self.check_create_or_update()
@@ -131,12 +126,12 @@ class BaseContentEdit(FormView):
         return self.parent
 
     def form_valid(self, form):
-        obj = form.save(commit = False)
-        obj.creator = self.request.user
+        self.object = form.save(commit = False)
+        self.object.creator = self.request.user
         if self.add:
-            obj.parent = self.parent
-            obj.portal_type = self.kwargs.get('portal_type', None)
-        obj.save()
+            self.object.parent = self.parent
+            self.object.portal_type = self.kwargs.get('portal_type', None)
+        self.object.save()
         self.success_url = self.get_success_url()
         return super(BaseContentEdit, self).form_valid(form)
 
@@ -150,5 +145,15 @@ class BaseContentDelete(DeleteView):
 
     def get_success_url(self):
         if self.object.parent:
-            return self.object.parent.get_absolute_url()
+            return "/%s" % self.object.parent.get_absolute_url()
         return "/"
+
+class BaseContentAdd(TemplateView):
+    template_name = "cms/add.html"
+
+    def get_context_data(self, **kwargs):
+        kwargs = super(BaseContentAdd, self).get_context_data(**kwargs)
+        kwargs.update({
+            'items': [1, 2, 3],
+        })
+        return kwargs
