@@ -18,5 +18,5 @@
 {% endblock %}
 
 {% block content_right %}
-Edit
+<a href="{% url base_edit path=object.get_absolute_url %}">Edit</a>
 {% endblock %}

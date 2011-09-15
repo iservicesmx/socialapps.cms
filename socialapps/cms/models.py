@@ -6,9 +6,10 @@ from mptt.models import MPTTModel, TreeForeignKey
 from socialapps.core.models import BaseMetadata
 from socialapps.core.fields import ImageWithThumbsField
 from .registration import portal_types
-from .forms import EditForm
 
 from .managers import BaseContentManager
+from django.core.urlresolvers import reverse
+
 
 class BaseContent(MPTTModel, BaseMetadata):
     """Base content object. From this class all content types should inherit.
@@ -51,10 +52,9 @@ class BaseContent(MPTTModel, BaseMetadata):
     
 
     def get_absolute_url(self):
-        url = ("/").join([ancestor.slug for ancestor in self.get_ancestors(include_self=True)]) + '/'
-        
+        url = "/".join([ancestor.slug for ancestor in self.get_ancestors(include_self=True)]) + "/"
         return url
-        #return reverse('base_view', url)
+#        return reverse('base_view', kwargs={'path' : url})
     
     def get_type_object(self):
         if self.__class__.__name__.lower() == "basecontent":
@@ -72,9 +72,6 @@ class BaseContent(MPTTModel, BaseMetadata):
             return pt.default_template.path
         return self.template
 
-    def get_edit_form(self, **kwargs):
-        return EditForm(**kwargs)
-        
 class Folder(BaseContent):
     pass
     

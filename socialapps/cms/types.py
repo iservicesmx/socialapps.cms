@@ -1,5 +1,6 @@
 from socialapps.cms.models import *
 from socialapps.cms.registration import PortalTemplate, PortalType, portal_types
+from .forms import *
 
 #=============== Templates Definition ==================
 
@@ -80,6 +81,8 @@ class FolderType(PortalType):
     subtypes = [PageType, MultiPage, FileType, ImageType]
     templates = [FolderTemplate, FolderTableTemplate]
     default_template = FolderTemplate
+    add_form = FolderEditForm
+    edit_form = FolderEditForm
     
 portal_types.registry(File, FileType)
 portal_types.registry(Image, ImageType)

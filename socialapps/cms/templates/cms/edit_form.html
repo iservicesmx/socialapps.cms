@@ -1,6 +1,13 @@
-{{ parent }}
-<form method="POST" action="{% url base_edit path=parent.get_absolute_url %}">
+<form method="POST" action="{{ url_form_post }}">
 {% csrf_token %}
-{{ form }}
+<table>
+    {% for field in form %}
+        <tr>
+            <td>{{ field.label_tag }}</td>
+            <td id="field-input-{{ field.html_name }}">{{ field }}</td>
+            <td id="field-error-{{ field.html_name }}"><ul class="errorlist"></ul></td>
+        </tr>
+    {% endfor %}
+</table>
 <input type="submit" value="Save"/>
 </form>

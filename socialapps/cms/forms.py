@@ -1,5 +1,12 @@
 from django import forms
+from .models import *
 
-class EditForm(forms.ModelForm):
-    title = forms.CharField(max_length = "200")
-    description = forms.CharField(widget=forms.Textarea)
+class BaseContentEditForm(forms.ModelForm):
+    class Meta:
+        model = BaseContent
+        fields = ("title", "description", "tags", "template", "status")
+
+class FolderEditForm(forms.ModelForm):
+    class Meta:
+        model = Folder 
+        fields = ("title", "description", "tags", "template", "status")

@@ -1,0 +1,9 @@
+{% load i18n %}
+<h2>{% trans 'Delete content'  %}</h2>
+<form class="form" id="edit_trait_form" method="POST" action="{{ params.url_form_post }}">
+    {% csrf_token %}
+    <div class="form_block">
+        <input type="submit" class="confirm" value="{% trans 'confirm' %}"/>
+        <input type="button" class="cancel" value="{% trans 'cancel' %}"/>
+    </div>
+</form>

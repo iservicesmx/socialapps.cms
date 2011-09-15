@@ -1,9 +1,10 @@
 from socialapps.cms.models import BaseContent
-from django.views.generic.edit import FormView
+from django.views.generic.edit import FormView, DeleteView
 from django.views.generic import TemplateView
 from .registration import portal_types
 from django.http import Http404
 from django.forms.models import model_to_dict
+from django.core.urlresolvers import reverse
     
 class BaseContentView(TemplateView):
     object = None
@@ -13,7 +14,7 @@ class BaseContentView(TemplateView):
     def get(self, request, **kwargs):
         if not self.object:
             self.object = self.get_object()
-#            self.children = [child.get_type_object() for child in self.object.get_children()]
+            self.children = [child.get_type_object() for child in self.object.get_children()]
         self.context = self.get_context_data()
         return self.render_to_response(self.context)
     
@@ -21,7 +22,7 @@ class BaseContentView(TemplateView):
         kwargs.update({
                 'object'    : self.object,
                 'parent'    : self.parent,
-#                'children'  : self.children,
+                'children'  : self.children,
         })
         return kwargs
     
@@ -42,54 +43,112 @@ class BaseContentEdit(FormView):
     model = None
     parent = None
     object = None
+    url_form_post = None
+    add = None
 
-    def get(self, request, **kwargs):
-        if not 'portal_type' in kwargs:
-            self.object = self.get_object()
+    def check_create_or_update(self):
+        if 'portal_type' in self.kwargs:
+            return True
         else:
-            self.object = None
-        self.get_model()
-        self.get_form_class()
-        self.get_template_name()
-        self.get_parent_object()
-        return self.render_to_response(self.get_context_data(**kwargs))
+            return False
+
+    def get_url_form_post(self):
+        if self.add:
+            return reverse('base_add', kwargs={'path' : self.parent.get_absolute_url(), 'portal_type' : self.kwargs.get('portal_type', None)})
+        else:
+            return reverse('base_edit', kwargs={'path' : self.object.get_absolute_url()})
+
+    def get_success_url(self):
+        if not self.success_url:
+            if self.object:
+                return self.object.get_absolute_url()
+            else:
+                return self.parent.get_absolute_url()
+        return self.success_url
+
+    def post(self, request, *args, **kwargs):
+        self.add = self.check_create_or_update()
+        self.object = self.get_object()
+        self.model = self.get_model()
+        self.parent = self.get_parent_object()
+        return super(BaseContentEdit, self).post(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        self.add = self.check_create_or_update()
+        self.object = self.get_object()
+        self.model = self.get_model()
+        self.parent = self.get_parent_object()
+        return super(BaseContentEdit, self).get(request, *args, **kwargs)
+
+    def get_form_kwargs(self):
+        kwargs = super(BaseContentEdit, self).get_form_kwargs()
+        if self.object:
+            kwargs.update({
+                'instance' : self.object,
+            })
+        return kwargs
 
     def get_context_data(self, **kwargs):
         kwargs.update({
-            'form'  : self.form_class(instance=self.object),
             'parent': self.parent,
+            'url_form_post' : self.get_url_form_post(),
         })
         return super(BaseContentEdit, self).get_context_data(**kwargs)
 
     def get_model(self):
         if not self.model:
-            portal_type = self.kwargs.get('portal_type', None)
-            if portal_type:
-                self.model = portal_types.get_model(portal_type)
+            if self.add:
+                return portal_types.get_model(self.kwargs.get('portal_type'))
+            else:
+                return self.object.__class__
         return self.model
 
     def get_object(self):
-        path = self.kwargs.get('path', None)
-        obj = BaseContent.objects.get_base_object(path)
-        return obj.get_type_object()
+        if not self.object:
+            if not self.add:
+                path = self.kwargs.get('path', None)
+                obj = BaseContent.objects.get_base_object(path)
+                return obj.get_type_object()
+            else:
+                return None
+        return self.object
 
     def get_form_class(self):
         if not self.form_class:
-            if 'portal_type' in self.kwargs:
-                self.form_class = self.model().get_edit_form
-            else:
-                self.form_class = self.object.get_edit_form
+            return portal_types.get_portal_type(self.model).edit_form
         return self.form_class 
 
-    def get_template_name(self):
+    def get_template_names(self):
         if not self.template_name:
-            self.template_name = "cms/edit_form.html"
+            return "cms/edit_form.html"
         return self.template_name
     
     def get_parent_object(self):
         if not self.parent:
             path = self.kwargs.get('path', None)
             obj = BaseContent.objects.get_base_object(path)
-            self.parent = obj.get_type_object()
+            return obj.get_type_object()
         return self.parent
-            
+
+    def form_valid(self, form):
+        obj = form.save(commit = False)
+        obj.creator = self.request.user
+        if self.add:
+            obj.parent = self.parent
+            obj.portal_type = self.kwargs.get('portal_type', None)
+        obj.save()
+        self.success_url = self.get_success_url()
+        return super(BaseContentEdit, self).form_valid(form)
+
+class BaseContentDelete(DeleteView):
+    template_name = "cms/confirm.html"
+
+    def get_object(self):
+        path = self.kwargs.get('path', None)
+        obj = BaseContent.objects.get_base_object(path)
+        return obj.get_type_object()
+
+    def get_success_url(self):
+        if self.object.parent:
+            return self.object.parent.get_absolute_url()
+        return "/"
