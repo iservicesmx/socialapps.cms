@@ -54,7 +54,7 @@ class BaseContentEdit(FormView):
 
     def get_url_form_post(self):
         if self.add:
-            return reverse('base_add', kwargs={'path' : self.parent.get_absolute_url(), 'portal_type' : self.kwargs.get('portal_type', None)})
+            return reverse('base_create', kwargs={'path' : self.parent.get_absolute_url(), 'portal_type' : self.kwargs.get('portal_type', None)})
         else:
             return reverse('base_edit', kwargs={'path' : self.object.get_absolute_url()})
 
@@ -150,10 +150,15 @@ class BaseContentDelete(DeleteView):
 
 class BaseContentAdd(TemplateView):
     template_name = "cms/add.html"
+    
+    def get_object(self):
+        path = self.kwargs.get('path', None)
+        return BaseContent.objects.get_base_object(path).get_type_object()
 
     def get_context_data(self, **kwargs):
         kwargs = super(BaseContentAdd, self).get_context_data(**kwargs)
         kwargs.update({
-            'items': [1, 2, 3],
+            'path'      : self.kwargs.get('path', None),
+            'subtypes'  : self.get_object().get_portal_type().subtypes,
         })
         return kwargs

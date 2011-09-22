@@ -49,6 +49,8 @@ class FileType(PortalType):
     subtypes = []
     templates = [FileTemplate,]
     default_template = FileTemplate
+    add_form = FileEditForm
+    edit_form = FileEditForm    
 
 class ImageType(PortalType):
     name = "image"
@@ -57,6 +59,8 @@ class ImageType(PortalType):
     subtypes = []
     templates = [ImageTemplate,]
     default_template = ImageTemplate
+    add_form = ImageEditForm
+    edit_form = ImageEditForm    
 
 class PageType(PortalType):
     name = "page"
@@ -65,6 +69,8 @@ class PageType(PortalType):
     subtypes = [ImageType, FileType,]
     templates = [PageTemplate,]
     default_template = PageTemplate
+    add_form = PageEditForm
+    edit_form = PageEditForm
 
 class MultiPageType(PortalType):
     name = "multipage"
@@ -73,12 +79,14 @@ class MultiPageType(PortalType):
     subtypes = [PageType, ImageType, FileType]
     templates = [MultiPageTemplate,]
     default_template = MultiPageTemplate
+    add_form = MultiPageEditForm
+    edit_form = MultiPageEditForm
 
 class FolderType(PortalType):
     name = 'folder'
     title = 'Folder'
     global_addable = True
-    subtypes = [PageType, MultiPage, FileType, ImageType]
+    subtypes = [PageType, MultiPageType, FileType, ImageType]
     templates = [FolderTemplate, FolderTableTemplate]
     default_template = FolderTemplate
     add_form = FolderEditForm

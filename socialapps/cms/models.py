@@ -63,8 +63,7 @@ class BaseContent(MPTTModel, BaseMetadata):
             return self
         
     def get_portal_type(self):
-        #acceder al registro y traer a la clase base
-        pass
+        return portal_types.get_portal_type(self.__class__)
         
     def get_template(self):
         if not self.template:

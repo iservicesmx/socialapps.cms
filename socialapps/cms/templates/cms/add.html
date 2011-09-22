@@ -1,4 +1,4 @@
 {% load i18n %}
-{% for item in items %}
-    {{ item }}
+{% for item in subtypes %} 
+    <a href="{% url base_create path item.name %}">{{ item.title }}</a>
 {% endfor %}
