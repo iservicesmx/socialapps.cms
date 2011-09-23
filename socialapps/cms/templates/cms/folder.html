@@ -12,7 +12,7 @@
 
     {% if children %}
         {% for child in children %}
-            <a href="{{ child.get_absolute_url }}">{{child.title }}</a>
+            <a href="/{{ child.get_absolute_url }}">{{child.title }}</a>
         {% endfor %}
     {% endif %}
 {% endblock %}

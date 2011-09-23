@@ -70,6 +70,10 @@ class BaseContent(MPTTModel, BaseMetadata):
             pt = portal_types.get_portal_type(self.__class__)
             return pt.default_template.path
         return self.template
+        
+class FolderRoot(BaseContent):
+    class Meta:
+        abstract = True
 
 class Folder(BaseContent):
     pass
