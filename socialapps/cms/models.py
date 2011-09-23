@@ -84,15 +84,17 @@ class Image(BaseContent):
     image = ImageWithThumbsField(_(u"Image"), upload_to="uploads",
         sizes=((64, 64), (128, 128), (400, 400), (600, 600), (800, 800)))
 
-    def get_absolute_url(self):
-        pass
-    get_absolute_url = models.permalink(get_absolute_url)    
+#    def get_absolute_url(self):
+#        return 
+#        pass
+
+#    get_absolute_url = models.permalink(get_absolute_url)
 
 class File(BaseContent):    
     file = models.FileField(upload_to="files")
 
-    def get_absolute_url(self):
-        return reverse("socialapps_file", kwargs={"id" : self.id})
+#    def get_absolute_url(self):
+#        return reverse("socialapps_file", kwargs={"id" : self.id})
 
     @property
     def filename(self):

@@ -18,6 +18,6 @@
 {% endblock %}
 
 {% block content_right %}
-<a href="{% url base_edit path=object.get_absolute_url %}">Edit</a>
-<a href="{% url base_add path=object.get_absolute_url %}">Add</a>
+<a href="{% url base_edit path=object.get_absolute_url %}" rel="facebox[.cms_subtypes]">Edit</a>
+<a href="{% url base_add path=object.get_absolute_url %}" rel="facebox[.cms_subtypes]">Add</a>
 {% endblock %}

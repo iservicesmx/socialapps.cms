@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% load socialapps_tags %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/cms.css">
+{% endblock %}
+
 {% block content_tabs %}
 {% endblock %}
 

@@ -1,4 +1,11 @@
 {% load i18n %}
+<ul class="cms-subtypes">
 {% for item in subtypes %} 
-    <a href="{% url base_create path item.name %}">{{ item.title }}</a>
+    <li>
+        <div>
+            <a href="{% url base_create path item.name %}" rel="facebox">{{ item.title }}</a>
+            <p>Description..</p>
+        </div>
+    </li>
 {% endfor %}
+</ul>
