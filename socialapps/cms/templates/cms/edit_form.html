@@ -1,3 +1,9 @@
+<script type="text/javascript">
+    $(document).ready(function() {
+        var availableTags = [ {% for t in tags %} '{{t}}',{% endfor %} ]        
+        $("#id_tags").tagit({availableTags   : availableTags});
+    });
+</script>
 <form method="POST" action="{{ url_form_post }}" enctype="multipart/form-data">
 {% csrf_token %}
 <table>

@@ -9,7 +9,8 @@ from .registration import portal_types
 
 from .managers import BaseContentManager
 from django.core.urlresolvers import reverse
-
+from django.contrib.contenttypes.models import ContentType
+from tagging.models import Tag
 
 class BaseContent(MPTTModel, BaseMetadata):
     """Base content object. From this class all content types should inherit.
@@ -34,7 +35,7 @@ class BaseContent(MPTTModel, BaseMetadata):
     parent      = TreeForeignKey('self', null=True, blank=True, related_name='children')
     portal_type = models.CharField(_(u"Portal type"), max_length=100, blank=True)
     template    = models.CharField(_(u"Template"), max_length=200, blank=True)
-    status      = models.IntegerField(_('Status'), choices=STATUS_CHOICES, default=INACTIVE)
+    status      = models.IntegerField(_('Status'), choices=STATUS_CHOICES, default=ACTIVE)
     
     objects = BaseContentManager()
     
@@ -47,14 +48,12 @@ class BaseContent(MPTTModel, BaseMetadata):
         ordering = ('tree_id', 'lft')
         order_insertion_by = 'slug'
     
-    def save(self, *args, **kwargs):        
+    def save(self, *args, **kwargs):
         super(BaseContent, self).save(*args, **kwargs)
-    
 
     def get_absolute_url(self):
         url = "/".join([ancestor.slug for ancestor in self.get_ancestors(include_self=True)]) + "/"
         return url
-#        return reverse('base_view', kwargs={'path' : url})
     
     def get_type_object(self):
         if self.__class__.__name__.lower() == "basecontent":
@@ -70,6 +69,9 @@ class BaseContent(MPTTModel, BaseMetadata):
             pt = portal_types.get_portal_type(self.__class__)
             return pt.default_template.path
         return self.template
+        
+    def get_contenttype(self):
+        return ContentType.objects.get_for_model(self).id
         
 class FolderRoot(BaseContent):
     class Meta:

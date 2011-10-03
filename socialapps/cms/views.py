@@ -5,6 +5,7 @@ from .registration import portal_types
 from django.http import Http404
 from django.forms.models import model_to_dict
 from django.core.urlresolvers import reverse
+from tagging.models import Tag
     
 class BaseContentView(TemplateView):
     object = None
@@ -85,8 +86,9 @@ class BaseContentEdit(FormView):
 
     def get_context_data(self, **kwargs):
         kwargs.update({
-            'parent': self.parent,
+            'parent'        : self.parent,
             'url_form_post' : self.get_url_form_post(),
+            'tags'          : Tag.objects.all().values_list('name', flat=True),
         })
         return super(BaseContentEdit, self).get_context_data(**kwargs)
 
@@ -128,6 +130,7 @@ class BaseContentEdit(FormView):
     def form_valid(self, form):
         self.object = form.save(commit = False)
         self.object.creator = self.request.user
+        self.object.tags = ' '.join(self.request.POST.get('tags').split(','))
         if self.add:
             self.object.parent = self.parent
             self.object.portal_type = self.kwargs.get('portal_type', None)
