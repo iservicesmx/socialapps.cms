@@ -70,9 +70,6 @@ class BaseContent(MPTTModel, BaseMetadata):
             return pt.default_template.path
         return self.template
         
-    def get_contenttype(self):
-        return ContentType.objects.get_for_model(self).id
-        
 class FolderRoot(BaseContent):
     class Meta:
         abstract = True

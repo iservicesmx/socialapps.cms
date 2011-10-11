@@ -130,7 +130,7 @@ class BaseContentEdit(FormView):
     def form_valid(self, form):
         self.object = form.save(commit = False)
         self.object.creator = self.request.user
-        self.object.tags = ' '.join(self.request.POST.get('tags').split(','))
+        self.object.tags = ' '.join(self.request.POST.get('tags', '').split(','))
         if self.add:
             self.object.parent = self.parent
             self.object.portal_type = self.kwargs.get('portal_type', None)
