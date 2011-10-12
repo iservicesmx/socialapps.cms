@@ -1,3 +1,16 @@
 #facebox .cms_subtypes {
     width: 514px;
 }
+
+.content-left {
+    margin-left: 2%;
+    padding: 0;
+    width: 57%;
+    min-height: 500px;
+    float: left;
+}
+
+.content-right {
+    float: right;
+    margin-right: 25px;
+}

@@ -4,7 +4,7 @@
         $("#id_tags").tagit({availableTags   : availableTags});
     });
 </script>
-<form method="POST" action="{{ url_form_post }}" enctype="multipart/form-data">
+<form method="POST" action="{{ url_form_post }}" enctype="multipart/form-data" class="form">
 {% csrf_token %}
 <table>
     {% for field in form %}
