@@ -4,7 +4,7 @@
 	{% for item in type_content %} 
 		<div class="type-item">
 			<a href="{% url base_create path item.name %}" rel="facebox">
-					<img src="http://www.gravatar.com/avatar/3158ab93b743250a5188d066bac362c9/?s=64&d=http%3A%2F%2F127.0.0.1%3A8000%2Fstatic%2Fimages%2Favatar_default.png" alt="{{ item.title }}" width="64" height="64" class="type-icon"/>
+					<img src="{{ STATIC_URL }}images/cms-icons/{{item.name}}.png" alt="{{ item.title }}" width="64" height="64" class="type-icon"/>
 					<span class="type-title">{{ item.title}}</span>
 			</a>
 		</div>
@@ -14,7 +14,7 @@
 	{% for item in type_container %} 
 		<div class="type-item">
 			<a href="{% url base_create path item.name %}" rel="facebox">
-					<img src="http://www.gravatar.com/avatar/3158ab93b743250a5188d066bac362c9/?s=64&d=http%3A%2F%2F127.0.0.1%3A8000%2Fstatic%2Fimages%2Favatar_default.png" alt="{{ item.title }}" width="64" height="64" class="type-icon"/>
+					<img src="{{ STATIC_URL }}images/cms-icons/{{item.name}}.png" alt="{{ item.title }}" width="64" height="64" class="type-icon"/>
 					<span class="type-title">{{ item.title}}</span>
 			</a>
 		</div>
