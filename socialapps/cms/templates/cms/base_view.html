@@ -3,7 +3,15 @@
 
 {% block extra_css %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/cms.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/buttons.css">
 {% endblock %}
+
+{% block extra_js %}
+<script type="text/javascript">
+
+</script>
+{% endblock %}
+
 
 {% block content_tabs %}
 	{% show_local_menu object 'resources' %}

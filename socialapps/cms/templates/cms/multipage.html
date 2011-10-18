@@ -24,7 +24,10 @@
 			</ul>
 	    {% endif %}
 	{% else %}
-		jojo
+		Aqui van los hijos con navegador de siguiente/anterior
+		<div class="nav">
+			<a href="{{ parent.get_absolute_url }}">{{ parent.title }}</a>
+		</div>
 	{% endif %}
 {% endblock %}
 

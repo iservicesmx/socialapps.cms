@@ -16,6 +16,7 @@ class BaseContentView(TemplateView):
         if not self.object:
             self.object = self.get_object()
             self.children = [child.get_type_object() for child in self.object.get_children()]
+            self.parent = self.object.parent
         self.context = self.get_context_data()
         return self.render_to_response(self.context)
     
@@ -160,8 +161,18 @@ class BaseContentAdd(TemplateView):
 
     def get_context_data(self, **kwargs):
         kwargs = super(BaseContentAdd, self).get_context_data(**kwargs)
+        
+        type_container = []
+        type_content = []
+        for item in self.get_object().get_portal_type().subtypes:
+            if not item.subtypes:
+                type_content.append(item)
+            else:
+                type_container.append(item)
+            
         kwargs.update({
-            'path'      : self.kwargs.get('path', None),
-            'subtypes'  : self.get_object().get_portal_type().subtypes,
+            'path'          : self.kwargs.get('path', None),
+            'type_container': type_container,
+            'type_content'  : type_content,
         })
         return kwargs

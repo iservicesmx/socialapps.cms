@@ -1,4 +1,5 @@
 {% extends "cms/base_view.html" %}
+{% load i18n %}
 
 {% block content_left %}
     <h1>{{ object.title }}</h1>
@@ -25,6 +26,13 @@
 {% endblock %}
 
 {% block content_right %}
-<a href="{% url base_edit path=object.get_absolute_url %}" rel="facebox">Edit</a>
-<a href="{% url base_add path=object.get_absolute_url %}" rel="facebox">Add</a>
+
+<ul>
+	<li class="cms-menu button">{% trans "Admin" %}
+		<ul class="cms-menu-list">
+			<li><a href="{% url base_edit path=object.get_absolute_url %}" rel="facebox">Edit</a></li>
+			<li><a href="{% url base_add path=object.get_absolute_url %}" rel="facebox">Add</a></li>
+		</ul>
+	</li>
+</ul>
 {% endblock %}
