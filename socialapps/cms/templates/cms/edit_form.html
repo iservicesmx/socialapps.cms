@@ -1,9 +1,18 @@
+{% load i18n %}
+
 <script type="text/javascript">
     $(document).ready(function() {
         var availableTags = [ {% for t in tags %} '{{t}}',{% endfor %} ]        
         $("#id_tags").tagit({availableTags   : availableTags});
     });
 </script>
+
+{% if add %}
+	<h2>{% trans "Add" %} {% trans title %}</h2>
+{% else %}
+	<h2>{% trans "Edit" %} {% trans title %}</h2>
+{% endif %}
+
 <form method="POST" action="{{ url_form_post }}" enctype="multipart/form-data" class="form">
 {% csrf_token %}
 <table>

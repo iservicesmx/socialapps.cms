@@ -90,8 +90,16 @@ class BaseContentEdit(FormView):
             'parent'        : self.parent,
             'url_form_post' : self.get_url_form_post(),
             'tags'          : Tag.objects.all().values_list('name', flat=True),
+            'title'         : self.get_title(),
+            'add'           : self.add,
         })
         return super(BaseContentEdit, self).get_context_data(**kwargs)
+        
+    def get_title(self):
+        if not self.object:
+            return portal_types.get_portal_type(self.model).title
+        else:
+            return self.object.get_portal_type().title
 
     def get_model(self):
         if not self.model:
