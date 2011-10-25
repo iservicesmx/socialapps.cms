@@ -8,9 +8,9 @@
 </script>
 
 {% if add %}
-	<h2>{% trans "Add" %} {% trans title %}</h2>
+	<h2><img src="{{ STATIC_URL }}images/cms-icons/{{portal_type}}.png" alt="{{ item.title }}" width="16" height="16" class="type-icon"/>{% trans "Add" %} {% trans title %}</h2>
 {% else %}
-	<h2>{% trans "Edit" %} {% trans title %}</h2>
+	<h2><img src="{{ STATIC_URL }}images/cms-icons/{{portal_type}}.png" alt="{{ item.title }}" width="16" height="16" class="type-icon"/>{% trans "Edit" %} {% trans title %}</h2>
 {% endif %}
 
 <form method="POST" action="{{ url_form_post }}" enctype="multipart/form-data" class="form">

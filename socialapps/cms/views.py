@@ -92,6 +92,7 @@ class BaseContentEdit(FormView):
             'tags'          : Tag.objects.all().values_list('name', flat=True),
             'title'         : self.get_title(),
             'add'           : self.add,
+            'portal_type'   : self.kwargs.get('portal_type'),
         })
         return super(BaseContentEdit, self).get_context_data(**kwargs)
         
