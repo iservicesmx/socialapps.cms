@@ -16,6 +16,5 @@
 {% endblock %}
 
 {% block content_right %}
-<a href="{% url base_edit path=object.get_absolute_url %}" rel="facebox">Edit</a>
-<a href="{% url base_add path=object.get_absolute_url %}" rel="facebox">Add</a>
+{% include "cms/cms_admin_menu.html" with object=object %}
 {% endblock %}

@@ -3,8 +3,7 @@
 {% block content_left %}
 	{% if object.show_toc %}
 	    <h1>{{ object.title }}</h1>
-	    <p>{{ object.description }}</p>
-		<br/>
+	    <p>{{ object.description|safe }}</p>
 		<ul class="tagit">
 	        {% for tag in object.tags.split %}
 	            <li class="tagit-show ui-state-default ui-corner-all">    
@@ -12,8 +11,6 @@
 	            </li>
 	        {% endfor %}
 	    </ul>
-	    <br />
-
 	    {% if children %}
 			<ul>
 		        {% for child in children %}
@@ -32,6 +29,5 @@
 {% endblock %}
 
 {% block content_right %}
-<a href="{% url base_edit path=object.get_absolute_url %}" rel="facebox">Edit</a>
-<a href="{% url base_add path=object.get_absolute_url %}" rel="facebox">Add</a>
+{% include "cms/cms_admin_menu.html" with object=object %}
 {% endblock %}

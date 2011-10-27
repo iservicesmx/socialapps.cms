@@ -3,8 +3,7 @@
 
 {% block content_left %}
     <h1>{{ object.title }}</h1>
-    <p>{{ object.description }}</p>
-	<br/>
+    <p>{{ object.description|safe }}</p>
 	<ul class="tagit">
         {% for tag in object.tags.split %}
             <li class="tagit-show ui-state-default ui-corner-all">    
@@ -12,27 +11,18 @@
             </li>
         {% endfor %}
     </ul>
-    <br />
-
     {% if children %}
-		<ul>
-	        {% for child in children %}
-				<li>
-	            	<a href="/{{ child.get_absolute_url }}">{{child.title }}</a>
-				</li>
-	        {% endfor %}
-		</ul>
+		<div class="children-list">
+		    {% for child in children %}
+				<a href="/{{ child.get_absolute_url }}" class="child">
+					<img class="child-icon" src="{{STATIC_URL}}images/cms-icons/{{child.portal_type}}.png" width="32" height="32">
+					<span class="child-title">{{child.title }}</span>
+				</a>
+		    {% endfor %}
+		</div>
     {% endif %}
 {% endblock %}
 
 {% block content_right %}
-
-<ul>
-	<li class="cms-menu button">{% trans "Admin" %}
-		<ul class="cms-menu-list">
-			<li><a href="{% url base_edit path=object.get_absolute_url %}" rel="facebox">Edit</a></li>
-			<li><a href="{% url base_add path=object.get_absolute_url %}" rel="facebox">Add</a></li>
-		</ul>
-	</li>
-</ul>
+{% include "cms/cms_admin_menu.html" with object=object %}
 {% endblock %}

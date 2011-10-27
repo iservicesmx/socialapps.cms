@@ -1,0 +1,10 @@
+{% load i18n %}
+<div class="cms-admin-area">
+	<div class="admin-button">{% trans "Administration" %}</div>
+	<ul class="cms-menu-list">
+		<li><a class="button" href="{% url base_edit path=object.get_absolute_url %}" rel="facebox">Edit</a></li>
+		{% if object.get_portal_type.subtypes %}
+			<li><a class="button" href="{% url base_add path=object.get_absolute_url %}" rel="facebox">Add</a></li>
+		{% endif %}
+	</ul>
+</div>

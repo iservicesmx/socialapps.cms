@@ -1,3 +1,7 @@
+ul li {
+    list-style-type: inherit;
+}
+
 #facebox .cms_subtypes {
     clear: both;
     overflow: hidden;
@@ -31,7 +35,8 @@
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 }
 
-#facebox .cms_subtypes .type-item a:hover {
+#facebox .cms_subtypes .type-item a:hover,
+.cms-menu.button  {
     text-decoration: none;
     background: whiteSmoke;
     filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#FCFCFC',endColorstr='#ECECEC');
@@ -65,6 +70,7 @@
     width: 57%;
     min-height: 500px;
     float: left;
+    overflow: auto;
 }
 
 .content-right {
@@ -72,20 +78,78 @@
     margin-right: 25px;
 }
 
-.cms-menu ul {
+.content-left .tagit {
+    display: block;
+    clear: both;
+}
+
+.cms-admin-area {
+    position: absolute;
+    top: 50px;
+    margin-left: 150px;
+}
+
+.cms-admin-area ul {
+    display: none;
     margin: 0;
     padding: 0;
-    display: none;
+	background-color:#111;
+	background-color:rgba(15,15,15,0.9);
+	-webkit-box-shadow:0 1px 3px #111;
+	-moz-box-shadow:0 1px 2px #111;
+	box-shadow:0 0px 1px #111;
+	filter: progid:DXImageTransform.Microsoft.Shadow(color='#666666', Direction=180, Strength=3);
+	border-bottom:1px solid #777;
+	-webkit-border-radius: 0px 0px 7px 7px;	
+  	-moz-border-radius: 0px 0px 7px 7px;	
+  	-khtml-border-radius: 0px 0px 7px 7px;	
+  	border-radius: 0px 0px 7px 7px;
 }
 
-.cms-menu ul li {
-    margin: 5px;
+.cms-admin-area li {
+    list-style-type: none; 
 }
 
-.cms-menu:hover ul {
+.cms-admin-area .button {
+    text-decoration: none;
+    color: #FFF;
+    display: block;
+    padding: 10px 10px 8px 10px;
+}
+
+.cms-admin-area .button:hover {
+	background: #666 url(../images/gradient.png) repeat-x 0 -40px;
+	color: #444;
+}
+
+.cms-admin-area:hover ul {
     display: block;
 }
 
-.cms-menu ul li a {
-    color: #000;
+.cms-admin-area .admin-button {
+    color: #FFF;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 5px;
+    background: #F78D1D;
+    -webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.children-list .child {
+    display: block;
+    clear: both;
+    margin: 0px 0px 20px 0px;
+    min-height: 16px;
+}
+
+.children-list .child-icon {
+    margin: 0 8px 0 18px;
+    float: left;
+}
+
+.children-list .child-title {
+    padding: 0px 0px 10px 0px
 }
