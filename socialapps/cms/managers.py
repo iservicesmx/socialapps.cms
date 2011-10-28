@@ -24,13 +24,13 @@ class BaseContentManager(models.Manager):
         paths = path.split("/")
         
         try:
-            obj = self.get(slug=paths[0], parent=None)
+            obj = self.get(slug=paths[0], parent=None).get_type_object()
         except self.model.DoesNotExist:
             raise Http404
             
         for path in paths[1:]:
             try:
-                obj = obj.get_children().get(slug=path)
+                obj = obj.get_children().get(slug=path).get_type_object()
             except self.model.DoesNotExist:
                 raise Http404
                 

@@ -58,16 +58,16 @@ class CMSModelsTest(TestCase):
         self.assertEqual(item1_1.get_absolute_url(), 'item-1/item-1/')
         
     def test_get_object_from_manager(self):
-        folder1 = Folder.objects.create(title="Folder 1", portal_type='folder')
+        folder1 = Folder.objects.create(title="Folder 1")
         folder1.save()
-        folder2 = Folder.objects.create(title="SubFolder 1", parent=folder1, portal_type='folder')
+        folder2 = Folder.objects.create(title="SubFolder 1", parent=folder1)
         folder2.save()
-        folder3 = Folder.objects.create(title="SubSubFolder 1", parent=folder2, portal_type='folder')
+        folder3 = Folder.objects.create(title="SubSubFolder 1", parent=folder2)
         folder3.save()
         url = folder3.get_absolute_url()
         self.assertEqual(url, 'folder-1/subfolder-1/subsubfolder-1/')
         obj = BaseContent.objects.get_base_object(url)
-        self.assertEqual(obj.get_type_object(),folder3)
+        self.assertEqual(obj,folder3)
 
 
 class Dummy(object):

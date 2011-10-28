@@ -49,6 +49,9 @@ class BaseContent(MPTTModel, BaseMetadata):
         order_insertion_by = 'slug'
     
     def save(self, *args, **kwargs):
+        if not self.portal_type:
+            self.portal_type = self.get_portal_type().name
+        
         if not self.slug:
             #concrete_model = base_concrete_model(BaseContent, self)
             self.slug = self.get_slug()
