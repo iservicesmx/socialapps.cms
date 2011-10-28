@@ -47,6 +47,22 @@ class BaseContent(MPTTModel, BaseMetadata):
         unique_together = ('parent', 'slug')
         ordering = ('tree_id', 'lft')
         order_insertion_by = 'slug'
+        
+#    def get_children(self):
+#        children = super(BaseContent, self).get_children()
+#        return [child.get_type_object() for child in children]
+
+#    def get_ancestors(self):
+#        ancestors = super(BaseContent, self).get_ancestors()
+#        return [ancestor.get_type_object() for ancestor in ancestors]
+        
+    def get_object_children(self):
+        children = self.get_children()
+        return [child.get_type_object() for child in children]
+        
+    def get_object_ancestors(self):
+        ancestors = self.get_ancestors()
+        return [ancestor.get_type_object() for ancestor in ancestors]
     
     def save(self, *args, **kwargs):
         if not self.portal_type:
@@ -87,19 +103,15 @@ class FolderRoot(BaseContent):
         abstract = True
 
 class Folder(BaseContent):
-    #TODO: Sobreescribir el metodo save para que el objeto se guarde con el portal_type
     pass
     
 class MultiPage(BaseContent):
-    #TODO: Sobreescribir el metodo save para que el objeto se guarde con el portal_type
     show_toc = models.BooleanField(default=False)
 
 class Page(BaseContent):
-    #TODO: Sobreescribir el metodo save para que el objeto se guarde con el portal_type
     text = models.TextField(_(u"Text"), blank=True)
         
 class Image(BaseContent):
-    #TODO: Sobreescribir el metodo save para que el objeto se guarde con el portal_type
     image = ImageWithThumbsField(_(u"Image"), upload_to="uploads",
         sizes=((64, 64), (128, 128), (400, 400), (600, 600), (800, 800)))
 
@@ -110,7 +122,6 @@ class Image(BaseContent):
 #    get_absolute_url = models.permalink(get_absolute_url)
 
 class File(BaseContent):
-    #TODO: Sobreescribir el metodo save para que el objeto se guarde con el portal_type
     file = models.FileField(upload_to="files")
 
 #    def get_absolute_url(self):
