@@ -25,6 +25,7 @@ class BaseContentView(TemplateView):
                 'object'    : self.object,
                 'parent'    : self.parent,
                 'children'  : self.children,
+                'ancestors' : self.object.get_ancestors()[3:]
         })
         return kwargs
     
@@ -36,8 +37,7 @@ class BaseContentView(TemplateView):
 
     def get_object(self):
         path = self.kwargs.get('path', None)
-        obj = BaseContent.objects.get_base_object(path)
-        return obj.get_type_object()
+        return BaseContent.objects.get_base_object(path)
     
 class BaseContentEdit(FormView):
     form_class = None
@@ -114,8 +114,7 @@ class BaseContentEdit(FormView):
         if not self.object:
             if not self.add:
                 path = self.kwargs.get('path', None)
-                obj = BaseContent.objects.get_base_object(path)
-                return obj.get_type_object()
+                return BaseContent.objects.get_base_object(path)
             else:
                 return None
         return self.object
@@ -133,8 +132,7 @@ class BaseContentEdit(FormView):
     def get_parent_object(self):
         if not self.parent:
             path = self.kwargs.get('path', None)
-            obj = BaseContent.objects.get_base_object(path)
-            return obj.get_type_object()
+            return BaseContent.objects.get_base_object(path)
         return self.parent
 
     def form_valid(self, form):
@@ -153,8 +151,7 @@ class BaseContentDelete(DeleteView):
 
     def get_object(self):
         path = self.kwargs.get('path', None)
-        obj = BaseContent.objects.get_base_object(path)
-        return obj.get_type_object()
+        return BaseContent.objects.get_base_object(path)
 
     def get_success_url(self):
         if self.object.parent:
@@ -166,7 +163,7 @@ class BaseContentAdd(TemplateView):
     
     def get_object(self):
         path = self.kwargs.get('path', None)
-        return BaseContent.objects.get_base_object(path).get_type_object()
+        return BaseContent.objects.get_base_object(path)
 
     def get_context_data(self, **kwargs):
         kwargs = super(BaseContentAdd, self).get_context_data(**kwargs)
