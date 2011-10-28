@@ -40,13 +40,14 @@ class CMSModelsTest(TestCase):
         self.assertEqual(folder1_1.slug,'folder-1-1')
         
         subfolder1 = Folder.objects.create(title="SubFolder 1", parent=folder1)
-        subfolder1.save()
-        subsubfolder1 = Folder.objects.create(title="SubSubFolder 1", parent=subfolder1)
+        subfolder1.save()        
+        
+        subsubfolder1 = Folder.objects.create(title="SubFolder 1", parent=subfolder1)
         subsubfolder1.save()
         
         self.assertEqual(folder1.get_absolute_url(), 'folder-1/')
         self.assertEqual(subfolder1.get_absolute_url(),'folder-1/subfolder-1/')
-        self.assertEqual(subsubfolder1.get_absolute_url(),'folder-1/subfolder-1/subsubfolder-1/')
+        self.assertEqual(subsubfolder1.get_absolute_url(),'folder-1/subfolder-1/subfolder-1/')
         
     def test_slug_different_model(self):
         item1 = Folder.objects.create(title="Item 1")
@@ -54,7 +55,19 @@ class CMSModelsTest(TestCase):
         item1_1 = MultiPage.objects.create(title="Item 1", parent=item1)
         item1_1.save()
         self.assertEqual(item1.get_absolute_url(), 'item-1/')
-        self.assertEqual(item1_1.get_absolute_url(), 'item-1/item-1-1/')
+        self.assertEqual(item1_1.get_absolute_url(), 'item-1/item-1/')
+        
+    def test_get_object_from_manager(self):
+        folder1 = Folder.objects.create(title="Folder 1", portal_type='folder')
+        folder1.save()
+        folder2 = Folder.objects.create(title="SubFolder 1", parent=folder1, portal_type='folder')
+        folder2.save()
+        folder3 = Folder.objects.create(title="SubSubFolder 1", parent=folder2, portal_type='folder')
+        folder3.save()
+        url = folder3.get_absolute_url()
+        self.assertEqual(url, 'folder-1/subfolder-1/subsubfolder-1/')
+        obj = BaseContent.objects.get_base_object(url)
+        self.assertEqual(obj.get_type_object(),folder3)
 
 
 class Dummy(object):

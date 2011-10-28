@@ -30,7 +30,7 @@ class CMSViewTest(TestCase):
 
         folder2 = Folder.objects.create(title="folder 2", status = 1, portal_type="folder", parent=folder)
         folder2.save()
-        response = self.client.get(reverse('base_view', kwargs={'path' : '/folder-1/folder-2/'}))
+        response = self.client.get(reverse('base_view', kwargs={'path' : 'folder-1/folder-2/'}))
         self.assertTemplateUsed(response, 'cms/folder.html')
 
         children = folder.get_children()
@@ -39,6 +39,6 @@ class CMSViewTest(TestCase):
     def test_edit_view(self):
         folder = Folder.objects.create(title="folder 1", status=1, portal_type="folder")
         folder.save()
-        response=self.client.get(reverse('base_edit', kwargs={'path' : '/folder-1/'}))
+        response=self.client.get(reverse('base_edit', kwargs={'path' : 'folder-1/'}))
         self.assertTemplateUsed(response, "cms/edit_form.html")
 

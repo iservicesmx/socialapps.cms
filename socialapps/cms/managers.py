@@ -21,15 +21,18 @@ class BaseContentManager(models.Manager):
     def get_base_object(self, path, active=True,raise404=True):
         if path.endswith('/'):
             path = path[:-1]
-        slug = path.split("/")[-1]
-
-        try:
-            if active:
-                return self.active().get(slug=slug)
-            else:
-                return self.get(slug=slug)
-        except self.model.DoesNotExist:
-            if raise404:
-                raise Http404
-            raise
+        paths = path.split("/")
         
+        try:
+            obj = self.get(slug=paths[0], parent=None)
+        except self.model.DoesNotExist:
+            raise Http404
+            
+        for path in paths[1:]:
+            try:
+                obj = obj.get_children().get(slug=path)
+            except self.model.DoesNotExist:
+                raise Http404
+                
+        return obj
+                
