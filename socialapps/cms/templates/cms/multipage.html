@@ -1,33 +1,22 @@
 {% extends "cms/base_view.html" %}
 
 {% block content_left %}
-	{% if object.show_toc %}
-	    <h1>{{ object.title }}</h1>
-	    <p>{{ object.description|safe }}</p>
-		<ul class="tagit">
-	        {% for tag in object.tags.split %}
-	            <li class="tagit-show ui-state-default ui-corner-all">    
-	                {{ tag }}
-	            </li>
-	        {% endfor %}
-	    </ul>
-	    {% if children %}
-			<ul>
-		        {% for child in children %}
-					<li>
-		            	<a href="/{{ child.get_absolute_url }}">{{child.title }}</a>
-					</li>
-		        {% endfor %}
-			</ul>
-	    {% endif %}
-	{% else %}
-		Aqui van los hijos con navegador de siguiente/anterior
-		<div class="nav">
-			<a href="{{ parent.get_absolute_url }}">{{ parent.title }}</a>
-		</div>
-	{% endif %}
+    <h1>{{ object.title }}</h1>
+    <p>{{ object.description|safe }}</p>
+	<ul class="tagit">
+        {% for tag in object.tags.split %}
+            <li class="tagit-show ui-state-default ui-corner-all">    
+                {{ tag }}
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock %}
 
 {% block content_right %}
-{% include "cms/cms_admin_menu.html" with object=object %}
+	{{ block.super }}
+	<ul class="cms-toc">
+		{% for item in object.get_children %}
+			<li><img src="{{ STATIC_URL }}images/cms-icons/{{item.portal_type}}.png" width="16" height="16"><a href="/{{item.get_absolute_url}}">{{ item }}</a></li>
+		{% endfor %}
+	</ul>
 {% endblock %}

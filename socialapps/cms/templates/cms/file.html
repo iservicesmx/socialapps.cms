@@ -1,20 +1,17 @@
 {% extends "cms/base_view.html" %}
+{% load i18n %}
 
 {% block content_left %}
-    <h1>{{ object.title }}</h1>
-    <p>{{ object.description }}</p>
+	<h1>{{ object.title }}</h1>	
+	<p>{{ object.description|safe }}</p>
 	<br/>
+	<a class="cms-file-download button" href="{{ object.file.url }}">{% trans "Download" %}</a>
+	<br />	
 	<ul class="tagit">
-        {% for tag in object.tags.split %}
-            <li class="tagit-show ui-state-default ui-corner-all">    
-                {{ tag }}
-            </li>
-        {% endfor %}
-    </ul>
-    <br />
-	<a href="{{ object.file.url }}">Download</a>
-{% endblock %}
-
-{% block content_right %}
-{% include "cms/cms_admin_menu.html" with object=object %}
+	    {% for tag in object.tags.split %}
+	        <li class="tagit-show ui-state-default ui-corner-all">    
+	            {{ tag }}
+	        </li>
+	    {% endfor %}
+	</ul>
 {% endblock %}

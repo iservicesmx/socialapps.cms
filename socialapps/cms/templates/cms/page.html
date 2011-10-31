@@ -14,16 +14,13 @@
     <br />
 
     {% if children %}
-		<ul>
-	        {% for child in children %}
-				<li>
-	            	<a href="/{{ child.get_absolute_url }}">{{child.title }}</a>
-				</li>
-	        {% endfor %}
-		</ul>
+		<div class="children-list">
+		    {% for child in children %}
+				<a href="/{{ child.get_absolute_url }}" class="child">
+					<img class="child-icon" src="{{STATIC_URL}}images/cms-icons/{{child.portal_type}}.png" width="32" height="32">
+					<span class="child-title">{{child.title }}</span>
+				</a>
+		    {% endfor %}
+		</div>
     {% endif %}
-{% endblock %}
-
-{% block content_right %}
-{% include "cms/cms_admin_menu.html" with object=object %}
 {% endblock %}

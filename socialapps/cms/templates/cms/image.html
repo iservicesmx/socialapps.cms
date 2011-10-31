@@ -1,20 +1,16 @@
 {% extends "cms/base_view.html" %}
 
 {% block content_left %}
-    <h1>{{ object.title }}</h1>
-    <p>{{ object.description }}</p>
+	<h1>{{ object.title }}</h1>
+	<p>{{ object.description|safe }}</p>
 	<br/>
 	<ul class="tagit">
-        {% for tag in object.tags.split %}
-            <li class="tagit-show ui-state-default ui-corner-all">    
-                {{ tag }}
-            </li>
-        {% endfor %}
-    </ul>
+	    {% for tag in object.tags.split %}
+	        <li class="tagit-show ui-state-default ui-corner-all">    
+	            {{ tag }}
+	        </li>
+	    {% endfor %}
+	</ul>
     <br />
-	<img src="{{ object.image.url }}" width="400">
-{% endblock %}
-
-{% block content_right %}
-{% include "cms/cms_admin_menu.html" with object=object %}
+	<img src="{{ object.image.url }}">
 {% endblock %}

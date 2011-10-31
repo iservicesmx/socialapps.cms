@@ -15,7 +15,7 @@ class BaseContentView(TemplateView):
     def get(self, request, **kwargs):
         if not self.object:
             self.object = self.get_object()
-            self.children = [child.get_type_object() for child in self.object.get_children()]
+            self.children = self.object.get_object_children()
             self.parent = self.object.parent
         self.context = self.get_context_data()
         return self.render_to_response(self.context)
@@ -25,7 +25,7 @@ class BaseContentView(TemplateView):
                 'object'    : self.object,
                 'parent'    : self.parent,
                 'children'  : self.children,
-                'ancestors' : self.object.get_ancestors()[3:]
+                'ancestors' : self.object.get_object_ancestors()[3:]
         })
         return kwargs
     
@@ -37,7 +37,7 @@ class BaseContentView(TemplateView):
 
     def get_object(self):
         path = self.kwargs.get('path', None)
-        return BaseContent.objects.get_base_object(path)
+        return BaseContent.objects.get_base_object(path)        
     
 class BaseContentEdit(FormView):
     form_class = None

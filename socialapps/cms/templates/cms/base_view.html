@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% load socialapps_tags %}
 
 {% block extra_css %}
@@ -18,12 +19,61 @@
 {% endblock %}
 
 {% block content %}
-<div class="">
-    <div class="content-left">
-        {% block content_left %}{% endblock %}
-    </div>
-        <div id="content-right">
-        {% block content_right %}{% endblock %}
-    </div>
+<div class="cms-breadcrumb">
+	{% block cms_nav %}
+		{% if ancestors|length == 0 %}
+			<a href="/{{object.get_absolute_url}}">{{object.title}}</a> <span class="separator">></span> <span class="current">{% trans "Homepage" %}</span>
+		{% else %}
+			{% for item in ancestors %}
+				<a href="/{{item.get_absolute_url}}">{{item}}</a> <span class="separator">></span>
+			{% endfor %}
+			<span class="current">{{ object.title }}</span>
+		{% endif %}
+	{% endblock %}
+</div>
+
+<div>	
+	<div class="content-left">
+		{% block content_left %}{% endblock %}
+		{% if parent.portal_type == 'multipage' %}		
+			<div class="cms-nav">
+				{% with object.get_previous_sibling as previous %}
+					{% if previous %}
+						<a href="/{{ previous.get_absolute_url }}" class="prev">{{ previous }}</a>
+					{% endif %}
+				{% endwith %}
+				{% with object.get_next_sibling as next %}
+					{% if next %}
+						<a href="/{{next.get_absolute_url }}" class="next">{{ next }}</a>
+					{% endif %}
+				{% endwith %}
+			</div>		
+		{% endif %}		
+	</div>
+	<div id="content-right">
+		{% if parent.portal_type == 'multipage' %}
+			<ul class="cms-toc">
+				{% for item in parent.get_children %}
+					{% if item.id == object.id %}
+						<li class="current">
+							<img src="{{ STATIC_URL }}images/cms-icons/{{item.portal_type}}.png" width="16" height="16">
+							{{ item }}
+						</li>
+					{% else %}
+						<li>
+							<a href="/{{item.get_absolute_url}}">
+								<img src="{{ STATIC_URL }}images/cms-icons/{{item.portal_type}}.png" width="16" height="16">
+								{{ item }}
+							</a>
+						</li>
+					{% endif %}
+				{% endfor %}
+			</ul>		
+		{% endif %}
+        {% ifhasperm edit object %}
+			{% include "cms/cms_admin_menu.html" with object=object %}
+        {% endifhasperm %}
+		{% block content_right %}{% endblock %}
+	</div>
 </div>
 {% endblock %}

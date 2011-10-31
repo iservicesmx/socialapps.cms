@@ -153,3 +153,68 @@ ul li {
 .children-list .child-title {
     padding: 0px 0px 10px 0px
 }
+
+.cms-toc {
+    list-style-type: none;
+}
+.cms-toc a {
+    text-decoration: none;
+    color: #000;
+}
+
+.cms-toc .current {
+    font-weight: bold;
+}
+
+.cms-breadcrumb {
+    margin: 10px 0px;
+}
+
+.cms-breadcrumb .separator {
+    color: #A5A5A4;
+}
+
+.cms-breadcrumb a {
+    color: #000;
+    text-decoration: none;
+}
+
+.cms-breadcrumb .current {
+    font-weight: bold;
+}
+
+.cms-nav {
+    display: block;
+    clear: both;
+    min-height: 20px;
+    margin: 10px 0px;
+}
+
+.cms-nav a {
+    height: 20px;
+    overflow: hidden;
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+    border: 1px solid #A0A0A4;
+}
+
+.cms-nav .next {
+    float: right;
+    background: url("/static/images/next.png") 105% -1px no-repeat;
+    padding: 0px 27px 0px 5px;
+}
+
+.cms-nav .prev {
+    float: left;
+    background: url("/static/images/prev.png") -1px -1px no-repeat;
+    padding: 0px 5px 0px 27px;
+}
+
+/* file */
+.cms-file-download.button {
+    color: #FFF;
+    background: #000;
+
+}
+/* endfile */
