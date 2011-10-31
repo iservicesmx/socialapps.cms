@@ -2,7 +2,7 @@ from socialapps.cms.models import BaseContent
 from django.views.generic.edit import FormView, DeleteView
 from django.views.generic import TemplateView
 from .registration import portal_types
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 from django.forms.models import model_to_dict
 from django.core.urlresolvers import reverse
 from tagging.models import Tag
@@ -25,7 +25,7 @@ class BaseContentView(TemplateView):
                 'object'    : self.object,
                 'parent'    : self.parent,
                 'children'  : self.children,
-                'ancestors' : self.object.get_object_ancestors()[3:]
+                'ancestors' : self.object.get_object_ancestors()[2:]
         })
         return kwargs
     
@@ -148,6 +148,15 @@ class BaseContentEdit(FormView):
 
 class BaseContentDelete(DeleteView):
     template_name = "cms/confirm.html"
+    object = None
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super(BaseContentDelete, self).post(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super(BaseContentDelete, self).get(request, *args, **kwargs)
 
     def get_object(self):
         path = self.kwargs.get('path', None)
@@ -157,6 +166,19 @@ class BaseContentDelete(DeleteView):
         if self.object.parent:
             return "/%s" % self.object.parent.get_absolute_url()
         return "/"
+        
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.title == 'resources':
+            return HttpResponseRedirect('/%s' % self.object.get_absolute_url())
+        return super(BaseContentDelete, self).delete(request, *args, **kwargs)
+        
+    def get_context_data(self, **kwargs):
+        kwargs.update({
+            'object'        : self.object,
+            'url_form_post' : reverse('base_delete', kwargs={'path' : self.object.get_absolute_url() }),
+        })
+        return super(BaseContentDelete, self).get_context_data(**kwargs)
 
 class BaseContentAdd(TemplateView):
     template_name = "cms/add.html"

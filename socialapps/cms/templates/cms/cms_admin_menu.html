@@ -2,9 +2,14 @@
 <div class="cms-admin-area">
 	<div class="admin-button">{% trans "Administration" %}</div>
 	<ul class="cms-menu-list">
-		<li><a class="button" href="{% url base_edit path=object.get_absolute_url %}" rel="facebox">Edit</a></li>
+		<li><a class="button" href="{% url base_edit path=object.get_absolute_url %}" rel="facebox">{% trans "Edit" %}</a></li>
 		{% if object.get_portal_type.subtypes %}
-			<li><a class="button" href="{% url base_add path=object.get_absolute_url %}" rel="facebox">Add</a></li>
+			<li><a class="button" href="{% url base_add path=object.get_absolute_url %}" rel="facebox">{% trans "Add" %}</a></li>
+		{% endif %}
+		{% if object.title != 'resources' %}
+			<li>
+				<a class="button" href="{% url base_delete path=object.get_absolute_url %}" rel="facebox">{% trans "Delete" %}</a>
+			</li>
 		{% endif %}
 	</ul>
 </div>

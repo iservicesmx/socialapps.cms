@@ -2,15 +2,17 @@
 {% load i18n %}
 
 {% block content_left %}
-    <h1>{{ object.title }}</h1>
-    <p>{{ object.description|safe }}</p>
-	<ul class="tagit">
-        {% for tag in object.tags.split %}
-            <li class="tagit-show ui-state-default ui-corner-all">    
-                {{ tag }}
-            </li>
-        {% endfor %}
-    </ul>
+	{% if object.title != 'resources' %}
+    	<h1>{{ object.title }}</h1>
+    	<p>{{ object.description|safe }}</p>
+		<ul class="tagit">
+        	{% for tag in object.tags.split %}
+            	<li class="tagit-show ui-state-default ui-corner-all">    
+                	{{ tag }}
+            	</li>
+			{% endfor %}
+    	</ul>
+	{% endif %}
     {% if children %}
 		<div class="children-list">
 		    {% for child in children %}
