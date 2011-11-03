@@ -1,9 +1,25 @@
 {% load i18n %}
 
 <script type="text/javascript">
+	function save(data, statusText, xhr, $form) {
+		if (data.success) {
+			window.location = data.success_url;
+		} else {
+			for (var item in data.errors) {
+				$('#field-error-' + item + ' .errorlist').html('');
+				for (var error in data.errors[item]) {
+					$('#field-error-' + item + ' .errorlist').append('<li>' + data.errors[item][error] + '</li>');
+					$('#id_' + item).css('border', '1px solid #F00');
+				}
+			}
+		}
+	}
+
     $(document).ready(function() {
         var availableTags = [ {% for t in tags %} '{{t}}',{% endfor %} ]        
         $("#id_tags").tagit({availableTags   : availableTags});
+
+        $('#cms-form').ajaxForm({dataType : 'json', success : save });
     });
 </script>
 {% if add %}
@@ -12,7 +28,7 @@
 	<h2><img src="{{ STATIC_URL }}images/cms-icons/{{portal_type}}.png" alt="{{ item.title }}" width="16" height="16" class="type-icon"/>{% trans "Edit" %} {% trans title %}</h2>
 {% endif %}
 
-<form method="POST" action="{{ url_form_post }}" enctype="multipart/form-data" class="form">
+<form method="POST" id="cms-form" action="{{ url_form_post }}" enctype="multipart/form-data" class="form">
 {% csrf_token %}
 <table>
     {% for field in form %}

@@ -2,10 +2,11 @@ from socialapps.cms.models import BaseContent
 from django.views.generic.edit import FormView, DeleteView
 from django.views.generic import TemplateView
 from .registration import portal_types
-from django.http import Http404, HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.forms.models import model_to_dict
 from django.core.urlresolvers import reverse
 from tagging.models import Tag
+from socialapps.core.utils import python_to_json
     
 class BaseContentView(TemplateView):
     object = None
@@ -144,7 +145,11 @@ class BaseContentEdit(FormView):
             self.object.portal_type = self.kwargs.get('portal_type', None)
         self.object.save()
         self.success_url = self.get_success_url()
-        return super(BaseContentEdit, self).form_valid(form)
+        return HttpResponse(python_to_json({"success": True, "success_url": self.success_url}), content_type='application/json')        
+        #return super(BaseContentEdit, self).form_valid(form)
+        
+    def form_invalid(self, form):
+        return HttpResponse(python_to_json({"errors" : form.errors}), content_type='application/json')
 
 class BaseContentDelete(DeleteView):
     template_name = "cms/confirm.html"
