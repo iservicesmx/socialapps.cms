@@ -16,9 +16,8 @@
 	}
 
     $(document).ready(function() {
-        var availableTags = [ {% for t in tags %} '{{t}}',{% endfor %} ]        
+        var availableTags = [ {% for t in tags %} '{{t}}',{% endfor %} ]
         $("#id_tags").tagit({availableTags   : availableTags});
-
         $('#cms-form').ajaxForm({dataType : 'json', success : save });
     });
 </script>
