@@ -34,8 +34,8 @@
     {% for field in form %}
         <tr>
             <td>{{ field.label_tag }}</td>
-            <td id="field-input-{{ field.html_name }}">{{ field }}</td>
-            <td id="field-error-{{ field.html_name }}"><ul class="errorlist"></ul></td>
+            <td id="field-input-{{ field.html_name }}">{{ field }}
+            <div id="field-error-{{ field.html_name }}"><ul class="errorlist"></ul></div>
         </tr>
     {% endfor %}
 </table>
