@@ -37,7 +37,7 @@ $('document').ready(function() {
 	<ul>		
 	{% for item in object.get_descendants %}
 		{% with item.get_type_object as obj %}
-			{% if portal_type %}
+			{% if portal_type  and portal_type != 'all' %}
 				{% if obj.portal_type == portal_type %}
 					<li><a class="file-item" href="{% url base_view item.get_absolute_url %}"><img class="child-icon" src="/static/images/cms-icons/{{ obj.portal_type }}.png" width="16" height="16">{{ item.title }}</a></li>
 				{% endif %}
