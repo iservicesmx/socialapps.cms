@@ -22,18 +22,19 @@
 <div class="cms-breadcrumb">
 	{% block cms_nav %}
 		{% if ancestors|length == 0 %}
-			<a href="/{{object.get_absolute_url}}">{{object.title}}</a> <span class="separator">></span> <span class="current">{% trans "Homepage" %}</span>
+			<a href="/{{object.get_absolute_url}}" class="nextnav">{{object.title}}</a> <span class="current nextnav">{% trans "Homepage" %}</span>
 		{% else %}
 			{% for item in ancestors %}
-				<a href="/{{item.get_absolute_url}}">{{item}}</a> <span class="separator">></span>
+				<a href="/{{item.get_absolute_url}}" class="nextnav">{{item}}</a> 
 			{% endfor %}
-			<span class="current">{{ object.title }}</span>
+			<span class="current nextnav">{{ object.title }}</span>
 		{% endif %}
 	{% endblock %}
 </div>
 
 <div>	
 	<div class="content-left">
+	    <div class="desc-folder">{{object.description}}</div>
 		{% block content_left %}{% endblock %}
 		{% if parent.portal_type == 'multipage' %}		
 			<div class="cms-nav">
@@ -51,6 +52,7 @@
 		{% endif %}		
 	</div>
 	<div id="content-right">
+        <div class="tags-folder">{{object.tags}}</div>	    
 		{% if parent.portal_type == 'multipage' %}
 			<ul class="cms-toc">
 				{% for item in parent.get_children %}
