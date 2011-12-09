@@ -242,7 +242,7 @@ ul li {
 
 }
 /* endfile */
-<<<<<<< HEAD
+
 .content-left .desc-folder {
 	text-align: justify;
 	margin: 5px 0px;
@@ -258,7 +258,7 @@ ul li {
 	height: 17px;
 	width: 17px;
 }
-=======
+
 
 /* file browser of cms editor */
 .editor-browser .file-list {
@@ -304,4 +304,4 @@ ul li {
     color: #000;
 }
 /* end file browser of cms editor */
->>>>>>> e9948b2a87c44368980259c0c696a5c8629e3879
+
