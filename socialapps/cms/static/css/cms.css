@@ -9,6 +9,7 @@ ul li {
 
 #facebox .cms_subtypes .type-section{
     text-align: center;
+    clear: both;
 }
 
 
@@ -241,6 +242,7 @@ ul li {
 
 }
 /* endfile */
+<<<<<<< HEAD
 .content-left .desc-folder {
 	text-align: justify;
 	margin: 5px 0px;
@@ -256,3 +258,50 @@ ul li {
 	height: 17px;
 	width: 17px;
 }
+=======
+
+/* file browser of cms editor */
+.editor-browser .file-list {
+    float: left;
+    padding: 5px;
+    border-right: 1px solid #CCC;
+    height: 99%;
+    width: 50%;
+}
+.editor-browser .file-list ul {
+    margin: 0px;
+    padding: 0px;
+}
+.editor-browser .file-list ul li {
+    list-style-type: none;
+    padding: 3px;
+}
+
+.editor-browser .selected-object,
+.editor-browser .selected-url {
+    margin-left: 20px;
+    float: left;
+    display: none;
+}
+
+.browser-tabs .ui-tabs-hide {
+    display: none;
+}
+
+.browser-tabs ul li {
+    float: left;
+    padding: 3px;
+}
+
+.editor-browser .breadcrumb li {
+    float: left;
+    padding: 2px;
+}
+
+.editor-browser .breadcrumb a,
+.editor-browser .breadcrumb a:hover {
+    text-decoration: none;
+    color: #000;
+}
+/* end file browser of cms editor */
+>>>>>>> e9948b2a87c44368980259c0c696a5c8629e3879

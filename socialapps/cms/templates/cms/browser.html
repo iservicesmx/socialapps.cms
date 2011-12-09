@@ -1,0 +1,63 @@
+{% load i18n %}
+
+<link rel="stylesheet" href="{{ STATIC_URL }}css/cms.css">
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.5.2.min.js"></script>
+<script type="text/javascript">
+$('document').ready(function() {
+	$('.file-item').click(function() {
+		$.getJSON($(this).attr('href'), function(data) {
+			if (data.hasOwnProperty('sizes')) {
+				$('.selected-size').html('');
+				$('.selected-object').show();
+				$('.selected-image').attr('src', data.object);
+				$.each(data.sizes, function(key, value) {
+					$('.selected-size').append("<option value='" + value.url + "'>"+ value.size +"</option>");
+				});
+			} else {	
+				$('.selected-url .url, .selected-url .title').html('');				
+				$('.selected-url .title').html(data.title);
+				$('.selected-url .url').val(data.url);
+				$('.selected-url').show();				
+			}
+		});
+		return false;
+	});
+});
+</script>
+<div class="editor-browser">
+	<div class="cms-breadcrumb">
+		{% for item in object.get_ancestors %}
+			{% with item.get_type_object as obj %}
+				<a href="{% url ajax_browser obj.get_absolute_url portal_type %}">{{obj.title}}</a> <span class="separator">></span>
+			{% endwith %}
+		{% endfor %}
+		<span class="current">{{ object.title }}</span>
+	</div>	
+	<div class="file-list">
+	<ul>		
+	{% for item in object.get_descendants %}
+		{% with item.get_type_object as obj %}
+			{% if portal_type  and portal_type != 'all' %}
+				{% if obj.portal_type == portal_type %}
+					<li><a class="file-item" href="{% url base_view item.get_absolute_url %}"><img class="child-icon" src="/static/images/cms-icons/{{ obj.portal_type }}.png" width="16" height="16">{{ item.title }}</a></li>
+				{% endif %}
+			{% else %}
+					<li><a class="file-item" href="{% url base_view item.get_absolute_url %}"><img class="child-icon" src="/static/images/cms-icons/{{ obj.portal_type }}.png" width="16" height="16">{{ item.title }}</a></li>
+			{% endif %}
+		{% endwith %}
+	{% endfor %}
+	</ul>
+	</div>
+	<div class="selected-url">
+		<span>{% trans "Selected "%}</span>
+		<div class="title"></div>
+		<input type='text' class="url" name="url" value="" style="display: none;"/>		
+	</div>
+	<div class="selected-object">
+		<div>{% trans "Image preview: " %}</div>
+		<img src="" class="selected-image">
+		<div>{% trans "Select size:" %}</div>
+		<select class="selected-size">
+		</select>
+	</div>
+</div>

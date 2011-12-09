@@ -7,8 +7,9 @@ from django.forms.models import model_to_dict
 from django.core.urlresolvers import reverse
 from tagging.models import Tag
 from socialapps.core.utils import python_to_json
-    
-class BaseContentView(TemplateView):
+from socialapps.core.views import JSONTemplateView
+
+class BaseContentView(JSONTemplateView):
     object = None
     parent = None
     children = None
@@ -22,13 +23,22 @@ class BaseContentView(TemplateView):
         return self.render_to_response(self.context)
     
     def get_context_data(self, **kwargs):
-        kwargs.update({
-                'object'    : self.object,
-                'parent'    : self.parent,
-                'children'  : self.children,
-                'ancestors' : self.object.get_object_ancestors()[2:]
-        })
-        return kwargs
+        if self.request.is_ajax():
+            if self.object.portal_type == 'image':
+                sizes = []
+                for size in self.object.image.sizes:
+                    sizes.append({'size': '%dx%d' % size, 'url': getattr(self.object.image, 'url_%dx%d' % size)})
+                return {'object' : self.object.image.url_128x128, 'sizes': sizes }
+            else:
+                return{'title': self.object.title, 'url': '/'+self.object.get_absolute_url() }
+        else:
+            kwargs.update({
+                    'object'    : self.object,
+                    'parent'    : self.parent,
+                    'children'  : self.children,
+                    'ancestors' : self.object.get_object_ancestors()[2:]
+            })
+            return kwargs
     
     def get_template_names(self):
         if self.template_name is None:
@@ -38,8 +48,18 @@ class BaseContentView(TemplateView):
 
     def get_object(self):
         path = self.kwargs.get('path', None)
-        return BaseContent.objects.get_base_object(path)        
-    
+        return BaseContent.objects.get_base_object(path)
+        
+class ShowBrowser(BaseContentView):
+    def get_template_names(self):
+        return 'cms/browser.html'
+        
+    def get_context_data(self, **kwargs):
+        kwargs.update({
+            'portal_type'   : self.kwargs.get('portal_type'),
+        })
+        return super(ShowBrowser, self).get_context_data(**kwargs)
+        
 class BaseContentEdit(FormView):
     form_class = None
     template_name = None
@@ -145,6 +165,8 @@ class BaseContentEdit(FormView):
             self.object.portal_type = self.kwargs.get('portal_type', None)
         self.object.save()
         self.success_url = self.get_success_url()
+        if self.object.portal_type == 'image' and not self.request.is_ajax():
+            return HttpResponse(self.object.image.url_128x128)
         return HttpResponse(python_to_json({"success": True, "success_url": self.success_url}), content_type='application/json')        
         
     def form_invalid(self, form):
@@ -201,6 +223,9 @@ class BaseContentAdd(TemplateView):
                 type_content.append(item)
             else:
                 type_container.append(item)
+                
+        if self.get_object().get_portal_type().name == 'folder':
+            type_container.append(self.get_object().get_portal_type())
             
         kwargs.update({
             'path'          : self.kwargs.get('path', None),
