@@ -22,7 +22,13 @@
         	<li class="tooltip"><h3>{{ section.title }}</h3></li>
     	</ul>
 	{% else %}
-		{% show_local_menu object 'resources' %}
+		{% if object.parent.portal_type == 'space' %}
+			<ul id="nav-menu">
+	        	<li class="tooltip"><h3>{{ object.title }}</h3></li>
+	    	</ul>
+		{% else%}
+			{% show_local_menu object 'resources' %}
+		{% endif %}
 	{% endif %}
 {% endblock %}
 

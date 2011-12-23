@@ -33,5 +33,8 @@
 			{% get_user_section object.parent %}
 			{% include "courses/portlet_menu.html" with object=section %}
 		{% endif %}
+		{% if object.parent.portal_type == 'space' %}
+			{% include "spaces/portlet_menu.html" with object=object.parent %}
+		{% endif %}
 	</div>
 {% endblock %}
