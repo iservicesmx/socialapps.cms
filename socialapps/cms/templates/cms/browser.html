@@ -6,6 +6,8 @@
 $('document').ready(function() {
 	$('.file-item').click(function() {
 		$.getJSON($(this).attr('href'), function(data) {
+			$('.selected-object').hide();
+			$('.selected-url').hide();
 			if (data.hasOwnProperty('sizes')) {
 				$('.selected-size').html('');
 				$('.selected-object').show();
@@ -13,11 +15,11 @@ $('document').ready(function() {
 				$.each(data.sizes, function(key, value) {
 					$('.selected-size').append("<option value='" + value.url + "'>"+ value.size +"</option>");
 				});
-			} else {	
-				$('.selected-url .url, .selected-url .title').html('');				
+			} else {
+				$('.selected-url .url, .selected-url .title').html('');	
 				$('.selected-url .title').html(data.title);
 				$('.selected-url .url').val(data.url);
-				$('.selected-url').show();				
+				$('.selected-url').show();
 			}
 		});
 		return false;

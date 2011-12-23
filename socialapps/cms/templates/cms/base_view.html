@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load socialapps_tags %}
+{% load courses_tags %}
 
 {% block extra_css %}
+	<link rel="stylesheet" href="{{ STATIC_URL }}css/buttons.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}css/cms.css">
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/buttons.css">
 {% endblock %}
 
 {% block extra_js %}
@@ -15,7 +16,14 @@
 
 
 {% block content_tabs %}
-	{% show_local_menu object 'resources' %}
+	{% if object.parent.portal_type == 'course' %}
+		{% get_user_section object.parent %}
+		<ul id="nav-menu">
+        	<li class="tooltip"><h3>{{ section.title }}</h3></li>
+    	</ul>
+	{% else %}
+		{% show_local_menu object 'resources' %}
+	{% endif %}
 {% endblock %}
 
 {% block content %}

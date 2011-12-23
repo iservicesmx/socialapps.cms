@@ -1,4 +1,5 @@
 {% extends "cms/base_view.html" %}
+{% load courses_tags %}
 {% load i18n %}
 
 {% block content_left %}
@@ -25,4 +26,12 @@
 		    {% endfor %}
 		</div>
     {% endif %}
+{% endblock %}
+{% block content_right %}
+	<div id="sidebar-profile">
+		{% if object.parent.portal_type == 'course' %}
+			{% get_user_section object.parent %}
+			{% include "courses/portlet_menu.html" with object=section %}
+		{% endif %}
+	</div>
 {% endblock %}

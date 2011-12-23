@@ -88,6 +88,7 @@ ul li {
     position: absolute;
     top: 50px;
     margin-left: 150px;
+    z-index: 1;
 }
 
 .cms-admin-area ul {
@@ -304,4 +305,37 @@ ul li {
     color: #000;
 }
 /* end file browser of cms editor */
+
+.portlet_menu ul {
+    margin: 0;
+    padding: 0;
+} 
+
+.portlet_menu ul li {
+    margin: 0;
+    padding: 0;
+    list-style.type: none;
+    display: inline-block;
+}
+
+.portlet_menu ul li img {
+    float: left;
+    margin-right: 2px;
+}
+
+.portlet_menu ul li {
+    word-break: keep-all;
+}
+
+.portlet_menu .widget {
+    width: 111px;
+    padding: 5px !important;
+}
+
+.portlet_menu ul li a:hover,
+.portlet_menu ul li a.current {
+    background: #666 !important;
+    text-decoration: none;
+    
+}
 

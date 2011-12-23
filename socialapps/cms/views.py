@@ -215,7 +215,6 @@ class BaseContentAdd(TemplateView):
 
     def get_context_data(self, **kwargs):
         kwargs = super(BaseContentAdd, self).get_context_data(**kwargs)
-        
         type_container = []
         type_content = []
         for item in self.get_object().get_portal_type().subtypes:
