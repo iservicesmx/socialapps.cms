@@ -84,17 +84,41 @@ ul li {
     clear: both;
 }
 
-.cms-admin-area {
-    position: absolute;
-    top: 50px;
-    margin-left: 150px;
+/*.cms-admin-area {
     z-index: 1;
+}*/
+
+#admin-area {
+    text-align: center;
+    /*margin: 5px;*/
+    padding: 15px;
+    float: right;
+    width: 97%;
 }
 
-.cms-admin-area ul {
-    display: none;
+#admin-area .cms-admin .admin-button {
+    padding: 5px;
+    font: 14px/100% Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-shadow: 0 1px 1px rgba(0, 0, 0, .3);
+    color: #FFF;
+    -webkit-border-radius: 7px 7px 0px 0px; 
+    -moz-border-radius: 7px 7px 0px 0px;    
+    -khtml-border-radius: 7px 7px 0px 0px;  
+    border-radius: 7px 7px 0px 0px;
+    background: #F47C20;
+    background: -webkit-gradient(linear, left top, left bottom, from(#F88E11), to(#F06015));
+    background: -moz-linear-gradient(top, #F88E11, #F06015);
+}
+
+#admin-area .cms-admin .admin-button img {
+    float: right;
+}
+
+#admin-area .cms-admin ul {
     margin: 0;
-    padding: 0;
+    padding: 5px;
+    display: none;
 	background-color:#111;
 	background-color:rgba(15,15,15,0.9);
 	-webkit-box-shadow:0 1px 3px #111;
@@ -108,36 +132,19 @@ ul li {
   	border-radius: 0px 0px 7px 7px;
 }
 
-.cms-admin-area li {
-    list-style-type: none; 
+#admin-area .cms-admin ul li {
+    list-style-type: none;
+    margin: 2px 0;
+    padding: 0;
+    display: inline-block;
 }
 
-.cms-admin-area .button {
-    text-decoration: none;
-    color: #FFF;
-    display: block;
-    padding: 10px 10px 8px 10px;
-}
-
-.cms-admin-area .button:hover {
-	background: #666 url(../images/gradient.png) repeat-x 0 -40px;
-	color: #444;
-}
-
-.cms-admin-area:hover ul {
+#admin-area .cms-admin:hover ul {
     display: block;
 }
 
-.cms-admin-area .admin-button {
-    color: #FFF;
-    font-weight: bold;
-    font-size: 14px;
-    padding: 5px;
-    background: #F78D1D;
-    -webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
-	border-radius: 3px;
+#admin-area .cms-menu-list {
+    text-align: left;
 }
 
 .children-list .child {

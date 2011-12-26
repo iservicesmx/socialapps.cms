@@ -1,5 +1,6 @@
 {% extends "cms/base_view.html" %}
 {% load courses_tags %}
+{% load cms_tags %}
 {% load i18n %}
 
 {% block content_left %}
@@ -28,13 +29,15 @@
     {% endif %}
 {% endblock %}
 {% block content_right %}
-	<div id="sidebar-profile">
-		{% if object.parent.portal_type == 'course' %}
-			{% get_user_section object.parent %}
+	{% get_content_parent object %}
+	{% if content_parent.parent.portal_type == 'course' %}
+		{% get_user_section content_parent.parent %}
+		{% if section %}
 			{% include "courses/portlet_menu.html" with object=section %}
 		{% endif %}
-		{% if object.parent.portal_type == 'space' %}
-			{% include "spaces/portlet_menu.html" with object=object.parent %}
+	{% else %}
+		{% if content_parent.parent.portal_type == 'space' %}
+			{% include "spaces/portlet_menu.html" with object=content_parent.parent %}
 		{% endif %}
-	</div>
+	{% endif %}
 {% endblock %}

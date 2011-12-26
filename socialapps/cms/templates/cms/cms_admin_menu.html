@@ -1,15 +1,17 @@
 {% load i18n %}
-<div class="cms-admin-area">
-	<div class="admin-button">{% trans "Administration" %}</div>
-	<ul class="cms-menu-list">
-		<li><a class="button" href="{% url base_edit path=object.get_absolute_url %}" rel="facebox">{% trans "Edit" %}</a></li>
-		{% if object.get_portal_type.subtypes %}
-			<li><a class="button" href="{% url base_add path=object.get_absolute_url %}" rel="facebox">{% trans "Add" %}</a></li>
-		{% endif %}
-		{% if object.title != 'resources' %}
-			<li>
-				<a class="button" href="{% url base_delete path=object.get_absolute_url %}" rel="facebox">{% trans "Delete" %}</a>
-			</li>
-		{% endif %}
-	</ul>
+<div id="admin-area">
+	<div class="cms-admin">
+		<div class="admin-button">{% trans "Administration" %}<img src="{{ STATIC_URL }}images/down-arrow-16-white.png" /></div>
+		<ul class="cms-menu-list">
+			<li><a class="button blue" href="{% url base_edit path=object.get_absolute_url %}" rel="facebox">{% trans "Edit" %}</a></li>
+			{% if object.get_portal_type.subtypes %}
+				<li><a class="button blue" href="{% url base_add path=object.get_absolute_url %}" rel="facebox">{% trans "Add" %}</a></li>
+			{% endif %}
+			{% if object.slug != 'resources' and object.slug != 'syllabus' %}
+				<li>
+					<a class="button blue" href="{% url base_delete path=object.get_absolute_url %}" rel="facebox">{% trans "Delete" %}</a>
+				</li>
+			{% endif %}
+		</ul>
+	</div>
 </div>

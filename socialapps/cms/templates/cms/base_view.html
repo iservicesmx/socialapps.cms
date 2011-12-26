@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load socialapps_tags %}
 {% load courses_tags %}
+{% load cms_tags %}
 
 {% block extra_css %}
 	<link rel="stylesheet" href="{{ STATIC_URL }}css/buttons.css">
@@ -16,15 +17,22 @@
 
 
 {% block content_tabs %}
-	{% if object.parent.portal_type == 'course' %}
-		{% get_user_section object.parent %}
-		<ul id="nav-menu">
-        	<li class="tooltip"><h3>{{ section.title }}</h3></li>
-    	</ul>
-	{% else %}
-		{% if object.parent.portal_type == 'space' %}
+	{% get_content_parent object %}
+	{% if content_parent.parent.portal_type == 'course' %}
+		{% get_user_section content_parent.parent %}
+		{% if section %}
 			<ul id="nav-menu">
-	        	<li class="tooltip"><h3>{{ object.title }}</h3></li>
+				<li class="tooltip"><h3><a href="{% url base_view section.get_absolute_url %}">{{ content_parent.parent.title }} - {{ section.title }}</a></h3></li>
+	    	</ul>
+	    {% else %}
+		    <ul id="nav-menu">
+				<li class="tooltip"><h3><a href="{% url base_view object.get_absolute_url %}">{{ object.parent.title }} </a></h3></li>
+	    	</ul>
+	    {% endif %}
+	{% else %}
+		{% if content_parent.parent.portal_type == 'space' %}
+			<ul id="nav-menu">
+	        	<li class="tooltip"><h3><a href="{% url base_view content_parent.parent.get_absolute_url %}">{{ content_parent.parent.title }}</a></h3></li>  
 	    	</ul>
 		{% else%}
 			{% show_local_menu object 'resources' %}
@@ -47,8 +55,7 @@
 </div>
 
 <div>	
-	<div class="content-left">
-	    
+	<div id="content-left">
 		{% block content_left %}{% endblock %}
 		{% if parent.portal_type == 'multipage' %}		
 			<div class="cms-nav">
@@ -66,7 +73,7 @@
 		{% endif %}		
 	</div>
 	<div id="content-right">
-        <div class="tags-folder">{{object.tags}}</div>	    
+        <div class="tags-folder">{{object.tags}}</div>
 		{% if parent.portal_type == 'multipage' %}
 			<ul class="cms-toc">
 				{% for item in parent.get_children %}
@@ -86,10 +93,11 @@
 				{% endfor %}
 			</ul>		
 		{% endif %}
-        {% ifhasperm edit object %}
+		{% ifhasperm edit object %}
 			{% include "cms/cms_admin_menu.html" with object=object %}
         {% endifhasperm %}
-		{% block content_right %}{% endblock %}
+		{% block content_right %}
+		{% endblock %}
 	</div>
 </div>
 {% endblock %}
