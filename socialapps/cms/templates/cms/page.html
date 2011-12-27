@@ -4,7 +4,8 @@
 
 {% block content_left %}
     <h1>{{ object.title }}</h1>
-    <p>{{ object.description|safe }}</p>
+    <p class="description">{{ object.description|safe }}</p>
+    <p>{{ object.text|safe }}</p>
 	<br/>
 	<ul class="tagit">
         {% for tag in object.tags.split %}

@@ -29,9 +29,10 @@ class MultiPageEditForm(forms.ModelForm):
 class PageEditForm(forms.ModelForm):
     class Meta:
         model = Page 
-        fields = ("title", "description", "tags")
+        fields = ("title", "description", "text","tags")
         widgets = {
             'description' : RichTextEditor,
+            'text' : RichTextEditor,
         }
         
 class ImageEditForm(forms.ModelForm):
