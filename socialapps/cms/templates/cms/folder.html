@@ -2,9 +2,10 @@
 {% load courses_tags %}
 {% load cms_tags %}
 {% load i18n %}
+{% load pagination_tags %}
 
 {% block content_left %}
-	{% if object.title != 'resources' %}
+<div class="template-list">
     	<h1>{{ object.title }}</h1>
     	<p>{{ object.description|safe }}</p>
 		<ul class="tagit">
@@ -14,19 +15,22 @@
             	</li>
 			{% endfor %}
     	</ul>
-	{% endif %}
     {% if children %}
-		<div class="children-list">
+		{% autopaginate children 5 %}
+		<ul class="children-list">
 		    {% for child in children %}
-				<a href="/{{ child.get_absolute_url }}" class="child">
-				    <!--<div class="move-child"></div>-->
-					<img class="child-icon" src="{{STATIC_URL}}images/cms-icons/{{child.portal_type}}.png" width="32" height="32">
-					<span class="child-title">{{child.title }}</span>
+		    	<li>	
+		    		<a class="child-icon" href="/{{ child.get_absolute_url }}"><img src="{{STATIC_URL}}images/cms-icons/{{child.portal_type}}.png" width="32" height="32"></a>
+					<span class="child-title"><a href="/{{ child.get_absolute_url }}">{{child.title }}</a></span>
+				    <!-- <div class="move-child"></div> -->
 					<div class="child-desc">{{child.description|safe }}</div>
-				</a>
+				</li>
 		    {% endfor %}
-		</div>
+		</ul>
+		<br/>
     {% endif %}
+</div>
+{% paginate %}
 {% endblock %}
 {% block content_right %}
 	{% get_content_parent object %}

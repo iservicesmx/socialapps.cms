@@ -57,7 +57,7 @@ class BaseContent(MPTTModel, BaseMetadata):
 #        return [ancestor.get_type_object() for ancestor in ancestors]
         
     def get_object_children(self):
-        children = self.get_children()
+        children = self.get_children().order_by('-modified')
         return [child.get_type_object() for child in children]
         
     def get_object_ancestors(self):

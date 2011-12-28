@@ -1,7 +1,3 @@
-ul li {
-    list-style-type: inherit;
-}
-
 #facebox .cms_subtypes {
     clear: both;
     overflow: hidden;
@@ -11,7 +7,6 @@ ul li {
     text-align: center;
     clear: both;
 }
-
 
 #facebox .cms_subtypes .type-item {
     float: left;
@@ -65,6 +60,8 @@ ul li {
     background: none;
 }
 */
+
+/* base cms template */
 .content-left {
     margin-left: 2%;
     padding: 0;
@@ -84,13 +81,8 @@ ul li {
     clear: both;
 }
 
-/*.cms-admin-area {
-    z-index: 1;
-}*/
-
 #admin-area {
     text-align: center;
-    /*margin: 5px;*/
     padding: 15px;
     float: right;
     width: 97%;
@@ -147,37 +139,6 @@ ul li {
     text-align: left;
 }
 
-.children-list .child {
-    display: block;
-    clear: both;
-    margin: 0px 0px 20px 0px;
-/*    min-height: 16px;*/
-	border: 1px solid #E3E3E3;
-	border-radius: 3px;
-}
-.children-list .child:hover{}
-
-.children-list .child-icon {
-    margin: 0 8px 0 18px;
-    float: left;
-}
-
-.children-list .child-title {
-    padding: 0px 0px 10px 0px
-}
-
-.cms-toc {
-    list-style-type: none;
-}
-.cms-toc a {
-    text-decoration: none;
-    color: #000;
-}
-
-.cms-toc .current {
-    font-weight: bold;
-}
-
 .cms-breadcrumb {
     margin: -18px 0px 10px -5px;
 	height: 31px;
@@ -214,6 +175,75 @@ ul li {
 .cms-breadcrumb .current {
     font-weight: bold;
 }
+.portlet_menu ul {
+    margin: 0;
+    padding: 0;
+} 
+
+.portlet_menu ul li {
+    margin: 0;
+    padding: 0;
+    list-style.type: none;
+    display: inline-block;
+}
+
+.portlet_menu ul li img {
+    float: left;
+    margin-right: 2px;
+}
+
+.portlet_menu ul li {
+    word-break: keep-all;
+}
+
+.portlet_menu .widget {
+    width: 111px;
+    padding: 5px !important;
+}
+
+.portlet_menu ul li a:hover,
+.portlet_menu ul li a.current {
+    background: #666 !important;
+    text-decoration: none;
+    
+}
+/* end base cms template */
+
+.template-list { margin: 0 0 0 20px; min-height: 435px; }
+    .template-list ul.children-list {
+        margin: 0;
+        padding: 0;
+    }    
+        .template-list ul.children-list li {
+            padding-top: 10px;
+        }
+            .template-list ul.children-list .child-icon {
+                float: left;
+                margin-right: 5px;
+            }
+            .template-list ul.children-list .child-title a:hover { text-decoration: none; }
+            .template-list ul.children-list .child-title a {
+                font-size: 20px;
+                font-weight: bold;
+                color: #000;
+            }
+            .template-list ul.children-list .child-desc {
+                margin: 5px 0 0 37px;
+            }
+
+.cms-toc {
+    list-style-type: none;
+}
+.cms-toc a {
+    text-decoration: none;
+    color: #000;
+}
+
+.cms-toc .current {
+    font-weight: bold;
+}
+
+
 
 .cms-nav {
     display: block;
@@ -313,36 +343,4 @@ ul li {
 }
 /* end file browser of cms editor */
 
-.portlet_menu ul {
-    margin: 0;
-    padding: 0;
-} 
-
-.portlet_menu ul li {
-    margin: 0;
-    padding: 0;
-    list-style.type: none;
-    display: inline-block;
-}
-
-.portlet_menu ul li img {
-    float: left;
-    margin-right: 2px;
-}
-
-.portlet_menu ul li {
-    word-break: keep-all;
-}
-
-.portlet_menu .widget {
-    width: 111px;
-    padding: 5px !important;
-}
-
-.portlet_menu ul li a:hover,
-.portlet_menu ul li a.current {
-    background: #666 !important;
-    text-decoration: none;
-    
-}
 
