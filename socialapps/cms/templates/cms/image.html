@@ -1,6 +1,7 @@
 {% extends "cms/base_view.html" %}
 
 {% block content_left %}
+<div class="template-list">
 	<h1>{{ object.title }}</h1>
 	<p>{{ object.description|safe }}</p>
 	<br/>
@@ -12,5 +13,6 @@
 	    {% endfor %}
 	</ul>
     <br />
-	<img src="{{ object.image.url }}">
+	<img src="{{ object.image.url_400x400 }}">
+</div>
 {% endblock %}

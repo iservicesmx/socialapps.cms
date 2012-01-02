@@ -2,6 +2,7 @@
 {% load i18n %}
 
 {% block content_left %}
+<div class="template-list">
 	<h1>{{ object.title }}</h1>	
 	<p>{{ object.description|safe }}</p>
 	<br/>
@@ -14,4 +15,5 @@
 	        </li>
 	    {% endfor %}
 	</ul>
+</div>
 {% endblock %}

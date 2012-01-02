@@ -1,8 +1,10 @@
 {% extends "cms/base_view.html" %}
 {% load cms_tags %}
 {% load courses_tags %}
+{% load pagination_tags %}
 
 {% block content_left %}
+<div class="template-list">
     <h1>{{ object.title }}</h1>
     <p class="description">{{ object.description|safe }}</p>
     <p>{{ object.text|safe }}</p>
@@ -17,15 +19,21 @@
     <br />
 
     {% if children %}
-		<div class="children-list">
+		{% autopaginate children 5 %}
+		<ul class="children-list">
 		    {% for child in children %}
-				<a href="/{{ child.get_absolute_url }}" class="child">
-					<img class="child-icon" src="{{STATIC_URL}}images/cms-icons/{{child.portal_type}}.png" width="32" height="32">
-					<span class="child-title">{{child.title }}</span>
-				</a>
+		    	<li>	
+		    		<a class="child-icon" href="/{{ child.get_absolute_url }}"><img src="{{STATIC_URL}}images/cms-icons/{{child.portal_type}}.png" width="32" height="32"></a>
+					<span class="child-title"><a href="/{{ child.get_absolute_url }}">{{child.title }}</a></span>
+				    <!-- <div class="move-child"></div> -->
+					<div class="child-desc">{{child.description|safe }}</div>
+				</li>
 		    {% endfor %}
-		</div>
+		</ul>
+		<br/>
     {% endif %}
+</div>
+{% paginate %}
 {% endblock %}
 {% block content_right %}
     {% get_content_parent object %}
