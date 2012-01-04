@@ -1,17 +1,18 @@
 {% load i18n %}
 <div id="admin-area">
+	<!-- <div class="btn-group">
+        <input class="btn primary" id="update_link" type="submit" value="Update" />
+        <input class="btn info" type="button" value="Cancel" />
+	</div>
 	<div class="cms-admin">
-		<div class="admin-button">{% trans "Administration" %}<img src="{{ STATIC_URL }}images/down-arrow-16-white.png" /></div>
-		<ul class="cms-menu-list">
-			<li><a class="button blue" href="{% url base_edit path=object.get_absolute_url %}" rel="facebox">{% trans "Edit" %}</a></li>
-			{% if object.get_portal_type.subtypes %}
-				<li><a class="button blue" href="{% url base_add path=object.get_absolute_url %}" rel="facebox">{% trans "Add" %}</a></li>
-			{% endif %}
-			{% if object.slug != 'resources' and object.slug != 'syllabus' %}
-				<li>
-					<a class="button blue" href="{% url base_delete path=object.get_absolute_url %}" rel="facebox">{% trans "Delete" %}</a>
-				</li>
-			{% endif %}
-		</ul>
+		<div class="admin-button">{% trans "Administration" %}<img src="{{ STATIC_URL }}images/down-arrow-16-white.png" /></div> -->
+	<div class="btn-group">
+		{% if object.get_portal_type.subtypes %}
+			<a class="btn success" href="{% url base_add path=object.get_absolute_url %}" rel="facebox">{% trans "Add" %}</a></li>
+		{% endif %}		
+		<a class="btn primary" href="{% url base_edit path=object.get_absolute_url %}" rel="facebox">{% trans "Edit" %}</a>
+		{% if object.slug != 'resources' and object.slug != 'syllabus' %}
+			<a class="btn danger" href="{% url base_delete path=object.get_absolute_url %}" rel="facebox">{% trans "Delete" %}</a>
+		{% endif %}
 	</div>
 </div>

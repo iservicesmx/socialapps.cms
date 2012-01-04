@@ -81,13 +81,6 @@
     clear: both;
 }
 
-#admin-area {
-    text-align: center;
-    padding: 15px;
-    float: right;
-    width: 97%;
-}
-
 #admin-area .cms-admin .admin-button {
     padding: 5px;
     font: 14px/100% Arial, Helvetica, sans-serif;
@@ -175,35 +168,32 @@
 .cms-breadcrumb .current {
     font-weight: bold;
 }
-.portlet_menu ul {
+.portlet_menu {
     margin: 0;
     padding: 0;
 } 
 
-.portlet_menu ul li {
+.portlet_menu li {
     margin: 0;
     padding: 0;
     list-style.type: none;
     display: inline-block;
+    word-break: keep-all;
 }
 
-.portlet_menu ul li img {
+.portlet_menu li img {
     float: left;
     margin-right: 2px;
 }
 
-.portlet_menu ul li {
-    word-break: keep-all;
+.portlet_menu .btn {
+    width: 105px;
+    margin: 5px 0px;
 }
 
-.portlet_menu .widget {
-    width: 111px;
-    padding: 5px !important;
-}
-
-.portlet_menu ul li a:hover,
-.portlet_menu ul li a.current {
-    background: #666 !important;
+.portlet_menu li a:hover,
+.portlet_menu li a.current {
+    background: #0397D9;
     text-decoration: none;
     
 }
