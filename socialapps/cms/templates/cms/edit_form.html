@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load bootstrap_tags %}
 
 <script type="text/javascript">
 	function save(data, statusText, xhr, $form) {
@@ -28,17 +29,11 @@
 {% endif %}
 
 <form method="POST" id="cms-form" action="{{ url_form_post }}" enctype="multipart/form-data" class="form horizontal-form">
-{% csrf_token %}
-    {% for field in form %}
-		<fieldset class="control-group">
-			{{ field.label_tag}}
-			<div class="controls">
-				{{ field}}
-			</div>
-		</fieldset>
-    {% endfor %}
-</table>
-<fieldset class="form-actions">
-	<input type="submit" value="Save" class="btn primary"/>
-</fieldset>
+    {% csrf_token %}
+    <fieldset>
+        {{ form|as_bootstrap }}
+    </fieldset>
+    <div class="actions">
+        <input type="submit" value="Save" class="btn primary"/>
+    </div>
 </form>
