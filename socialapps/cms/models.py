@@ -80,7 +80,7 @@ class BaseContent(MPTTModel, BaseMetadata):
         super(BaseContent, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        url = "/".join([ancestor.slug for ancestor in self.get_ancestors(include_self=True)]) + "/"
+        url = "/".join([ancestor.slug for ancestor in self.get_ancestors(include_self=True)]) #+ "/"
         return url
     
     def get_type_object(self):

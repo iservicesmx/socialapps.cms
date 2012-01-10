@@ -168,34 +168,6 @@
 .cms-breadcrumb .current {
     font-weight: bold;
 }
-.portlet_menu ul {
-    margin: 0;
-    padding: 0;
-} 
-
-.portlet_menu ul li {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-    display: inline;
-    word-break: keep-all;
-}
-
-.portlet_menu ul li img {
-    float: left;
-    margin-right: 2px;
-}
-
-.portlet_menu .btn {
-    width: 105px;
-    margin: 5px 0px;
-}
-
-.portlet_menu ul li a:hover,
-.portlet_menu ul li a.current {
-    background: #0397D9;
-    text-decoration: none;
-}
 /* end base cms template */
 
 .template-list { margin: 0 0 0 20px; min-height: 435px; }
