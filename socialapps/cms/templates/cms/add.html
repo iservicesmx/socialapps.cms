@@ -1,6 +1,26 @@
 {% load i18n %}
+<script type="text/javascript"> 
+function facebox_tab(){
+	$('.cms_subtypes a')
+	.unbind('click')
+	.bind('click', function() {
+		var glink = $(this).attr('href');
+		if(glink.match(/^#/)){
+			jQuery.facebox({div: glink});
+		}else{
+			jQuery.facebox({ajax: glink});
+		}
+		facebox_tab();          
+		return false;
+	});
+}
+ 
+jQuery(document).ready(function($){
+	$.ajaxSetup({cache: false});
+	facebox_tab();
+})
+</script>
 	<h2>{% trans "Add resources" %}</h2>
-
 <div class="cms_subtypes">
 	{% if type_content %}
 		<h3 class="type-section">{% trans "Content" %}</h3>
