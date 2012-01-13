@@ -9,6 +9,18 @@ from tagging.models import Tag
 from socialapps.core.utils import python_to_json
 from socialapps.core.views import JSONTemplateView
 
+
+class BaseContentSort(JSONTemplateView):
+    def post(self, request, **kwargs):
+        obj = BaseContent.objects.get(id = int(request.POST.get("object")))
+        target = BaseContent.objects.get(id= int(request.POST.get("target")))
+        position = request.POST.get("position")
+        print obj
+        print target
+        print position
+        print obj.move_to(target, position = position)
+        return self.render_to_response("holaa")
+
 class BaseContentView(JSONTemplateView):
     object = None
     parent = None

@@ -11,10 +11,45 @@
 
 {% block extra_js %}
 <script type="text/javascript">
-
+	$(document).ready(function() {
+		$('.collapse').collapse();
+		var startOrder = endOrder = "";
+		$("#children-list").tableDnD({
+			onDragClass: 'onDrag',
+			dragHandle: 'move-child',
+			onDrop: function(table, row) {
+				endOrder = $.tableDnD.serialize().replace(/children-list\[\]+=/g, '').split('&');
+				actualRow = row.id
+				if( endOrder !== startOrder) {
+					for (var i = 0; i < endOrder.length; i++) {
+						if (endOrder[i] === actualRow) {
+							object = actualRow;
+							if ( i > 0 ) {
+								target = endOrder[i-1]
+								position = 'right';
+							} else {
+								target = endOrder[i+1]
+								position = 'left';
+							}
+						}
+					}
+					$.post('{% url base_sort object.get_absolute_url %}', 
+						{ 
+							'object' 	: object, 
+							'target' 	: target,
+							'position'	: position
+						}, function(data) {
+							console.log(data);
+					});					
+				}
+			},
+			onDragStart: function(table, row) {
+				startOrder = $.tableDnD.serialize().replace(/children-list\[\]+=/g, '').split('&');
+			}
+		});
+	});
 </script>
 {% endblock %}
-
 
 {% block content_tabs %}
 	{% get_content_parent object %}

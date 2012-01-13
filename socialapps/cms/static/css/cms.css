@@ -171,24 +171,24 @@
 /* end base cms template */
 
 .template-list { margin: 0 0 0 20px; min-height: 435px; }
-    .template-list ul.children-list {
+    .template-list #children-list {
         margin: 0;
         padding: 0;
     }    
-        .template-list ul.children-list li {
+        .template-list #children-list {
             padding-top: 10px;
         }
-            .template-list ul.children-list .child-icon {
+            .template-list #children-list .child-icon {
                 float: left;
                 margin-right: 5px;
             }
-            .template-list ul.children-list .child-title a:hover { text-decoration: none; }
-            .template-list ul.children-list .child-title a {
+            .template-list #children-list .child-title a:hover { text-decoration: none; }
+            .template-list #children-list .child-title a {
                 font-size: 20px;
                 font-weight: bold;
                 color: #000;
             }
-            .template-list ul.children-list .child-desc {
+            .template-list #children-list .child-desc {
                 margin: 5px 0 0 37px;
             }
 
@@ -252,10 +252,14 @@
 } 
 .content-right .tags-folder {} 
 .children-list{margin: 20px 0px;}
+
+#children-list .onDrag {
+    background-color: #ABC;
+}
+
 .move-child {
-	background:url("/static/images/arrow.png") no-repeat;
-	height: 17px;
-	width: 17px;
+    cursor: move;
+	background:url("/static/images/arrow.png") no-repeat 98% 15%;
 }
 
 

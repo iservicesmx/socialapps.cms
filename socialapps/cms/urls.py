@@ -1,6 +1,7 @@
 from django.conf.urls.defaults import *
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 
 from socialapps.cms.views import *
 
@@ -15,5 +16,6 @@ urlpatterns = patterns('',
     url( r'^(?P<path>[0-9A-Za-z-_.//]+)add/$' , login_required(BaseContentAdd.as_view()), name="base_add"),
     url( r'^(?P<path>[0-9A-Za-z-_.//]+)add/(?P<portal_type>.+)/$' , login_required(BaseContentEdit.as_view()), name="base_create"),
     url( r'^(?P<path>[0-9A-Za-z-_.//]+)browser/(?P<portal_type>.+)/$' , login_required(ShowBrowser.as_view()), name="ajax_browser"),
+    url( r'^(?P<path>[0-9A-Za-z-_.//]+)sort/$', login_required(csrf_exempt(BaseContentSort.as_view())), name="base_sort"),    
     base,
 )

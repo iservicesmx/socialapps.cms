@@ -1,0 +1,17 @@
+{% load socialapps_tags %}
+{% load pagination_tags %}
+<table id="children-list" class="children-list">
+    {% for child in children %}
+    	<tr id="{{child.id}}">
+			{% ifhasperm edit object %}
+				<td class="move-child"></td>
+			{% endifhasperm %}
+			<td>
+	    		<a class="child-icon" href="/{{ child.get_absolute_url }}"><img src="{{STATIC_URL}}images/cms-icons/{{child.portal_type}}.png" width="32" height="32"></a>
+				<span class="child-title"><a href="/{{ child.get_absolute_url }}">{{child.title }}</a></span>
+				<div class="move-child"></div>
+				<div class="child-desc">{{child.description|safe }}</div>
+			</td>
+		</tr>
+    {% endfor %}
+</table>

@@ -17,17 +17,7 @@
     	</ul>
     {% if children %}
 		{% autopaginate children 5 %}
-		<ul class="children-list">
-		    {% for child in children %}
-		    	<li>	
-		    		<a class="child-icon" href="/{{ child.get_absolute_url }}"><img src="{{STATIC_URL}}images/cms-icons/{{child.portal_type}}.png" width="32" height="32"></a>
-					<span class="child-title"><a href="/{{ child.get_absolute_url }}">{{child.title }}</a></span>
-				    <!-- <div class="move-child"></div> -->
-					<div class="child-desc">{{child.description|safe }}</div>
-				</li>
-		    {% endfor %}
-		</ul>
-		<br/>
+		{% include "cms/children_list.html" with children=children object=object %}
     {% endif %}
 </div>
 {% paginate %}
