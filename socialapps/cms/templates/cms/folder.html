@@ -16,7 +16,7 @@
 			{% endfor %}
     	</ul>
     {% if children %}
-		{% autopaginate children 5 %}
+		{% autopaginate children 10 %}
 		{% include "cms/children_list.html" with children=children object=object %}
     {% endif %}
 </div>
