@@ -89,8 +89,8 @@
 	{% endblock %}
 </div>
 
-<div>	
-	<div id="content-left">
+<div class="row">
+	<div class="span8">
 		{% block content_left %}{% endblock %}
 		{% if parent.portal_type == 'multipage' %}		
 			<div class="cms-nav">
@@ -107,7 +107,7 @@
 			</div>		
 		{% endif %}		
 	</div>
-	<div id="content-right">
+	<div class="span4">
         <!-- <div class="tags-folder">{{object.tags}}</div> -->
 		{% if parent.portal_type == 'multipage' %}
 			<ul class="cms-toc">
