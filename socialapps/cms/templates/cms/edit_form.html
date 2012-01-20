@@ -20,6 +20,13 @@
         var availableTags = [ {% for t in tags %} '{{t}}',{% endfor %} ]
         $("#id_tags").tagit({availableTags   : availableTags});
         $('#cms-form').ajaxForm({dataType : 'json', success : save });
+        $.cleditor.defaultOptions.controls = "bold italic underline | style | " +
+                                            "bullets numbering | outdent " +
+                                            "indent | alignleft center alignright | undo redo | " +
+                                            "image link unlink | pastetext | source";
+        $.cleditor.defaultOptions.width = 880;
+        $.cleditor.defaultOptions.height = 100;
+		$('#id_description').cleditor();
     });
 </script>
 {% if add %}
