@@ -135,7 +135,9 @@
 		{% if content_parent.parent.portal_type == 'course' %}
 			{% load courses_tags %}
 			{% get_user_section content_parent.parent %}
-			{% show_navigation section %}
+			{% if section %}
+				{% show_navigation section %}
+			{% endif %}
 		{% else %}
 			{% show_navigation object %}
 		{% endif %}
