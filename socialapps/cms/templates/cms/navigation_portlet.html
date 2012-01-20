@@ -1,0 +1,17 @@
+{% load i18n %}
+<div class="widget">
+	<div class="portlet_menu">
+		<div class="title">{% trans "Navigation" %}</div>
+		<div class="widget-content">
+		<ul>
+		{% for item in menu %}
+			<li>
+			  <a href="/{{ absolute_url }}/{{ item.url }}" class="btn">
+			    <img src="{{ item.icon }}" alt="{{ item.description }}" class="type-icon"/> {{ item.title }}
+			  </a>
+			</li>
+		{% endfor %}
+		</ul>
+		</div>
+	</div>
+</div>

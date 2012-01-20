@@ -22,16 +22,3 @@
 </div>
 {% paginate %}
 {% endblock %}
-{% block content_right %}
-	{% get_content_parent object %}
-	{% if content_parent.parent.portal_type == 'course' %}
-		{% get_user_section content_parent.parent %}
-		{% if section %}
-			{% include "courses/portlet_menu.html" with object=section %}
-		{% endif %}
-	{% else %}
-		{% if content_parent.parent.portal_type == 'space' %}
-			{% include "spaces/portlet_menu.html" with object=content_parent.parent %}
-		{% endif %}
-	{% endif %}
-{% endblock %}

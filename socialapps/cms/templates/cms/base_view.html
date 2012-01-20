@@ -131,6 +131,14 @@
 		{% ifhasperm edit object %}
 			{% include "cms/cms_admin_menu.html" with object=object %}
         {% endifhasperm %}
+		{% get_content_parent object %}
+		{% if content_parent.parent.portal_type == 'course' %}
+			{% load courses_tags %}
+			{% get_user_section content_parent.parent %}
+			{% show_navigation section %}
+		{% else %}
+			{% show_navigation object %}
+		{% endif %}
 		{% block content_right %}
 		{% endblock %}
 	</div>
