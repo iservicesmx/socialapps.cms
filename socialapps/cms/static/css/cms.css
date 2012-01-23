@@ -195,6 +195,7 @@
 
 .cms-page { }
     .cms-page .description {
+        font-weight: bold;
         font-size: 11px;
     }
 
