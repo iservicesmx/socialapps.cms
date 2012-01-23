@@ -19,7 +19,6 @@
 	   	</ul>
 	    {% if children %}
 			{% ifhasperm edit object %}
-				adc
 			{% else %}
 				{% autopaginate children 10 %}
 			{% endifhasperm %}
@@ -27,7 +26,6 @@
 	    {% endif %}
 	</div>
 	{% ifhasperm edit object %}
-		abc
 	{% else %}
 		{% paginate %}
 	{% endifhasperm %}
