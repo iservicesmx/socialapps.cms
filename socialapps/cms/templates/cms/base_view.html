@@ -91,7 +91,9 @@
 
 <div class="row">
 	<div class="span8">
-		{% block content_left %}{% endblock %}
+		<div class="cms-content">
+			{% block content_left %}{% endblock %}
+		</div>
 		{% if parent.portal_type == 'multipage' %}		
 			<div class="cms-nav">
 				{% with object.get_previous_sibling as previous %}
@@ -141,8 +143,7 @@
 		{% else %}
 			{% show_navigation object %}
 		{% endif %}
-		{% block content_right %}
-		{% endblock %}
+		{% block content_right %}{% endblock %}
 	</div>
 </div>
 {% endblock %}

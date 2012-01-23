@@ -183,14 +183,20 @@
                 margin-right: 5px;
             }
             .template-list #children-list .child-title a:hover { text-decoration: none; }
-            .template-list #children-list .child-title a {
-                font-size: 20px;
-                font-weight: bold;
-                color: #000;
-            }
             .template-list #children-list .child-desc {
+                font-size: 11px;
                 margin: 5px 0 0 37px;
             }
+            
+.cms-folder { }
+    .cms-folder .description {
+        font-weight: bold;
+    }
+
+.cms-page { }
+    .cms-page .description {
+        font-size: 11px;
+    }
 
 .cms-toc {
     list-style-type: none;

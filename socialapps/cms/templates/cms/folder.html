@@ -5,20 +5,22 @@
 {% load pagination_tags %}
 
 {% block content_left %}
-<div class="template-list">
-    	<h1>{{ object.title }}</h1>
-    	<p>{{ object.description|safe }}</p>
+<div class="cms-folder">
+	<div class="template-list">
+		<h1>{{ object.title }}</h1>
+	   	<p class="description">{{ object.description|safe }}</p>
 		<ul class="tagit">
-        	{% for tag in object.tags.split %}
-            	<li class="tagit-show ui-state-default ui-corner-all">    
-                	{{ tag }}
-            	</li>
+	       	{% for tag in object.tags.split %}
+	           	<li class="tagit-show ui-state-default ui-corner-all">    
+	               	{{ tag }}
+	           	</li>
 			{% endfor %}
-    	</ul>
-    {% if children %}
-		{% autopaginate children 10 %}
-		{% include "cms/children_list.html" with children=children object=object %}
-    {% endif %}
+	   	</ul>
+	    {% if children %}
+			{% autopaginate children 10 %}
+			{% include "cms/children_list.html" with children=children object=object %}
+	    {% endif %}
+	</div>
+	{% paginate %}
 </div>
-{% paginate %}
 {% endblock %}

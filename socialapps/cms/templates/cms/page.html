@@ -4,34 +4,36 @@
 {% load pagination_tags %}
 
 {% block content_left %}
-<div class="template-list">
-    <h1>{{ object.title }}</h1>
-    <p class="description">{{ object.description|safe }}</p>
-    <p>{{ object.text|safe }}</p>
-	<br/>
-	<ul class="tagit">
-        {% for tag in object.tags.split %}
-            <li class="tagit-show ui-state-default ui-corner-all">    
-                {{ tag }}
-            </li>
-        {% endfor %}
-    </ul>
-    <br />
-
-    {% if children %}
-		{% autopaginate children 5 %}
-		<ul class="children-list">
-		    {% for child in children %}
-		    	<li>	
-		    		<a class="child-icon" href="/{{ child.get_absolute_url }}"><img src="{{STATIC_URL}}images/cms-icons/{{child.portal_type}}.png" width="32" height="32"></a>
-					<span class="child-title"><a href="/{{ child.get_absolute_url }}">{{child.title }}</a></span>
-				    <!-- <div class="move-child"></div> -->
-					<div class="child-desc">{{child.description|safe }}</div>
-				</li>
-		    {% endfor %}
-		</ul>
+<div class="cms-page">
+	<div class="template-list cms-page">
+	    <h1>{{ object.title }}</h1>
+	    <p class="description">{{ object.description|safe }}</p>
+	    <p>{{ object.text|safe }}</p>
 		<br/>
-    {% endif %}
+		<ul class="tagit">
+	        {% for tag in object.tags.split %}
+	            <li class="tagit-show ui-state-default ui-corner-all">    
+	                {{ tag }}
+	            </li>
+	        {% endfor %}
+	    </ul>
+	    <br />
+
+	    {% if children %}
+			{% autopaginate children 5 %}
+			<ul class="children-list">
+			    {% for child in children %}
+			    	<li>	
+			    		<a class="child-icon" href="/{{ child.get_absolute_url }}"><img src="{{STATIC_URL}}images/cms-icons/{{child.portal_type}}.png" width="32" height="32"></a>
+						<span class="child-title"><a href="/{{ child.get_absolute_url }}">{{child.title }}</a></span>
+					    <!-- <div class="move-child"></div> -->
+						<div class="child-desc">{{child.description|safe }}</div>
+					</li>
+			    {% endfor %}
+			</ul>
+			<br/>
+	    {% endif %}
+	</div>
+	{% paginate %}
 </div>
-{% paginate %}
 {% endblock %}
