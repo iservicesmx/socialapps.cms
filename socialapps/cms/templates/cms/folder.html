@@ -3,6 +3,7 @@
 {% load cms_tags %}
 {% load i18n %}
 {% load pagination_tags %}
+{% load socialapps_tags %}
 
 {% block content_left %}
 <div class="cms-folder">
@@ -17,10 +18,18 @@
 			{% endfor %}
 	   	</ul>
 	    {% if children %}
-			{% autopaginate children 10 %}
+			{% ifhasperm edit object %}
+				adc
+			{% else %}
+				{% autopaginate children 10 %}
+			{% endifhasperm %}
 			{% include "cms/children_list.html" with children=children object=object %}
 	    {% endif %}
 	</div>
-	{% paginate %}
+	{% ifhasperm edit object %}
+		abc
+	{% else %}
+		{% paginate %}
+	{% endifhasperm %}
 </div>
 {% endblock %}
