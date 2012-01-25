@@ -12,7 +12,7 @@
 		{% endif %}		
 		<a class="btn primary" href="{% url base_edit path=object.get_absolute_url %}" rel="facebox[.cms]">{% trans "Edit" %}</a>
 		{% if object.slug != 'resources' and object.slug != 'syllabus' %}
-			<a class="btn danger" href="{% url base_delete path=object.get_absolute_url %}" rel="facebox">{% trans "Delete" %}</a>
+			<a href="#cms-confirm-modal" class="modal-confirm-button btn danger" data-content="{% url base_delete path=object.get_absolute_url %}" data-toggle="modal">{% trans "Delete" %}</a>
 		{% endif %}
 	</div>
 </div>

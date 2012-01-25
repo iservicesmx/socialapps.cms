@@ -174,10 +174,17 @@
     .template-list #children-list {
         margin: 0;
         padding: 0;
-    }    
+    }
+    
         .template-list #children-list {
             padding-top: 10px;
         }
+            .template-list #children-list tr:hover .admin-child div {
+                display: block;
+            }
+            .template-list #children-list .body-child {
+                width: auto;
+            }
             .template-list #children-list .child-icon {
                 float: left;
                 margin-right: 5px;
@@ -186,6 +193,10 @@
             .template-list #children-list .child-desc {
                 font-size: 11px;
                 margin: 5px 0 0 37px;
+            }
+            .template-list #children-list .admin-child div {
+                float: right;
+                display: none;
             }
             
 .cms-folder { }
@@ -266,6 +277,7 @@
 
 .move-child {
     cursor: move;
+    width: 16px;
 	background:url("/static/images/arrow.png") no-repeat 98% 15%;
 }
 

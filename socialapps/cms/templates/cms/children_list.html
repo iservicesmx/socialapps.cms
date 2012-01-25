@@ -1,17 +1,26 @@
 {% load socialapps_tags %}
 {% load pagination_tags %}
-<table id="children-list" class="children-list">
+{% load i18n %}
+
+<table id="children-list" class="children-list table">
     {% for child in children %}
     	<tr id="{{child.id}}">
 			{% ifhasperm edit object %}
 				<td class="move-child"></td>
 			{% endifhasperm %}
-			<td>
+			<td class="body-child">
 	    		<a class="child-icon" href="/{{ child.get_absolute_url }}"><img src="{{STATIC_URL}}images/cms-icons/{{child.portal_type}}.png" width="32" height="32"></a>
 				<span class="child-title"><a href="/{{ child.get_absolute_url }}"><h4>{{child.title }}</h4></a></span>
-				<div class="move-child"></div>
 				<div class="child-desc">{{child.description|safe }}</div>
 			</td>
+			{% ifhasperm edit object %}
+				<td class="admin-child">
+					<div>
+						<a href="#cms-confirm-modal" rel="tooltip" class="modal-confirm-button" data-content="{% url base_delete path=child.get_absolute_url %}" data-original-title="{% trans 'Delete' %}" data-toggle="modal"><i class="icon remove"></i></a>
+						<a href="{% url base_edit path=child.get_absolute_url %}" rel="tooltip facebox[.cms]" data-original-title="{% trans 'Edit' %}"><i class="icon edit"></i></a>					
+					</div>
+				</td>
+			{% endifhasperm %}
 		</tr>
     {% endfor %}
 </table>
