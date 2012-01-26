@@ -4,10 +4,9 @@
 	<li>
 		<div id="admin-area">
 			<div class="btn-group">
-				<!-- <a class="btn primary" href="#">{% trans "Administration" %}</a> -->
-				<a class="btn primary dropdown-toggle" data-toggle="dropdown" href="#">
+				<a class="btn primary" data-toggle="dropdown" href="#">
 					{% trans "Administration" %}
-					<span class="caret">bla</span>
+					<span class="caret"></span>
 				</a>
 				<ul class="dropdown-menu">
 					{% if object.get_portal_type.subtypes %}
