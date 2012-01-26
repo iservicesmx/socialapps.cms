@@ -1,22 +1,44 @@
 {% extends "cms/base_view.html" %}
+{% load cms_tags %}
+{% load pagination_tags %}
+{% load socialapps_tags %}
 
 {% block content_left %}
-    <h1>{{ object.title }}</h1>
-    <p>{{ object.description|safe }}</p>
-	<ul class="tagit">
-        {% for tag in object.tags.split %}
-            <li class="tagit-show ui-state-default ui-corner-all">    
-                {{ tag }}
-            </li>
-        {% endfor %}
-    </ul>
+	<div class="cms-multipage">
+		{% if object.show_toc %}
+			<div class="template-list">
+				<h1>{{ object.title }}</h1>
+			   	<p class="description">{{ object.description|safe }}</p>
+				<ul class="tagit">
+			       	{% for tag in object.tags.split %}
+			           	<li class="tagit-show ui-state-default ui-corner-all">    
+			               	{{ tag }}
+			           	</li>
+					{% endfor %}
+			   	</ul>
+			    {% if children %}
+					{% ifhasperm edit object %}
+					{% else %}
+						{% autopaginate children 10 %}
+					{% endifhasperm %}
+					{% include "cms/children_list.html" with children=children object=object %}
+			    {% endif %}
+			</div>
+			{% ifhasperm edit object %}
+			{% else %}
+				{% paginate %}
+			{% endifhasperm %}
+		{% else %}
+		 	uno por uno
+		{% endif %}
+	</div>
 {% endblock %}
 
 {% block content_right %}
 	{{ block.super }}
-	<ul class="cms-toc">
+	<ul class="nav pills stacked">
 		{% for item in object.get_children %}
-			<li><img src="{{ STATIC_URL }}images/cms-icons/{{item.portal_type}}.png" width="16" height="16"><a href="/{{item.get_absolute_url}}">{{ item }}</a></li>
+			<li {% if item.slug == object.slug %} class="active" {% endif %}><img src="{{ STATIC_URL }}images/cms-icons/{{item.portal_type}}.png" width="16" height="16" style="display: inline;"/><a href="/{{item.get_absolute_url}}">{{ item }}</a></li>
 		{% endfor %}
 	</ul>
 {% endblock %}

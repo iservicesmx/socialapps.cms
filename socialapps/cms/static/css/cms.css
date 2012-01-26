@@ -210,18 +210,9 @@
         font-size: 11px;
     }
 
-.cms-toc {
-    list-style-type: none;
+.multipage-toc img {
+    float: left;
 }
-.cms-toc a {
-    text-decoration: none;
-    color: #000;
-}
-
-.cms-toc .current {
-    font-weight: bold;
-}
-
 
 
 .cms-nav {

@@ -1,18 +1,24 @@
 {% load i18n %}
-<div id="admin-area">
-	<!-- <div class="btn-group">
-        <input class="btn primary" id="update_link" type="submit" value="Update" />
-        <input class="btn info" type="button" value="Cancel" />
-	</div>
-	<div class="cms-admin">
-		<div class="admin-button">{% trans "Administration" %}<img src="{{ STATIC_URL }}images/down-arrow-16-white.png" /></div> -->
-	<div class="btn-group">
-		{% if object.get_portal_type.subtypes %}
-			<a class="btn success" href="{% url base_add path=object.get_absolute_url %}" rel="facebox">{% trans "Add" %}</a></li>
-		{% endif %}		
-		<a class="btn primary" href="{% url base_edit path=object.get_absolute_url %}" rel="facebox[.cms]">{% trans "Edit" %}</a>
-		{% if object.slug != 'resources' and object.slug != 'syllabus' %}
-			<a href="#cms-confirm-modal" class="modal-confirm-button btn danger" data-content="{% url base_delete path=object.get_absolute_url %}" data-toggle="modal">{% trans "Delete" %}</a>
-		{% endif %}
-	</div>
-</div>
+<ul class="nav pull-right">
+	<!-- <li class="vertical-divider"></li> -->
+	<li>
+		<div id="admin-area">
+			<div class="btn-group">
+				<!-- <a class="btn primary" href="#">{% trans "Administration" %}</a> -->
+				<a class="btn primary dropdown-toggle" data-toggle="dropdown" href="#">
+					{% trans "Administration" %}
+					<span class="caret">bla</span>
+				</a>
+				<ul class="dropdown-menu">
+					{% if object.get_portal_type.subtypes %}
+						<li><a href="{% url base_add path=object.get_absolute_url %}" rel="facebox">{% trans "Add" %}</a></li>
+					{% endif %}		
+						<li><a href="{% url base_edit path=object.get_absolute_url %}" rel="facebox[.cms]">{% trans "Edit" %}</a></li>
+					{% if object.slug != 'resources' and object.slug != 'syllabus' %}
+						<li><a href="#cms-confirm-modal" class="modal-confirm-button" data-content="{% url base_delete path=object.get_absolute_url %}" data-toggle="modal">{% trans "Delete" %}</a></li>
+					{% endif %}
+				</ul>
+			</div>
+		</div>
+	</li>
+</ul>

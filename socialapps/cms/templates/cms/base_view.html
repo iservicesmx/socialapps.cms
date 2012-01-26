@@ -97,31 +97,25 @@
 	{% endif %}
 {% endblock %}
 
-{% block content_tabs %}
-	{% get_content_parent object %}
-	{% if content_parent.parent.portal_type == 'course' %}
-		{% get_user_section content_parent.parent %}
-		{% if section %}
-			<ul id="nav-menu">
-				<li class="tooltip"><h3><a href="{% url base_view section.get_absolute_url %}">{{ content_parent.parent.title }} - {{ section.title }}</a></h3></li>
-	    	</ul>
-	    {% else %}
-		    <ul id="nav-menu">
-				<li class="tooltip"><h3><a href="{% url base_view object.get_absolute_url %}">{{ object.parent.title }} </a></h3></li>
-	    	</ul>
-	    {% endif %}
-	{% else %}
-		{% if content_parent.parent.portal_type == 'space' %}
-			<ul id="nav-menu">
-	        	<li class="tooltip"><h3><a href="{% url base_view content_parent.parent.get_absolute_url %}">{{ content_parent.parent.title }}</a></h3></li>  
-	    	</ul>
-		{% else%}
-			{% show_local_menu object 'resources' %}
-		{% endif %}
-	{% endif %}
-{% endblock %}
-
 {% block content %}
+        {% block content_tabs %}
+		<div class="content-tabs">
+			<div class="navbar navbar-static">
+				<div class="navbar-inner">
+					<div class="container">
+						<ul class="nav">
+							<li class="active"><a href="#">{{ object.title }}</a></li>
+						</ul>
+						{% ifhasperm edit object %}
+							{% include "cms/cms_admin_menu.html" with object=object %}
+						{% endifhasperm %}
+					</div>
+				</div>
+			</div>
+		</div>
+        {% endblock %}
+
+
 <div class="cms-breadcrumb">
 	{% block cms_nav %}
 		{% if ancestors|length == 0 %}
@@ -157,28 +151,6 @@
 	</div>
 	<div class="span4">
         <!-- <div class="tags-folder">{{object.tags}}</div> -->
-		{% if parent.portal_type == 'multipage' %}
-			<ul class="cms-toc">
-				{% for item in parent.get_children %}
-					{% if item.id == object.id %}
-						<li class="current">
-							<img src="{{ STATIC_URL }}images/cms-icons/{{item.portal_type}}.png" width="16" height="16">
-							{{ item }}
-						</li>
-					{% else %}
-						<li>
-							<a href="/{{item.get_absolute_url}}">
-								<img src="{{ STATIC_URL }}images/cms-icons/{{item.portal_type}}.png" width="16" height="16">
-								{{ item }}
-							</a>
-						</li>
-					{% endif %}
-				{% endfor %}
-			</ul>		
-		{% endif %}
-		{% ifhasperm edit object %}
-			{% include "cms/cms_admin_menu.html" with object=object %}
-        {% endifhasperm %}
 		{% get_content_parent object %}
 		{% if content_parent.parent.portal_type == 'course' %}
 			{% load courses_tags %}
@@ -189,6 +161,18 @@
 		{% else %}
 			{% show_navigation object %}
 		{% endif %}
+		{% if parent.portal_type == 'multipage' %}
+			<div class="widget multipage-toc">
+				<div class="title">{% trans "Table Of Contents" %}</div>
+				<div class="widget-content">
+					<ul class="nav list">
+						{% for item in parent.get_children %}
+							<li {% if item.slug == object.slug %} class="active" {% endif %}><img src="{{ STATIC_URL }}images/cms-icons/{{item.portal_type}}.png" width="16" height="16" style="display: inline;"/><a href="/{{item.get_absolute_url}}">{{ item }}</a></li>
+						{% endfor %}
+					</ul>		
+				</div>
+			</div>
+		{% endif %}		
 		{% block content_right %}{% endblock %}
 	</div>
 </div>
