@@ -99,55 +99,63 @@
 
 {% block content %}
         {% block content_tabs %}
-		<div class="content-tabs">
-			<div class="navbar navbar-static">
+			<div class="navbar navbar-static content-tabs">
 				<div class="navbar-inner">
 					<div class="container">
-						<ul class="nav">
-							<li class="active"><a href="#">{{ object.title }}</a></li>
+						<ul class="nav cms-breadcrumb">
+							{% for item in ancestors %}
+								<li>
+									<a href="/{{ item.get_absolute_url }}">
+										{% if not forloop.first %}
+											<div class="separator left"></div>
+										{% endif %}
+										<div class="item">{{ item.title }}</div>
+										<div class="separator right"></div>										
+									</a>
+								</li>
+							{% endfor %}
+								<li class="current">									
+									<a href="/{{object.get_absolute_url}}">
+										{% if ancestors %}
+											<div class="separator left"></div>
+										{% endif %}
+										<div class="item">{{ object.title}}</div>
+										<div class="separator right"></div>
+									</a>
+								</li>
 						</ul>
 						{% ifhasperm edit object %}
 							{% include "cms/cms_admin_menu.html" with object=object %}
-				        {% endifhasperm %}
+						{% endifhasperm %}						
+						<ul class="nav pull-right">
+							<li>
+								<div class="btn-group">
+									{% with object.get_previous_sibling as previous %}
+										{% if previous %}									
+											<a class="btn primary" href="/{{ previous.get_absolute_url }}" rel="tooltip" data-original-title="{{previous.title}}" data-placement="bottom"><i class="icon chevron-left"></i>{% trans "Previous" %}</a>
+										{% else %}
+											<a class="btn primary disabled" href="#" rel="tooltip" data-original-title="{% trans 'No previous object' %}" data-placement="bottom"><i class="icon chevron-left"></i>{% trans "Previous" %}</a>	
+										{% endif %}
+									{% endwith %}
+									{% with object.get_next_sibling as next %}
+										{% if next %}
+											<a class="btn primary" href="/{{next.get_absolute_url }}" rel="tooltip" data-original-title="{{next.title}}" data-placement="bottom">{% trans "Next" %}<i class="icon chevron-right"></i></a>
+										{% else %}
+											<a class="btn primary disabled" href="#" rel="tooltip" data-original-title="{% trans 'No next object' %}" data-placement="bottom">{% trans "Next" %}<i class="icon chevron-right"></i></a>
+										{% endif %}
+									{% endwith %}
+							</li>
+						</ul>						
 					</div>
 				</div>
 			</div>
-		</div>
         {% endblock %}
-
-
-<div class="cms-breadcrumb">
-	{% block cms_nav %}
-		{% if ancestors|length == 0 %}
-			<a href="/{{object.get_absolute_url}}" class="nextnav">{{object.title}}</a> <span class="current nextnav">{% trans "Homepage" %}</span>
-		{% else %}
-			{% for item in ancestors %}
-				<a href="/{{item.get_absolute_url}}" class="nextnav">{{item}}</a> 
-			{% endfor %}
-			<span class="current nextnav">{{ object.title }}</span>
-		{% endif %}
-	{% endblock %}
-</div>
 
 <div class="row">
 	<div class="span8">
 		<div class="cms-content">
 			{% block content_left %}{% endblock %}
 		</div>
-		{% if parent.portal_type == 'multipage' %}		
-			<div class="cms-nav">
-				{% with object.get_previous_sibling as previous %}
-					{% if previous %}
-						<a href="/{{ previous.get_absolute_url }}" class="prev">{{ previous }}</a>
-					{% endif %}
-				{% endwith %}
-				{% with object.get_next_sibling as next %}
-					{% if next %}
-						<a href="/{{next.get_absolute_url }}" class="next">{{ next }}</a>
-					{% endif %}
-				{% endwith %}
-			</div>		
-		{% endif %}		
 	</div>
 	<div class="span4">
         <!-- <div class="tags-folder">{{object.tags}}</div> -->
