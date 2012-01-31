@@ -316,3 +316,8 @@
     text-decoration: none;
     color: #000;
 }
+
+.cms-content ul,
+.cms-content ul li {
+    list-style-type: disc;
+}
