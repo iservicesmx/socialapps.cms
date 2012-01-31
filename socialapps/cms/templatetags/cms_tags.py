@@ -9,6 +9,14 @@ def show_navigation(obj):
         while not hasattr(obj,'get_local_menu'):
             obj = obj.parent.get_type_object()
     return { 'menu' : obj.get_local_menu(), 'absolute_url': obj.get_absolute_url()}
+    
+@register.inclusion_tag("cms/breadcrumb.html")
+def show_breadcrumb(obj):
+    return {
+        'object'    : obj,
+        'ancestors' : obj.get_object_ancestors()[1:],
+    }
+    
 
 @register.simple_tag(takes_context=True)
 def get_content_parent(context, obj):

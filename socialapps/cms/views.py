@@ -48,7 +48,7 @@ class BaseContentView(JSONTemplateView):
                     'object'    : self.object,
                     'parent'    : self.parent,
                     'children'  : self.children,
-                    'ancestors' : self.object.get_object_ancestors()[2:]
+                    'ancestors' : self.object.get_object_ancestors()[1:]
             })
             return kwargs
     

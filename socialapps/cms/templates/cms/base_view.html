@@ -98,35 +98,15 @@
 {% endblock %}
 
 {% block content %}
-        {% block content_tabs %}
-			<div class="navbar navbar-static content-tabs">
-				<div class="navbar-inner">
-					<div class="container">
-						<ul class="nav cms-breadcrumb">
-							{% for item in ancestors %}
-								<li>
-									<a href="/{{ item.get_absolute_url }}">
-										{% if not forloop.first %}
-											<div class="separator left"></div>
-										{% endif %}
-										<div class="item">{{ item.title }}</div>
-										<div class="separator right"></div>										
-									</a>
-								</li>
-							{% endfor %}
-								<li class="current">									
-									<a href="/{{object.get_absolute_url}}">
-										{% if ancestors %}
-											<div class="separator left"></div>
-										{% endif %}
-										<div class="item">{{ object.title}}</div>
-										<div class="separator right"></div>
-									</a>
-								</li>
-						</ul>
-						{% ifhasperm edit object %}
-							{% include "cms/cms_admin_menu.html" with object=object %}
-						{% endifhasperm %}						
+	<div class="navbar navbar-static content-tabs">
+		<div class="navbar-inner">
+			<div class="container">
+        		{% block content_tabs %}
+					{% show_breadcrumb object %}
+					{% ifhasperm edit object %}
+						{% include "cms/cms_admin_menu.html" with object=object %}
+					{% endifhasperm %}			
+					{% if parent.portal_type == 'multipage' %}			
 						<ul class="nav pull-right">
 							<li>
 								<div class="btn-group">
@@ -145,11 +125,12 @@
 										{% endif %}
 									{% endwith %}
 							</li>
-						</ul>						
-					</div>
-				</div>
+						</ul>
+					{% endif %}
+				{% endblock %}
 			</div>
-        {% endblock %}
+		</div>
+	</div>
 
 <div class="row">
 	<div class="span8">
