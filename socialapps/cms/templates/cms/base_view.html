@@ -112,16 +112,16 @@
 								<div class="btn-group">
 									{% with object.get_previous_sibling as previous %}
 										{% if previous %}									
-											<a class="btn primary" href="/{{ previous.get_absolute_url }}" rel="tooltip" data-original-title="{{previous.title}}" data-placement="bottom"><i class="icon chevron-left"></i>{% trans "Previous" %}</a>
+											<a class="btn primary" href="/{{ previous.get_absolute_url }}" rel="tooltip" data-original-title="{{previous.title}}" data-placement="bottom"><i class="icon-chevron-left"></i>{% trans "Previous" %}</a>
 										{% else %}
-											<a class="btn primary disabled" href="#" rel="tooltip" data-original-title="{% trans 'No previous object' %}" data-placement="bottom"><i class="icon chevron-left"></i>{% trans "Previous" %}</a>	
+											<a class="btn primary disabled" href="#" rel="tooltip" data-original-title="{% trans 'No previous object' %}" data-placement="bottom"><i class="icon-chevron-left"></i>{% trans "Previous" %}</a>	
 										{% endif %}
 									{% endwith %}
 									{% with object.get_next_sibling as next %}
 										{% if next %}
-											<a class="btn primary" href="/{{next.get_absolute_url }}" rel="tooltip" data-original-title="{{next.title}}" data-placement="bottom">{% trans "Next" %}<i class="icon chevron-right"></i></a>
+											<a class="btn primary" href="/{{next.get_absolute_url }}" rel="tooltip" data-original-title="{{next.title}}" data-placement="bottom">{% trans "Next" %}<i class="icon-chevron-right"></i></a>
 										{% else %}
-											<a class="btn primary disabled" href="#" rel="tooltip" data-original-title="{% trans 'No next object' %}" data-placement="bottom">{% trans "Next" %}<i class="icon chevron-right"></i></a>
+											<a class="btn primary disabled" href="#" rel="tooltip" data-original-title="{% trans 'No next object' %}" data-placement="bottom">{% trans "Next" %}<i class="icon-chevron-right"></i></a>
 										{% endif %}
 									{% endwith %}
 							</li>
