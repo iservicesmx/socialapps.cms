@@ -29,18 +29,29 @@
 		$('#id_description').cleditor();
     });
 </script>
-{% if add %}
-	<h2><img src="{{ STATIC_URL }}images/cms-icons/{{portal_type}}.png" alt="{{ item.title }}" width="16" height="16" class="type-icon"/>{% trans "Add" %} {% trans title %}</h2>
-{% else %}
-	<h2><img src="{{ STATIC_URL }}images/cms-icons/{{portal_type}}.png" alt="{{ item.title }}" width="16" height="16" class="type-icon"/>{% trans "Edit" %} {% trans title %}</h2>
-{% endif %}
-
+<div class="modal-header">
+	<a class="close" data-dismiss="modal">×</a>
+	{% if add %}
+		<h3><img src="{{ STATIC_URL }}images/cms-icons/{{portal_type}}.png" alt="{{ item.title }}" width="16" height="16" class="type-icon"/>{% trans "Add" %} {% trans title %}</h3>
+	{% else %}
+		<h3><img src="{{ STATIC_URL }}images/cms-icons/{{portal_type}}.png" alt="{{ item.title }}" width="16" height="16" class="type-icon"/>{% trans "Edit" %} {% trans title %}</h3>
+	{% endif %}
+</div>
 <form method="POST" id="cms-form" action="{{ url_form_post }}" enctype="multipart/form-data" class="form horizontal-form">
     {% csrf_token %}
-    <fieldset>
-        {{ form|as_bootstrap }}
-    </fieldset>
-    <div class="actions">
-        <input type="submit" value="Save" class="btn primary"/>
+	<div class="modal-body">
+	    <fieldset>
+	        {{ form|as_bootstrap }}
+	    </fieldset>
+	</div>
+	<div class="modal-footer">
+        <input type="submit" value="Save" class="btn btn-primary"/>
+		<a href="#" class="btn" data-dismiss="modal">{% trans "Cancel" %}</a>
     </div>
 </form>
+</div>
+
+
+
+
+
