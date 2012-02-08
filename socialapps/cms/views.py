@@ -6,6 +6,8 @@ from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.forms.models import model_to_dict
 from django.core.urlresolvers import reverse
 from tagging.models import Tag
+from django.http import Http404
+from permissions.utils import has_permission
 from socialapps.core.utils import python_to_json
 from socialapps.core.views import JSONTemplateView
 
@@ -27,13 +29,16 @@ class BaseContentView(JSONTemplateView):
     children = None
 
     def get(self, request, **kwargs):
+        self.template_name = request.GET.get('template', None)
+        
         if not self.object:
             self.object = self.get_object()
-            self.children = self.object.get_object_children()
+            self.children = self.get_children()
             self.parent = self.object.parent
-        self.context = self.get_context_data()
+            self.context = self.get_context_data()
+
         return self.render_to_response(self.context)
-    
+            
     def get_context_data(self, **kwargs):
         if self.request.is_ajax():
             if self.object.portal_type == 'image':
@@ -51,16 +56,28 @@ class BaseContentView(JSONTemplateView):
                     'ancestors' : self.object.get_object_ancestors()[1:]
             })
             return kwargs
+            
+    def get_children(self, **kwargs):        
+        if has_permission(self.object, self.request.user, 'edit'):
+            if self.template_name != "user":
+                return self.object.get_object_children(True)
+        return self.object.get_object_children(False)
+
     
-    def get_template_names(self):
-        if self.template_name is None:
-            return self.object.get_template()
-        else:
-            return [self.template_name]
+    def get_template_names(self, **kwargs):
+        if not self.template_name == "user":
+            if has_permission(self.object, self.request.user, 'edit'):
+                return self.object.get_template("admin")
+        return self.object.get_template(None)
 
     def get_object(self):
         path = self.kwargs.get('path', None)
-        return BaseContent.objects.get_base_object(path)
+        obj = BaseContent.objects.get_base_object(path)
+        if not obj.hide:
+            return obj
+        if has_permission(obj, self.request.user, 'edit'):
+            return obj
+        raise Http404
         
 class ShowBrowser(BaseContentView):
     def get_template_names(self):

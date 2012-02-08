@@ -18,7 +18,7 @@ class BaseContentManager(models.Manager):
     def active(self):
         return self.get_query_set().active()
 
-    def get_base_object(self, path, active=True,raise404=True):
+    def get_base_object(self, path, active=True, hide=False, raise404=True):
         if path.endswith('/'):
             path = path[:-1]
         paths = path.split("/")
@@ -30,9 +30,8 @@ class BaseContentManager(models.Manager):
             
         for path in paths[1:]:
             try:
-                obj = obj.get_children().get(slug=path).get_type_object()
+                obj = obj.get_children().get(slug=path, status=active).get_type_object()
             except self.model.DoesNotExist:
-                raise Http404
-                
+                raise Http404                
         return obj
                 

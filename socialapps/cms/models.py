@@ -36,6 +36,8 @@ class BaseContent(MPTTModel, BaseMetadata):
     portal_type = models.CharField(_(u"Portal type"), max_length=100, blank=True)
     template    = models.CharField(_(u"Template"), max_length=200, blank=True)
     status      = models.IntegerField(_('Status'), choices=STATUS_CHOICES, default=ACTIVE)
+    hide        = models.BooleanField(_('Hide item'), default=False)
+    pagination  = models.PositiveIntegerField(_(u'Number of children per page'), default=0)
     
     objects = BaseContentManager()
     
@@ -56,8 +58,11 @@ class BaseContent(MPTTModel, BaseMetadata):
 #        ancestors = super(BaseContent, self).get_ancestors()
 #        return [ancestor.get_type_object() for ancestor in ancestors]
         
-    def get_object_children(self):
-        children = self.get_children()
+    def get_object_children(self, show_all=False):
+        if not show_all:
+            children = self.get_children().filter(hide__exact = False)
+        else:
+            children = self.get_children()
         return [child.get_type_object() for child in children]
         
     def get_object_ancestors(self):
@@ -92,9 +97,13 @@ class BaseContent(MPTTModel, BaseMetadata):
     def get_portal_type(self):
         return portal_types.get_portal_type(self.__class__)
         
-    def get_template(self):
+    def get_template(self, template_name=None):
         if not self.template:
-            pt = portal_types.get_portal_type(self.__class__)
+            pt = portal_types.get_portal_type(self.__class__)            
+            if template_name:
+                for template in pt.templates:
+                    if template.name == pt.default_template.name + '_admin':
+                        return template.path                    
             return pt.default_template.path
         return self.template
         

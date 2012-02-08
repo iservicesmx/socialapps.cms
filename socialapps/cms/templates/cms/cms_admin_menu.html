@@ -8,14 +8,19 @@
 					{% trans "Administration" %}
 					<span class="caret"></span>
 				</a>
-				<ul class="dropdown-menu">
+				<ul class="dropdown-menu  nav-list">
 					{% if object.get_portal_type.subtypes %}
-						<li><a href="{% url base_add path=object.get_absolute_url %}" rel="facebox"><i class="icon-plus"></i>&nbsp;{% trans "Add" %}</a></li>
+						<li><a href="#modal-dialog" class="modal-launch-button" data-toggle="modal" data-content="{% url base_add path=object.get_absolute_url %}"><i class="icon-plus"></i>&nbsp;{% trans "Add" %}</a></li>
 					{% endif %}		
-						<li><a href="{% url base_edit path=object.get_absolute_url %}" rel="facebox[.cms]"><i class="icon-edit"></i>&nbsp;{% trans "Edit" %}</a></li>
+						<li><a class="modal-launch-button" href="#modal-dialog" data-toggle="modal" data-content="{% url base_edit path=object.get_absolute_url %}"><i class="icon-edit"></i>&nbsp;{% trans "Edit" %}</a></li>
 					{% if object.slug != 'resources' and object.slug != 'syllabus' %}
 						<li><a href="#cms-confirm-modal" class="modal-confirm-button" data-content="{% url base_delete path=object.get_absolute_url %}" data-toggle="modal"><i class="icon-remove"></i>&nbsp;{% trans "Delete" %}</a></li>
 					{% endif %}
+					<li class="divider"></li>
+					<li class="nav-header">view as</li>
+							<li {% if request.GET.template == 'user' %}class="active"{% endif %}><a href="?template=user"><i class="icon-eye-open"></i> {% trans "User" %}</a></li>
+							<li {% if request.GET.template == "admin" or not request.GET.template %}class="active"{% endif %}><a href="?template=admin"><i class="icon-eye-close"></i> {% trans "Administrator" %}</a></li>
+					</li>
 				</ul>
 			</div>
 		<!-- </div> -->

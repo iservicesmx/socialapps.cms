@@ -180,7 +180,7 @@
             padding-top: 10px;
         }
             .template-list #children-list tr:hover .admin-child div {
-                display: block;
+                visibility: visible;
             }
             .template-list #children-list .body-child {
                 width: auto;
@@ -196,7 +196,13 @@
             }
             .template-list #children-list .admin-child div {
                 float: right;
-                display: none;
+                visibility: hidden;
+            }
+            .template-list #children-list .admin-child .label {
+                float:right;
+                position: relative;
+                top: 20px;
+                left: 30px;
             }
             
 .cms-folder { }

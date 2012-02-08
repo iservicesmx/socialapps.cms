@@ -21,6 +21,12 @@ class FolderTemplate(PortalTemplate):
     title = 'Folder'
     path = 'cms/folder.html'
     image = '/static/images/types/folder.png'
+    
+class FolderAdminTemplate(PortalTemplate):
+    name = 'folder_admin'
+    title = 'Folder Admin'
+    path = 'cms/folder_admin.html'
+    image = '/static/images/types/folder.png'
 
 class FolderTableTemplate(PortalTemplate):
     name = 'folder_table'
@@ -93,7 +99,7 @@ class FolderType(PortalType):
     title = 'Folder'
     global_addable = True
     subtypes = [PageType, MultiPageType, FileType, ImageType]
-    templates = [FolderTemplate, FolderTableTemplate, FolderContentTemplate]
+    templates = [FolderTemplate, FolderAdminTemplate, FolderTableTemplate, FolderContentTemplate]
     default_template = FolderTemplate
     add_form = FolderEditForm
     edit_form = FolderEditForm

@@ -1,7 +1,6 @@
 {% extends "cms/base_view.html" %}
 {% load cms_tags %}
 {% load i18n %}
-{% load pagination_tags %}
 {% load socialapps_tags %}
 
 {% block content_left %}
@@ -17,12 +16,10 @@
 			{% endfor %}
 	   	</ul>
 	    {% if children %}
-			{% if object.pagination > 0 %}
-				{% autopaginate children object.pagination %}
-			{% endif %}
-			{% include "cms/children_list.html" with children=children object=object %}
-	    {% endif %}
+			{% ifhasperm edit object %}
+				{% include "cms/children_list_admin.html" with children=children object=object %}
+			{% endifhasperm %}
+	    {% endif %} 
 	</div>
-	{% paginate %}
 </div>
 {% endblock %}

@@ -20,29 +20,32 @@ jQuery(document).ready(function($){
 	facebox_tab();
 })
 </script>
-	<h2>{% trans "Add resources" %}</h2>
-<div class="cms_subtypes">
-	{% if type_content %}
-		<h3 class="type-section">{% trans "Content" %}</h3>
+{% if type_content %}
+	<div class="modal-header">
+		<a class="close" data-dismiss="modal">×</a>
+		<h3>{% trans "Add Content" %}</h3>
+	</div>
+	<div class="modal-body">	
 		{% for item in type_content %} 
-			<div class="type-item">
-				<a href="{% url base_create path item.name %}" rel="facebox">
-						<img src="{{ STATIC_URL }}images/cms-icons/{{item.name}}.png" alt="{{ item.title }}" width="64" height="64" class="type-icon"/>
-						<span class="type-title">{{ item.title}}</span>
-				</a>
-			</div>
+			<a class="widget card modal-launch-button" href="#modal-dialog" data-content="{% url base_create path item.name %}">
+				<img class="image" src="{{ STATIC_URL }}images/cms-icons/{{item.name}}.png" alt="{{ item.title }}" width="64" height="64"/>
+				<div class="head">{{ item.title}}</div>
+			</a>
 		{% endfor %}
-	{% endif %}
+	</div>
+{% endif %}
 
-	{% if type_container %}
-		<h3 class="type-section">{% trans "Container" %}</h3>
+{% if type_container %}
+	<div class="modal-header">
+		<a class="close" data-dismiss="modal">×</a>
+		<h3>{% trans "Add Container" %}</h3>
+	</div>
+	<div class="modal-body">
 		{% for item in type_container %} 
-			<div class="type-item">
-				<a href="{% url base_create path item.name %}" rel="facebox">
-						<img src="{{ STATIC_URL }}images/cms-icons/{{item.name}}.png" alt="{{ item.title }}" width="64" height="64" class="type-icon"/>
-						<span class="type-title">{{ item.title}}</span>
-				</a>
-			</div>
+			<a class="widget card modal-launch-button" href="#modal-dialog" data-content="{% url base_create path item.name %}">					
+				<img class="image" src="{{ STATIC_URL }}images/cms-icons/{{item.name}}.png" alt="{{ item.title }}" width="64" height="64"/>
+				<div class="head">{{ item.title}}</div>
+			</a>
 		{% endfor %}
-	{% endif %}
-</div>
+	</div>
+{% endif %}
