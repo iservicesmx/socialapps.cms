@@ -6,7 +6,6 @@ from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.forms.models import model_to_dict
 from django.core.urlresolvers import reverse
 from tagging.models import Tag
-from django.http import Http404
 from permissions.utils import has_permission
 from socialapps.core.utils import python_to_json
 from socialapps.core.views import JSONTemplateView
@@ -72,13 +71,8 @@ class BaseContentView(JSONTemplateView):
 
     def get_object(self):
         path = self.kwargs.get('path', None)
-        obj = BaseContent.objects.get_base_object(path)
-        if not obj.hide:
-            return obj
-        if has_permission(obj, self.request.user, 'edit'):
-            return obj
-        raise Http404
-        
+        return BaseContent.objects.get_base_object(path)
+                
 class ShowBrowser(BaseContentView):
     def get_template_names(self):
         return 'cms/browser.html'
