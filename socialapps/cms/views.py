@@ -200,7 +200,7 @@ class BaseContentDelete(DeleteView):
     object = None
 
     def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
+        self.object = self.get_object()        
         return super(BaseContentDelete, self).post(request, *args, **kwargs)
 
     def get(self, request, *args, **kwargs):

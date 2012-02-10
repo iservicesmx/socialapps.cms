@@ -15,7 +15,7 @@
 			</td>			
 				<td class="admin-child">
 						<div>
-							<a href="#cms-confirm-modal" rel="tooltip" class="modal-confirm-button" data-content="{% url base_delete path=child.get_absolute_url %}" data-original-title="{% trans 'Delete' %}" data-toggle="modal"><i class="icon-remove"></i></a>
+							<a href="#confirm-modal" rel="tooltip" class="modal-confirm-button" data-content="{% url base_delete path=child.get_absolute_url %}" data-original-title="{% trans 'Delete' %}" data-toggle="modal"><i class="icon-trash"></i></a>
 							<a class="modal-launch-button" href="#modal-dialog" data-toggle="modal" data-content="{% url base_edit path=child.get_absolute_url %}" data-original-title="{% trans 'Edit' %}"><i class="icon-edit"></i></a>					
 						</div>
 						{% if child.hide %}	
