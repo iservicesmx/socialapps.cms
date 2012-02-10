@@ -1,0 +1,21 @@
+{% load i18n %}
+{% if toc %}
+    <div class="widget">
+        <div class="title">{% trans "Table Of Contents" %}</div>
+        <div class="widget-content">
+        	<ul class="nav nav-pills nav-stacked">
+        		{% for item in toc %}
+        			<li {% if item.slug == object.slug %} class="active" {% endif %}>
+        			    <a href="/{{item.get_absolute_url}}">
+        			        <img src="{{ STATIC_URL }}images/cms-icons/{{item.portal_type}}.png" width="16" height="16"/>&nbsp;
+        			        {{ item }}
+        			        {% if item.hide %}	
+    							<span class="hidden label label-important">{% trans "Hidden" %}</span>
+    						{% endif %}
+        			    </a>
+        			</li>
+        		{% endfor %}
+        	</ul>
+        </div>
+    </div>
+{% endif %}

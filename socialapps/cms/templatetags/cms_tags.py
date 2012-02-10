@@ -1,4 +1,5 @@
 from django import template
+from permissions.utils import has_permission
 import re
 
 register = template.Library()
@@ -24,3 +25,14 @@ def get_content_parent(context, obj):
         if item.slug in ['syllabus', 'resources', 'discussionroot', 'files']:
             context['content_parent'] = item
             return ""
+            
+@register.inclusion_tag("cms/multipage_toc.html", takes_context=True)
+def show_multipage_toc(context, obj):
+    for item in obj.get_ancestors(include_self=True, ascending=True):
+        if item.portal_type == 'multipage':
+            if has_permission(item, context['user'], 'edit') and context['request'].GET.get('template', None) != 'user':
+                context['toc'] = item.get_object_children(True)
+            else:
+                context['toc'] = item.get_object_children(False)
+            return context
+    return False

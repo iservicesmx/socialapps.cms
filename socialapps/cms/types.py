@@ -39,12 +39,24 @@ class FolderContentTemplate(PortalTemplate):
     title = 'Folder Content'
     path = 'cms/folder_content.html'
     image = '/static/images/types/folder_content.png'
-
+    
+class PageAdminTemplate(PortalTemplate):
+    name = 'page_admin'
+    title = 'Page Admin'
+    path = 'cms/page_admin.html'
+    image = '/static/images/types/page.png'
+    
 class PageTemplate(PortalTemplate):
     name = 'page'
     title = 'Page'
     path = 'cms/page.html'
     image = '/static/images/types/page.png'
+    
+class MultiPageAdminTemplate(PortalTemplate):
+    name = 'multipage_admin'
+    title = 'Multi Page Admin'
+    path = 'cms/multipage_admin.html'
+    image = '/static/images/types/multipage.png'    
 
 class MultiPageTemplate(PortalTemplate):
     name = 'multipage'
@@ -79,7 +91,7 @@ class PageType(PortalType):
     title = "Page"
     global_addable = False
     subtypes = [ImageType, FileType,]
-    templates = [PageTemplate,]
+    templates = [PageTemplate, PageAdminTemplate]
     default_template = PageTemplate
     add_form = PageEditForm
     edit_form = PageEditForm
@@ -89,7 +101,7 @@ class MultiPageType(PortalType):
     title = "MultiPage"
     global_addable = False
     subtypes = [PageType, ImageType, FileType]
-    templates = [MultiPageTemplate,]
+    templates = [MultiPageTemplate, MultiPageAdminTemplate]
     default_template = MultiPageTemplate
     add_form = MultiPageEditForm
     edit_form = MultiPageEditForm

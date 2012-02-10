@@ -194,16 +194,16 @@
                 font-size: 11px;
                 margin: 5px 0 0 37px;
             }
-            .template-list #children-list .admin-child div {
-                float: right;
-                visibility: hidden;
+            .template-list #children-list .admin-child {
+                width: 10%;
             }
-            .template-list #children-list .admin-child .label {
-                float:right;
-                position: relative;
-                top: 20px;
-                left: 30px;
-            }
+                .template-list #children-list .admin-child div {
+                    float: right;
+                    visibility: hidden;
+                }
+                .template-list #children-list .admin-child .label {
+                    float:right;
+                }
             
 .cms-folder { }
     .cms-folder .description {

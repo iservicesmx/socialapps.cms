@@ -18,16 +18,11 @@
 					{% endfor %}
 			   	</ul>
         	    {% if children %}
-        			{% if object.pagination > 0 %}
-        				{% autopaginate children object.pagination %}
-        			{% endif %}
-        			{% include "cms/children_list.html" with children=children object=object %}
+        			{% ifhasperm edit object %}
+        				{% include "cms/children_list_admin.html" with children=children object=object %}
+        			{% endifhasperm %}
         	    {% endif %}
 			</div>
-			{% ifhasperm edit object %}
-			{% else %}
-				{% paginate %}
-			{% endifhasperm %}
 		{% else %}
 		 	uno por uno
 		{% endif %}

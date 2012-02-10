@@ -145,18 +145,7 @@
 		{% else %}
 			{% show_navigation object %}
 		{% endif %}
-		{% if parent.portal_type == 'multipage' %}
-			<div class="widget multipage-toc">
-				<div class="title">{% trans "Table Of Contents" %}</div>
-				<div class="widget-content">
-					<ul class="nav list">
-						{% for item in parent.get_children %}
-							<li {% if item.slug == object.slug %} class="active" {% endif %}><img src="{{ STATIC_URL }}images/cms-icons/{{item.portal_type}}.png" width="16" height="16" style="display: inline;"/><a href="/{{item.get_absolute_url}}">{{ item }}</a></li>
-						{% endfor %}
-					</ul>		
-				</div>
-			</div>
-		{% endif %}		
+		{% show_multipage_toc object %}
 		{% block content_right %}{% endblock %}
 	</div>
 </div>
