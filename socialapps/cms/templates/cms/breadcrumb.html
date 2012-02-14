@@ -1,21 +1,21 @@
 <ul class="nav cms-breadcrumb">
 	{% for item in ancestors %}
-		<li>
-			<a href="/{{ item.get_absolute_url }}">
-				{% if not forloop.first %}
-					<div class="separator left"></div>
-				{% endif %}
-				<div class="item">{{ item.title }}</div>
-				<div class="separator right"></div>	 									
-			</a>
-		</li>
+    		<li>
+    			<a href="/{{ item.get_absolute_url }}">
+    				{% if not forloop.first %}
+    					<div class="separator left"></div>
+    				{% endif %}
+    				<div class="item">{{ item.title|truncatewords:2 }}</div>
+    				<div class="separator right"></div>	 									
+    			</a>
+    		</li>
 	{% endfor %}
 	<li class="current">									
 		<a href="/{{object.get_absolute_url}}">
 			{% if ancestors %}
 				<div class="separator left"></div>
 			{% endif %}
-			<div class="item">{{ object.title}}</div>
+			<div class="item">{{ object.title|truncatewords:2 }}</div>
 			<div class="separator right"></div>
 		</a>
 	</li>

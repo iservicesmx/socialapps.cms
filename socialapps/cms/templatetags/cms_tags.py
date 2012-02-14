@@ -13,9 +13,17 @@ def show_navigation(obj):
     
 @register.inclusion_tag("cms/breadcrumb.html")
 def show_breadcrumb(obj):
+    ancestors = obj.get_object_ancestors()[1:]
+    anc = []
+    if len(ancestors) > 2:
+        anc.append(ancestors[0])
+        anc.append(None)        
+        anc.append(ancestors[-1])
+    else:
+        anc = ancestors
     return {
         'object'    : obj,
-        'ancestors' : obj.get_object_ancestors()[1:],
+        'ancestors' : ancestors,
     }
     
 

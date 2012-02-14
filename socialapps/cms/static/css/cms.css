@@ -134,7 +134,8 @@
 
 .cms-breadcrumb {
     margin: -18px 0px 10px -5px;
-	height: 31px;
+    width: 84%;
+/*  height: 31px;*/
 }
 
 .cms-breadcrumb .separator {
@@ -280,28 +281,28 @@
 
 
 /* file browser of cms editor */
-.editor-browser .file-list {
-    float: left;
-    padding: 5px;
-    border-right: 1px solid #CCC;
-    height: 99%;
-    width: 50%;
+body.editor-browser {
+    padding: 0;
+    margin: 0;
 }
-.editor-browser .file-list ul {
-    margin: 0px;
-    padding: 0px;
-}
-.editor-browser .file-list ul li {
-    list-style-type: none;
-    padding: 3px;
-}
-
-.editor-browser .selected-object,
-.editor-browser .selected-url {
-    margin-left: 20px;
-    float: left;
-    display: none;
-}
+    .editor-browser .content-tabs {
+        margin: 0;
+    }
+    .editor-browser .file-list {
+        padding: 5px;
+        border-right: 1px solid #CCC;
+        float: left;
+        width: 40%;
+        height: 200px;
+        overflow: auto;
+    }
+    .editor-browser .selected-object,
+    .editor-browser .selected-url {
+/*        float: right;*/
+        text-align: center;
+        padding: 10px;
+/*        width: 40%;*/
+    }
 
 .browser-tabs .ui-tabs-hide {
     display: none;
@@ -310,17 +311,6 @@
 .browser-tabs ul li {
     float: left;
     padding: 3px;
-}
-
-.editor-browser .breadcrumb li {
-    float: left;
-    padding: 2px;
-}
-
-.editor-browser .breadcrumb a,
-.editor-browser .breadcrumb a:hover {
-    text-decoration: none;
-    color: #000;
 }
 
 .cms-content ul,

@@ -1,65 +1,128 @@
 {% load i18n %}
-
+<link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.min.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/extra.css">
 <link rel="stylesheet" href="{{ STATIC_URL }}css/cms.css">
-<script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.5.2.min.js"></script>
+
 <script type="text/javascript">
-$('document').ready(function() {
-	$('.file-item').click(function() {
-		$.getJSON($(this).attr('href'), function(data) {
-			$('.selected-object').hide();
-			$('.selected-url').hide();
-			if (data.hasOwnProperty('sizes')) {
-				$('.selected-size').html('');
-				$('.selected-object').show();
-				$('.selected-image').attr('src', data.object);
-				$.each(data.sizes, function(key, value) {
-					$('.selected-size').append("<option value='" + value.url + "'>"+ value.size +"</option>");
-				});
-			} else {
-				$('.selected-url .url, .selected-url .title').html('');	
-				$('.selected-url .title').html(data.title);
-				$('.selected-url .url').val(data.url);
-				$('.selected-url').show();
-			}
-		});
-		return false;
-	});
-});
+// $('document').ready(function() {
+//  $('.file-item').click(function() {
+//      $.getJSON($(this).attr('href'), function(data) {
+//          $('.selected-object').hide();
+//          $('.selected-url').hide();
+//          if (data.hasOwnProperty('sizes')) {
+//              $('.selected-size').html('');
+//              $('.selected-object').show();
+//              $('.selected-image').attr('src', data.object);
+//              $.each(data.sizes, function(key, value) {
+//                  $('.selected-size').append("<option value='" + value.url + "'>"+ value.size +"</option>");
+//              });
+//          } else {
+//              $('.selected-url .url, .selected-url .title').html(''); 
+//              $('.selected-url .title').html(data.title);
+//              $('.selected-url .url').val(data.url);
+//              $('.selected-url').show();
+//          }
+//      });
+//      return false;
+//  });
+// });
 </script>
-<div class="editor-browser">
-	<div class="cms-breadcrumb">
-		{% for item in object.get_ancestors %}
-			{% with item.get_type_object as obj %}
-				<a href="{% url ajax_browser obj.get_absolute_url portal_type %}">{{obj.title}}</a> <span class="separator">></span>
-			{% endwith %}
-		{% endfor %}
-		<span class="current">{{ object.title }}</span>
-	</div>	
-	<div class="file-list">
-	<ul>		
-	{% for item in object.get_descendants %}
-		{% with item.get_type_object as obj %}
-			{% if portal_type  and portal_type != 'all' %}
-				{% if obj.portal_type == portal_type %}
-					<li><a class="file-item" href="{% url base_view item.get_absolute_url %}"><img class="child-icon" src="/static/images/cms-icons/{{ obj.portal_type }}.png" width="16" height="16">{{ item.title }}</a></li>
-				{% endif %}
-			{% else %}
-					<li><a class="file-item" href="{% url base_view item.get_absolute_url %}"><img class="child-icon" src="/static/images/cms-icons/{{ obj.portal_type }}.png" width="16" height="16">{{ item.title }}</a></li>
-			{% endif %}
-		{% endwith %}
-	{% endfor %}
-	</ul>
-	</div>
-	<div class="selected-url">
-		<span>{% trans "Selected "%}</span>
-		<div class="title"></div>
-		<input type='text' class="url" name="url" value="" style="display: none;"/>		
-	</div>
-	<div class="selected-object">
-		<div>{% trans "Image preview: " %}</div>
-		<img src="" class="selected-image">
-		<div>{% trans "Select size:" %}</div>
-		<select class="selected-size">
-		</select>
-	</div>
-</div>
+<body class="editor-browser">
+    <div>
+    	<div class="navbar navbar-static content-tabs">
+    		<div class="navbar-inner">
+                <ul class="nav cms-breadcrumb">
+        		    {% for item in object.get_ancestors %}
+        			    {% with item.get_type_object as obj %}
+        			        {% if not object.get_ancestors|length > 2 %}
+            			        <li>
+            				        <a href="{% url ajax_browser obj.get_absolute_url portal_type %}">
+            				            {% if not forloop.first %}
+                                            <div class="separator left"></div>
+                                        {% endif %}
+                				        <div class="item">{{ obj.title|truncatewords:2  }}</div>
+                				        <div class="separator right"></div>
+                				    </a>
+            				    </li>
+            			    {% else %}
+            			        {% if forloop.first %}
+                			        <li>
+                				        <a href="{% url ajax_browser obj.get_absolute_url portal_type %}">
+                    				        <div class="item">{{ obj.title|truncatewords:2  }}</div>
+                    				        <div class="separator right"></div>
+                    				    </a>
+                				    </li>
+                			        <li>
+                				        <a href="#">
+                                            <div class="separator left"></div>
+                    				        <div class="item">...</div>
+                    				        <div class="separator right"></div>
+                    				    </a>
+                				    </li>            				
+            			        {% endif %}
+                                {% if forloop.last %}
+                                    <li>
+                                        <a href="{% url ajax_browser obj.get_absolute_url portal_type %}">
+                                            <div class="separator left"></div>
+                                	        <div class="item">{{ obj.title|truncatewords:2  }}</div>
+                                	        <div class="separator right"></div>
+                                	    </a>
+                                    </li>            			
+                			    {% endif %}
+            			    {% endif %}
+        			    {% endwith %}
+        		    {% endfor %}
+		            <li class="current">
+        		        <a href="#">
+        		            {% if object.get_ancestors %}
+            			        <div class="separator left"></div>
+            			    {% endif %}
+            			    <div class="item">{{ object.title|truncatewords:2 }}</div>
+            			    <div class="separator right"></div>		        
+        		        </a>
+        		    </li>
+	            </ul>		
+            </div>
+        </div>
+    	<div class="file-list">
+    	    <ul class="nav nav-pills nav-stacked">    	
+        	    {% for item in object.get_children %}
+        		    {% with item.get_type_object as obj %}
+        			    <li><a class="file-item" href="{% url ajax_browser item.get_absolute_url portal_type %}"><img class="child-icon" src="{{ STATIC_URL }}images/cms-icons/{{ obj.portal_type }}.png" width="16" height="16">&nbsp;{{ item.title }}</a></li>
+        		    {% endwith %}
+        		{% empty %}
+    			    <li>
+    			        {% trans "No children" %}
+    			    </li>        		    
+        	    {% endfor %}
+    	    </ul>
+    	</div>
+    	{% if portal_type != 'image' %}
+            	<div class="selected-url">
+                    <img src="{{ STATIC_URL }}images/cms-icons/{{ object.portal_type }}.png" />
+            		<div class="title">{{ object.title }}</div>
+            		<input type='text' class="url" name="url" value="/{{ object.get_absolute_url }}" style="display: none;"/>		
+            	</div>
+        {% else %}
+            {% if object.portal_type == 'image' %}
+            	<div class="selected-object">
+            		<img src="{{ object.image.url_64x64 }}" class="selected-image">
+            		<div class="title">{{ object.title }}</div>        		
+            		<div>{% trans "Select size:" %}</div>
+        		
+            		<select class="selected-size">
+            		    <option value="{{ object.image.url_64x64 }}">64x64</option>        		    
+            		    <option value="{{ object.image.url_128x128 }}">128x128</option>
+            		    <option value="{{ object.image.url_400x400 }}">400x400</option>
+            		    <option value="{{ object.image.url_600x600 }}">600x600</option>
+            		    <option value="{{ object.image.url_800x800 }}">800x800</option>        		    
+            		</select>
+            	</div>
+            {% else %}
+                <div class="selected-object">
+        	        {% trans "No image selected" %}
+        	    </div>
+            {% endif %}
+        {% endif %}
+    </div>
+</body>
