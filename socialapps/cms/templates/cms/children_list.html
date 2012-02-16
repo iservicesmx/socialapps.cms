@@ -4,9 +4,9 @@
     	<tr id="{{child.id}}">
 			<td class="body-child">
 	    		<a class="child-icon" href="/{{ child.get_absolute_url }}">
-					<img src="{{STATIC_URL}}images/cms-icons/{{child.portal_type}}.png" width="32" height="32">
+					<img src="{{STATIC_URL}}{{child.icon}}" width="32" height="32">
 				</a>
-				<span class="child-title"><a href="/{{ child.get_absolute_url }}"><h4>{{child.title }}</h4></a></span>
+				<span class="child-title"><a href="/{{ child.file.url }}"><h4>{{child.title }}</h4></a></span>
 				<div class="child-desc">{{child.description|safe }}</div>
 			</td>			
 		</tr>

@@ -88,7 +88,7 @@
     	    <ul class="nav nav-pills nav-stacked">    	
         	    {% for item in object.get_children %}
         		    {% with item.get_type_object as obj %}
-        			    <li><a class="file-item" href="{% url ajax_browser item.get_absolute_url portal_type %}"><img class="child-icon" src="{{ STATIC_URL }}images/cms-icons/{{ obj.portal_type }}.png" width="16" height="16">&nbsp;{{ item.title }}</a></li>
+        			    <li><a class="file-item" href="{% url ajax_browser item.get_absolute_url portal_type %}"><img class="child-icon" src="{{ STATIC_URL }}{{ obj.icon }}" width="16" height="16">&nbsp;{{ item.title }}</a></li>
         		    {% endwith %}
         		{% empty %}
     			    <li>
@@ -99,7 +99,7 @@
     	</div>
     	{% if portal_type != 'image' %}
             	<div class="selected-url">
-                    <img src="{{ STATIC_URL }}images/cms-icons/{{ object.portal_type }}.png" />
+                    <img src="{{ STATIC_URL }}{{ object.icon }}" />
             		<div class="title">{{ object.title }}</div>
             		<input type='text' class="url" name="url" value="/{{ object.get_absolute_url }}" style="display: none;"/>		
             	</div>
