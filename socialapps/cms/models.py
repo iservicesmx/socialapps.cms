@@ -99,13 +99,19 @@ class BaseContent(MPTTModel, BaseMetadata):
         
     def get_template(self, template_name=None):
         if not self.template:
-            pt = portal_types.get_portal_type(self.__class__)            
+            pt = portal_types.get_portal_type(self.__class__)
             if template_name:
                 for template in pt.templates:
                     if template.name == pt.default_template.name + '_admin':
                         return template.path                    
             return pt.default_template.path
         return self.template
+        
+    def get_icon(self):
+        """Get the default icon predefined at PortalType"""
+        return self.get_portal_type().icon
+        
+    icon = property(get_icon, doc=get_icon.__doc__)
         
 class FolderRoot(BaseContent):
     class Meta:

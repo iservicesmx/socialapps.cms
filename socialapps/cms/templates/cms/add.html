@@ -27,10 +27,9 @@ jQuery(document).ready(function($){
 	</div>
 	<div class="modal-body">	
 		{% for item in type_content %} 
-			<a class="widget card modal-launch-button" href="#modal-dialog" data-content="{% url base_create path item.name %}">
-				<img class="image" src="{{ STATIC_URL }}images/cms-icons/{{item.name}}.png" alt="{{ item.title }}" width="64" height="64"/>
-				<div class="head">{{ item.title}}</div>
-			</a>
+		  <a class="btn modal-launch-button" href="#modal-dialog" data-content="{% url base_create path item.name %}">
+		    <img src="{{ STATIC_URL }}{{item.icon}}" alt="{{ item.title }}" class="type-icon" width="32" height="32" />  {{ item.title }}
+		  </a>		
 		{% endfor %}
 	</div>
 {% endif %}
@@ -42,10 +41,9 @@ jQuery(document).ready(function($){
 	</div>
 	<div class="modal-body">
 		{% for item in type_container %} 
-			<a class="widget card modal-launch-button" href="#modal-dialog" data-content="{% url base_create path item.name %}">					
-				<img class="image" src="{{ STATIC_URL }}images/cms-icons/{{item.name}}.png" alt="{{ item.title }}" width="64" height="64"/>
-				<div class="head">{{ item.title}}</div>
-			</a>
+		  <a class="btn modal-launch-button" href="#modal-dialog" data-content="{% url base_create path item.name %}">
+		    <img src="{{ STATIC_URL }}{{item.icon}}" alt="{{ item.title }}" class="type-icon" width="32" height="32" />  {{ item.title }}
+		  </a>		
 		{% endfor %}
 	</div>
 {% endif %}
