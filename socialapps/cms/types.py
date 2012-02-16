@@ -70,7 +70,7 @@ class FileType(PortalType):
     name = "file"
     title = "File"
     global_addable = False
-    icon = 'images/cms-icons/file.png'
+    icon = 'images/file-32.png'
     subtypes = []
     templates = [FileTemplate,]
     default_template = FileTemplate
@@ -81,7 +81,7 @@ class ImageType(PortalType):
     name = "image"
     title = "Image"
     global_addable = False
-    icon = 'images/cms-icons/image.png'
+    icon = 'images/image-32.png'
     subtypes = []
     templates = [ImageTemplate,]
     default_template = ImageTemplate
@@ -92,7 +92,7 @@ class PageType(PortalType):
     name = "page"
     title = "Page"
     global_addable = False
-    icon = 'images/cms-icons/page.png'
+    icon = 'images/page-32.png'
     subtypes = [ImageType, FileType,]
     templates = [PageTemplate, PageAdminTemplate]
     default_template = PageTemplate
@@ -103,7 +103,7 @@ class MultiPageType(PortalType):
     name = "multipage"
     title = "MultiPage"
     global_addable = False
-    icon = 'images/cms-icons/multipage.png'
+    icon = 'images/multipage-32.png'
     subtypes = [PageType, ImageType, FileType]
     templates = [MultiPageTemplate, MultiPageAdminTemplate]
     default_template = MultiPageTemplate
@@ -114,7 +114,7 @@ class FolderType(PortalType):
     name = 'folder'
     title = 'Folder'
     global_addable = True
-    icon = 'images/cms-icons/folder.png'
+    icon = 'images/folder-32.png'
     subtypes = [PageType, MultiPageType, FileType, ImageType]
     templates = [FolderTemplate, FolderAdminTemplate, FolderTableTemplate, FolderContentTemplate]
     default_template = FolderTemplate
