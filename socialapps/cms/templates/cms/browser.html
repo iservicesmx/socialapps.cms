@@ -65,7 +65,7 @@
                                         <a href="{% url ajax_browser obj.get_absolute_url portal_type %}">
                                             <div class="separator left"></div>
                                 	        <div class="item">{{ obj.title|truncatewords:2  }}</div>
-                                	        <div class="separator right"></div>
+                                	       s  <div class="separator right"></div>
                                 	    </a>
                                     </li>            			
                 			    {% endif %}
@@ -97,6 +97,9 @@
         	    {% endfor %}
     	    </ul>
     	</div>
+        <input type="hidden" id="object_contenttype" name="object_contenttype" value="{{object.get_contenttype}}"/>
+        <input type="hidden" id="object_id" name="object_id" value="{{object.id}}"/>
+        
     	{% if portal_type != 'image' %}
             	<div class="selected-url">
                     <img src="{{ STATIC_URL }}images/cms-icons/{{ object.portal_type }}.png" />
