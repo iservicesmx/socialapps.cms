@@ -32,7 +32,7 @@ def get_content_parent(context, obj):
     for item in obj.get_ancestors(include_self=True, ascending=True):
         if item.slug in ['syllabus', 'resources', 'discussionroot', 'files']:
             context['content_parent'] = item
-            return ""
+    return ""
             
 @register.inclusion_tag("cms/multipage_toc.html", takes_context=True)
 def show_multipage_toc(context, obj):
