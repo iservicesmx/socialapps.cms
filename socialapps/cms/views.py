@@ -16,10 +16,7 @@ class BaseContentSort(JSONTemplateView):
         obj = BaseContent.objects.get(id = int(request.POST.get("object")))
         target = BaseContent.objects.get(id= int(request.POST.get("target")))
         position = request.POST.get("position")
-        print obj
-        print target
-        print position
-        print obj.move_to(target, position = position)
+        obj.move_to(target, position = position)
         return self.render_to_response("holaa")
 
 class BaseContentView(JSONTemplateView):
@@ -29,7 +26,6 @@ class BaseContentView(JSONTemplateView):
 
     def get(self, request, **kwargs):
         self.template_name = request.GET.get('template', None)
-        
         if not self.object:
             self.object = self.get_object()
             self.children = self.get_children()

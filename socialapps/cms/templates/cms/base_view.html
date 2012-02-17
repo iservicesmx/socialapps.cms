@@ -134,19 +134,19 @@
 		</div>
 	</div>
 	<div class="span4">
-        <!-- <div class="tags-folder">{{object.tags}}</div> -->
-		{% get_content_parent object %}
-		{% if content_parent.parent.portal_type == 'course' %}
-			{% load courses_tags %}
-			{% get_user_section content_parent.parent %}
-			{% if section %}
-				{% show_navigation section %}
-			{% endif %}
-		{% else %}
-			{% show_navigation object %}
-		{% endif %}
-		{% show_multipage_toc object %}
-		{% block content_right %}{% endblock %}
+        {% block content_right %}
+    		{% get_content_parent object %}
+    		{% if content_parent.parent.portal_type == 'course' %}
+    			{% load courses_tags %}
+    			{% get_user_section content_parent.parent %}
+    			{% if section %}
+    				{% show_navigation section %}
+    			{% endif %}
+    		{% else %}
+    			{% show_navigation object %}
+    		{% endif %}
+    		{% show_multipage_toc object %}
+    	{% endblock %}
 	</div>
 </div>
 {% endblock %}
