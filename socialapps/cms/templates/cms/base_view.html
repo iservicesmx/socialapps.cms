@@ -38,7 +38,8 @@
 							{ 
 								'object' 	: object, 
 								'target' 	: target,
-								'position'	: position
+								'position'	: position,
+								'csrfmiddlewaretoken' : '{{ csrf_token }}'
 							}, function(data) {
 								console.log(data);
 						});					

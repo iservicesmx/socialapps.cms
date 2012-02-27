@@ -138,6 +138,10 @@
 /*  height: 31px;*/
 }
 
+.editor-browser .cms-breadcrumb {
+    width: auto;
+}
+
 .cms-breadcrumb .separator {
     color: #A5A5A4;
 }
