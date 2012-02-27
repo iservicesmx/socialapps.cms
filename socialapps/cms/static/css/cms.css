@@ -134,7 +134,7 @@
 
 .cms-breadcrumb {
     margin: -18px 0px 10px -5px;
-    width: 84%;
+    width: 65%;
 /*  height: 31px;*/
 }
 
@@ -312,4 +312,3 @@ body.editor-browser {
     float: left;
     padding: 3px;
 }
-
