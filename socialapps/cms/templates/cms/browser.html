@@ -101,7 +101,7 @@
         <input type="hidden" id="object_id" name="object_id" value="{{object.id}}"/>
         
     	{% if portal_type != 'image' %}
-    	    {% if portal_type != object.portal_type %}
+    	    {% if portal_type != object.portal_type and portal_type != 'all' %}
                 <div class="selected-url">
         	        {% trans "No item selected" %}
         	    </div>    	    
