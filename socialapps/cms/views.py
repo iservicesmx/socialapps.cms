@@ -67,7 +67,8 @@ class BaseContentView(JSONTemplateView):
 
     def get_object(self):
         path = self.kwargs.get('path', None)
-        return BaseContent.objects.get_base_object(path)
+        site = self.request.site
+        return BaseContent.objects.get_base_object(path, site)
                 
 class ShowBrowser(BaseContentView):
     def get_template_names(self):
@@ -154,7 +155,8 @@ class BaseContentEdit(FormView):
         if not self.object:
             if not self.add:
                 path = self.kwargs.get('path', None)
-                return BaseContent.objects.get_base_object(path)
+                site = self.request.site
+                return BaseContent.objects.get_base_object(path, site)
             else:
                 return None
         return self.object
@@ -172,13 +174,18 @@ class BaseContentEdit(FormView):
     def get_parent_object(self):
         if not self.parent:
             path = self.kwargs.get('path', None)
-            return BaseContent.objects.get_base_object(path)
+            site = self.request.site
+            return BaseContent.objects.get_base_object(path, site)
         return self.parent
 
     def form_valid(self, form):
         self.object = form.save(commit = False)
         self.object.creator = self.request.user
         self.object.tags = ' '.join(self.request.POST.get('tags', '').split(','))
+        
+        if hasattr(self.request, 'site'):
+            self.object.site = self.request.site
+            
         if self.add:
             self.object.parent = self.parent
             self.object.portal_type = self.kwargs.get('portal_type', None)
@@ -205,7 +212,8 @@ class BaseContentDelete(DeleteView):
 
     def get_object(self):
         path = self.kwargs.get('path', None)
-        return BaseContent.objects.get_base_object(path)
+        site = self.request.site
+        return BaseContent.objects.get_base_object(path, site)
 
     def get_success_url(self):
         if self.object.parent:
@@ -226,11 +234,15 @@ class BaseContentDelete(DeleteView):
         return super(BaseContentDelete, self).get_context_data(**kwargs)
 
 class BaseContentAdd(TemplateView):
+    """
+        List portal types allowed
+    """
     template_name = "cms/add.html"
     
     def get_object(self):
         path = self.kwargs.get('path', None)
-        return BaseContent.objects.get_base_object(path)
+        site = self.request.site
+        return BaseContent.objects.get_base_object(path, site)
 
     def get_context_data(self, **kwargs):
         kwargs = super(BaseContentAdd, self).get_context_data(**kwargs)

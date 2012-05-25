@@ -1,5 +1,10 @@
 from django.db import models
+from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext, ugettext_lazy as _
+from django.contrib.contenttypes.models import ContentType
+
+from django.contrib.sites.models import Site
 
 from mptt.models import MPTTModel, TreeForeignKey
 
@@ -8,8 +13,6 @@ from socialapps.core.fields import ImageWithThumbsField
 from .registration import portal_types
 
 from .managers import BaseContentManager
-from django.core.urlresolvers import reverse
-from django.contrib.contenttypes.models import ContentType
 from tagging.models import Tag
 
 class BaseContent(MPTTModel, BaseMetadata):
@@ -38,6 +41,7 @@ class BaseContent(MPTTModel, BaseMetadata):
     status      = models.IntegerField(_('Status'), choices=STATUS_CHOICES, default=ACTIVE)
     hide        = models.BooleanField(_('Hide item'), default=False)
     pagination  = models.PositiveIntegerField(_(u'Number of children per page'), default=0)
+    site        = models.ForeignKey(Site, default=settings.SITE_ID)
     
     objects = BaseContentManager()
     

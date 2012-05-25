@@ -66,7 +66,8 @@ class CMSModelsTest(TestCase):
         folder3.save()
         url = folder3.get_absolute_url()
         self.assertEqual(url, 'folder-1/subfolder-1/subsubfolder-1/')
-        obj = BaseContent.objects.get_base_object(url)
+        site = 1
+        obj = BaseContent.objects.get_base_object(url, site)
         self.assertEqual(obj,folder3)
 
 
