@@ -2,7 +2,6 @@
 <ul class="nav pull-right">
 	<li class="divider-vertical"></li>
 	<li>
-		<!-- <div id="admin-area"> -->
 			<div class="btn-group">
 				<a class="btn primary" data-toggle="dropdown" href="#">
 					{% trans "Administration" %}
@@ -18,11 +17,9 @@
 					{% endif %}
 					<li class="divider"></li>
 					<li class="nav-header">view as</li>
-							<li {% if request.GET.template == 'user' %}class="active"{% endif %}><a href="?template=user"><i class="icon-eye-open"></i> {% trans "User" %}</a></li>
-							<li {% if request.GET.template == "admin" or not request.GET.template %}class="active"{% endif %}><a href="?template=admin"><i class="icon-eye-close"></i> {% trans "Administrator" %}</a></li>
-					</li>
+					<li {% if request.GET.template == 'user' %}class="active"{% endif %}><a href="?template=user"><i class="icon-eye-open"></i> {% trans "User" %}</a></li>
+					<li {% if request.GET.template == "admin" or not request.GET.template %}class="active"{% endif %}><a href="?template=admin"><i class="icon-eye-close"></i> {% trans "Administrator" %}</a></li>
 				</ul>
 			</div>
-		<!-- </div> -->
 	</li>
 </ul>
