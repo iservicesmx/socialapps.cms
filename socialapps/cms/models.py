@@ -82,7 +82,7 @@ class BaseContent(MPTTModel, BaseMetadata):
             self.slug = self.get_slug()
             i = 1
             #while concrete_model.objects.filter(slug=self.slug, parent=self.parent).count() > 0:
-            while BaseContent.objects.filter(slug=self.slug, parent=self.parent).count() > 0:
+            while BaseContent.objects.filter(slug=self.slug, parent=self.parent, site=self.site).count() > 0:
                 self.slug = self.get_slug() + "-%s" % i
                 i += 1
         
