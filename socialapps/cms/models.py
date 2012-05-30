@@ -1,17 +1,22 @@
+import unicodedata
+import re
+import mimetypes
+mimetypes.add_type('application/x-rar-compressed', '.rar', False)
+mimetypes.add_type('video/x-ms-wmv', '.wmv', False)
+mimetypes.add_type('video/x-flv', '.flv', False)
+
 from django.db import models
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext, ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
-
 from django.contrib.sites.models import Site
-
 from mptt.models import MPTTModel, TreeForeignKey
 
 from socialapps.core.models import BaseMetadata
 from socialapps.core.fields import ImageWithThumbsField
-from .registration import portal_types
 
+from .registration import portal_types
 from .managers import BaseContentManager
 from tagging.models import Tag
 
@@ -141,6 +146,18 @@ class Image(BaseContent):
 
 class File(BaseContent):
     file = models.FileField(upload_to="files")
+    mimetype = models.CharField(max_length = 200, blank = True, null = True)
+    true_mimetype = models.CharField(max_length = 200, blank = True, null = True)
+
+    def save(self, *args, **kwargs):
+        self.file.name = ''.join((c for c in unicodedata.normalize('NFD', self.file.name) if unicodedata.category(c) != 'Mn'))
+        # super(File, self).save(*args, **kwargs)
+        mimetype = mimetypes.guess_type(self.file.path, False)
+        if mimetype[0]:
+            file_type = re.search("\w+", mimetype[0]).group()
+            self.mimetype = file_type;
+            self.true_mimetype = mimetype[0];
+        return super(File, self).save(*args, **kwargs)
     
     def delete(self, *args):
         if self.file:

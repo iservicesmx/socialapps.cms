@@ -6,6 +6,14 @@
 	<h1>{{ object.title }}</h1>	
 	<p>{{ object.description|safe }}</p>
 	<br/>
+	{% if object.mimetype == 'video' or object.mimetype == 'audio' %}
+		<video class="video-js vjs-default-skin" controls
+	      width="560" height="315"
+	      data-setup="{}">
+	      <source src="{{ object.file.url }}" type="{{ object.true_mimetype }}">
+	    </video>
+	    <br/>
+	{% endif %} 
 	<a class="cms-file-download button" href="{{ object.file.url }}">{% trans "Download" %}</a>
 	<br />	
 	<ul class="tagit">
