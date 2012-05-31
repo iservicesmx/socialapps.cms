@@ -15,6 +15,7 @@ urlpatterns = patterns('',
     url( r'^(?P<path>[0-9A-Za-z-_.//]+)add/$' , login_required(BaseContentAdd.as_view()), name="base_add"),
     url( r'^(?P<path>[0-9A-Za-z-_.//]+)add/(?P<portal_type>.+)/$' , login_required(BaseContentEdit.as_view()), name="base_create"),
     url( r'^(?P<path>[0-9A-Za-z-_.//]+)browser/(?P<portal_type>.+)/$' , login_required(ShowBrowser.as_view()), name="ajax_browser"),
-    url( r'^(?P<path>[0-9A-Za-z-_.//]+)sort/$', login_required(BaseContentSort.as_view()), name="base_sort"),    
+    url( r'^(?P<path>[0-9A-Za-z-_.//]+)sort/$', login_required(BaseContentSort.as_view()), name="base_sort"),
+    url( r'^(?P<path>[0-9A-Za-z-_.//]+)get_image_thumb/(?P<size>.+)/$', login_required(ImageThumb.as_view()), name="image_thumb"),
     base,
 )

@@ -1,4 +1,6 @@
 {% load i18n %}
+{% load thumbnail %}
+
 <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.min.css">
 <link rel="stylesheet" href="{{ STATIC_URL }}css/extra.css">
 <link rel="stylesheet" href="{{ STATIC_URL }}css/cms.css">
@@ -115,16 +117,21 @@
         {% else %}
             {% if object.portal_type == 'image' %}
             	<div class="selected-object">
-            		<img src="{{ object.image.url_64x64 }}" class="selected-image">
+                    {% thumbnail object.image 'original' as im %}
+                            {% trans "original" %} ({{ im.size }})
+                    {% endthumbnail %}
+                    {% thumbnail object.image "128x128" as im %}
+                        <img src="{{ im.url }}" class="selected-image">
+                    {% endthumbnail %}
             		<div class="title">{{ object.title }}</div>        		
             		<div>{% trans "Select size:" %}</div>
         		
-            		<select class="selected-size">
-            		    <option value="{{ object.image.url_64x64 }}">64x64</option>        		    
-            		    <option value="{{ object.image.url_128x128 }}">128x128</option>
-            		    <option value="{{ object.image.url_400x400 }}">400x400</option>
-            		    <option value="{{ object.image.url_600x600 }}">600x600</option>
-            		    <option value="{{ object.image.url_800x800 }}">800x800</option>        		    
+            		<select name="size" class="selected-size">
+            		    <option selected="selected" value="{% url image_thumb object.get_absolute_url '128x128' %}">{% trans "thumb" %} (128x128)</option>
+                        <option value="{% url image_thumb object.get_absolute_url '200x200' %}">{% trans "mini" %} (200x200)</option>
+            		    <option value="{% url image_thumb object.get_absolute_url '400x400' %}">{% trans "preview" %} (400x400)</option>
+                        <option value="{% url image_thumb object.get_absolute_url '768x768' %}">{% trans "large" %} (768x768)</option>
+                        <option value="{% url image_thumb object.get_absolute_url '0' %}">{% trans "original" %} ({{object.image.width}}x{{object.image.height}})</option>
             		</select>
             	</div>
             {% else %}

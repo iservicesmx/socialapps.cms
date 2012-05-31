@@ -1,6 +1,49 @@
 {% load i18n %}
 {% load bootstrap_tags %}
-
+	<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.cleditor.extimage.js"></script>
+	{% if parent %}
+		<script type="text/javascript">
+			$.cleditor.buttons.image.uploadUrl = '{% url base_create parent.get_absolute_url "image" %}';
+			$.cleditor.buttons.image.popupContent =	
+				'<ul class="nav nav-tabs browser-tabs">' +
+					'<li><a href="#url" data-toggle="tab">{% trans "Url from a external image" %}</a></li>' +				
+					'<li><a href="#upload" data-toggle="tab">{% trans "Upload from your computer" %}</a></li>' +
+					'<li><a href="#existing" data-toggle="tab">{% trans "Choose an existing one" %}</a></li>' +					
+				'</ul>' +
+				'<div class="tab-content">'+
+					'<div id="url" class="tab-pane fade">' +
+						'<input type="text" class="url" size="40" value="" />' +				
+					'</div>' +
+					'<div id="upload" class="tab-pane fade">' +
+						'<form method="post" enctype="multipart/form-data" action="{% url base_create parent.get_absolute_url "image" %}">' +
+						"{% csrf_token %}" +
+						'<input type="hidden" name="hide" value="1">' +
+						'<input id="id_image" name="image" type="file" />' +
+						'<input type="submit"  class="btn" value="{% trans "Upload" %}"/></form>' +
+						'<div class="data"></div>'+
+					'</div>' +
+					'<div class="tab-pane fade" id="existing">' +
+						'<iframe width="500" height="250" name="existing" style="border:1px solid #CCC;" src="{% url ajax_browser parent.get_absolute_url "image" %}" />' +
+					'</div>' +
+					'<input type="button" class="btn save-image" value="{% trans "Insert" %}"/>' + 
+				'</div>';
+		
+			$.cleditor.buttons.link.popupContent = 
+				'<ul class="nav nav-tabs browser-url-tabs">' +
+					'<li><a href="#link-url" data-toggle="tab">{% trans "External url" %}</a></li>' +								
+					'<li><a href="#existing-url" data-toggle="tab">{% trans "Choose an existing object to link" %}</a></li>' +
+				'</ul>' +
+				'<div class="tab-content">' +
+					'<div id="link-url" class="tab-pane fade">' +					
+						'<input type="text" class="url" size="40" value="" />' +
+					'</div>' +
+					'<div id="existing-url" class="tab-pane fade">'+
+						'<iframe width="500" height="250" name="existing" style="border:1px solid #CCC;" src="{% url ajax_browser parent.get_absolute_url "all" %}" />' +
+					'</div>' +
+					'<input type="button" class="btn save-link" value="{% trans "Insert" %}"/>' +
+				'</div>';
+		</script>
+	{% endif %}
 <script type="text/javascript">
 	function save(data, statusText, xhr, $form) {
 		if (data.success) {
@@ -16,6 +59,38 @@
 		}
 	}
 
+
+
+	function selectSize(data, statusText, xhr, $form) {
+        $('input[type=submit]', $form).button('reset');
+	    if(data.success) {
+	        $.get(data.success_url+'/get_image_thumb/128x128', function(image) {
+	        	if(image.success) {
+	        	$('#upload form').hide();
+	        	$('#upload .data').html('<div>'+
+                    '<img src="'+ image.thumb_url+'"/>' +
+            		'<div>{% trans "Select size:" %}</div>' +
+            		'<select name="size" class="selected-size">' +
+            		    '<option selected="selected" value="' + data.success_url + '/get_image_thumb/128x128">{% trans "thumb" %} (128x128)</option>' +
+            		    '<option value="' + data.success_url + '/get_image_thumb/200x200">{% trans "mini" %} (200x200)</option>' +
+            		    '<option value="' + data.success_url + '/get_image_thumb/400x400">{% trans "preview" %} (400x400)</option>' +
+            		    '<option value="' + data.success_url + '/get_image_thumb/768x768">{% trans "large" %} (768x768)</option>' +
+            		    '<option value="' + data.success_url + '/get_image_thumb/0">{% trans "original" %} ('+ image.original_size +')</option>' +
+            		'</select>' +
+            	'</div>');		
+	        	}
+
+	        });
+	        $('.errorlist').html(''); 
+	    } else {
+	        for (var key in data) {
+	            for (var error in data[key]) {
+	                $("#field-error-" + key + " ul").html('<li>'+ data[key][error] +'</li>');
+	            }
+	        }
+	    }
+	}
+
     $(document).ready(function() {
         var availableTags = [ {% for t in tags %} '{{t}}',{% endfor %} ]
         $("#id_tags").tagit({availableTags   : availableTags});
@@ -27,9 +102,11 @@
         $.cleditor.defaultOptions.width = 650;
         $.cleditor.defaultOptions.height = 100;
 		$('#id_description').cleditor();
+		$('#upload form').ajaxForm({ dataType : 'json', success : selectSize, beforeSubmit: loadingForm});
     });
 </script>
 <div class="modal-header">
+	{{ parent }}
 	<a class="close" data-dismiss="modal">×</a>
 	{% if add %}
 		<h3><img src="{{ STATIC_URL }}{{item.icon}}" alt="{{ item.title }}" width="16" height="16" class="type-icon"/>{% trans "Add" %} {% trans title %}</h3>

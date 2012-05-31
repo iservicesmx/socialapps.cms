@@ -1,15 +1,18 @@
-from socialapps.cms.models import BaseContent
+from sorl.thumbnail import get_thumbnail
+from permissions.utils import has_permission
+from tagging.models import Tag
+
 from django.views.generic.edit import FormView, DeleteView
 from django.views.generic import TemplateView
-from .registration import portal_types
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.forms.models import model_to_dict
 from django.core.urlresolvers import reverse
-from tagging.models import Tag
-from permissions.utils import has_permission
+
+from socialapps.cms.models import BaseContent
 from socialapps.core.utils import python_to_json
 from socialapps.core.views import JSONTemplateView
 
+from .registration import portal_types
 
 class BaseContentSort(JSONTemplateView):
     def post(self, request, **kwargs):
@@ -69,6 +72,15 @@ class BaseContentView(JSONTemplateView):
         path = self.kwargs.get('path', None)
         site = self.request.site
         return BaseContent.objects.get_base_object(path, site)
+
+class ImageThumb(BaseContentView):
+    def get(self, request, **kwargs):
+        image = self.get_object()
+        if self.kwargs.get('size') == '0':
+            return HttpResponse(python_to_json({"success": True, "thumb_url": image.image.url, "original_size": "%dx%d" %  (image.image.width,image.image.height) }), content_type='application/json')
+        else:
+            thumb_url = get_thumbnail(image.image, self.kwargs.get('size', None)).url
+            return HttpResponse(python_to_json({"success": True, "thumb_url": thumb_url, "original_size": "%dx%d" %  (image.image.width,image.image.height) }), content_type='application/json')
                 
 class ShowBrowser(BaseContentView):
     def get_template_names(self):
@@ -191,8 +203,8 @@ class BaseContentEdit(FormView):
             self.object.portal_type = self.kwargs.get('portal_type', None)
         self.object.save()
         self.success_url = self.get_success_url()
-        if self.object.portal_type == 'image' and not self.request.is_ajax():
-            return HttpResponse(python_to_json({"image":self.object.image.url_128x128, "success": True, "success_url": self.success_url}), content_type='application/json')            
+        # if self.object.portal_type == 'image' and not self.request.is_ajax():
+            # return HttpResponse(python_to_json({"image":self.object.image.url_128x128, "success": True, "success_url": self.success_url}), content_type='application/json')            
         return HttpResponse(python_to_json({"success": True, "success_url": self.success_url}), content_type='application/json')
         
     def form_invalid(self, form):

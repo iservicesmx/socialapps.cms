@@ -14,7 +14,6 @@ from django.contrib.sites.models import Site
 from mptt.models import MPTTModel, TreeForeignKey
 
 from socialapps.core.models import BaseMetadata
-from socialapps.core.fields import ImageWithThumbsField
 
 from .registration import portal_types
 from .managers import BaseContentManager
@@ -136,8 +135,20 @@ class Page(BaseContent):
     text = models.TextField(_(u"Text"), blank=True)
         
 class Image(BaseContent):
-    image = ImageWithThumbsField(_(u"Image"), upload_to="uploads",
-        sizes=((64, 64), (128, 128), (400, 400), (600, 600), (800, 800)))
+    image = models.ImageField(_(u"Image"), upload_to="uploads")
+    
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.image.name = ''.join((c for c in unicodedata.normalize('NFD', self.image.name) if unicodedata.category(c) != 'Mn'))
+            if not self.title:
+                self.title = self.image.name
+            # super(File, self).save(*args, **kwargs)
+            # mimetype = mimetypes.guess_type(self.file.path, False)
+            # if mimetype[0]:
+                # file_type = re.search("\w+", mimetype[0]).group()
+                # self.mimetype = file_type;
+                # self.true_mimetype = mimetype[0];
+        return super(Image, self).save(*args, **kwargs)
 
     def delete(self, *args):
         if self.image:
@@ -150,13 +161,16 @@ class File(BaseContent):
     true_mimetype = models.CharField(max_length = 200, blank = True, null = True)
 
     def save(self, *args, **kwargs):
-        self.file.name = ''.join((c for c in unicodedata.normalize('NFD', self.file.name) if unicodedata.category(c) != 'Mn'))
-        # super(File, self).save(*args, **kwargs)
-        mimetype = mimetypes.guess_type(self.file.path, False)
-        if mimetype[0]:
-            file_type = re.search("\w+", mimetype[0]).group()
-            self.mimetype = file_type;
-            self.true_mimetype = mimetype[0];
+        if not self.id:
+            self.file.name = ''.join((c for c in unicodedata.normalize('NFD', self.file.name) if unicodedata.category(c) != 'Mn'))
+            if not self.title:
+                self.title = self.file.name
+            # super(File, self).save(*args, **kwargs)
+            mimetype = mimetypes.guess_type(self.file.path, False)
+            if mimetype[0]:
+                file_type = re.search("\w+", mimetype[0]).group()
+                self.mimetype = file_type;
+                self.true_mimetype = mimetype[0];
         return super(File, self).save(*args, **kwargs)
     
     def delete(self, *args):
