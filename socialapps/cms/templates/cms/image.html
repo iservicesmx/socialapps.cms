@@ -15,7 +15,7 @@
 	</ul>
     <br />
     {% thumbnail object.image "768x768" upscale=False as im %}
-		<a rel="lightbox" href="{{ object.image.url }}"><img src="{{ im.url }}" class="selected-image"></a>
+		<a rel="lightbox" href="{{ object.image.url }}"  target="_blank"><img src="{{ im.url }}" class="selected-image"></a>
 	{% endthumbnail %}
 </div>
 {% endblock %}
