@@ -1,5 +1,6 @@
 {% extends "cms/base_view.html" %}
 {% load thumbnail %}
+{% load i18n %}
 
 {% block content_left %}
 <div class="template-list">
@@ -15,7 +16,9 @@
 	</ul>
     <br />
     {% thumbnail object.image "768x768" upscale=False as im %}
-		<a rel="lightbox" href="{{ object.image.url }}"  target="_blank"><img src="{{ im.url }}" class="selected-image"></a>
+    	{% thumbnail object.image "1024x1024" upscale=False as im_2 %}
+		<a rel="lightbox" href="{{ im_2.url }}"  target="_blank" title="{{object.title}}" data-url="{{ object.image.url }}"><img src="{{ im.url }}" class="selected-image"></a>
+		{% endthumbnail %}
 	{% endthumbnail %}
 </div>
 {% endblock %}
