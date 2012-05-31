@@ -117,7 +117,7 @@
         {% else %}
             {% if object.portal_type == 'image' %}
             	<div class="selected-object">
-                    {% thumbnail object.image 'original' as im %}
+                    {% thumbnail object.image 'original' upscale=False as im %}
                             {% trans "original" %} ({{ im.size }})
                     {% endthumbnail %}
                     {% thumbnail object.image "128x128" as im %}

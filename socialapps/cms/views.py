@@ -79,7 +79,7 @@ class ImageThumb(BaseContentView):
         if self.kwargs.get('size') == '0':
             return HttpResponse(python_to_json({"success": True, "thumb_url": image.image.url, "original_size": "%dx%d" %  (image.image.width,image.image.height) }), content_type='application/json')
         else:
-            thumb_url = get_thumbnail(image.image, self.kwargs.get('size', None)).url
+            thumb_url = get_thumbnail(image.image, self.kwargs.get('size', None), upscale=False).url
             return HttpResponse(python_to_json({"success": True, "thumb_url": thumb_url, "original_size": "%dx%d" %  (image.image.width,image.image.height) }), content_type='application/json')
                 
 class ShowBrowser(BaseContentView):
