@@ -1,4 +1,5 @@
 {% extends "cms/base_view.html" %}
+{% load thumbnail %}
 
 {% block content_left %}
 <div class="template-list">
@@ -13,6 +14,8 @@
 	    {% endfor %}
 	</ul>
     <br />
-	<img src="{{ object.image.url_400x400 }}">
+    {% thumbnail object.image "400x400" as im %}
+		<a rel="lightbox" href="{{ object.image.url }}"><img src="{{ im.url }}" class="selected-image"></a>
+	{% endthumbnail %}
 </div>
 {% endblock %}
