@@ -131,28 +131,36 @@ lightbox = new Lightbox options
         return false;
       });
       $lightbox = $('#lightbox');
-
-      // $lightbox.hide().on('click', function(e) {
-      //   if ($(e.target).attr('id') === 'lightbox') _this.end();
-      //   return false;
-      // });
-      // $lightbox.find('.lb-outerContainer').on('click', function(e) {
-      //   if ($(e.target).attr('id') === 'lightbox') _this.end();
-      //   return false;
-      // });
-      $lightbox.find('.lb-url').on('click', function(e) {
-        _this.end();
-        return true;
+      $lightbox.hide().on('click', function(e) {
+        console.log("hola1");
+        if ($(e.target).attr('id') === 'lightbox') _this.end();
+        if ($(e.target).hasClass('lb-image')){
+          _this.end();
+          return true;
+        } 
+        return false;
+      });
+      $lightbox.find('.lb-outerContainer').on('click', function(e) {
+        console.log("hola2");
+        if ($(e.target).attr('id') === 'lightbox') _this.end();
+        if ($(e.target).hasClass('lb-image')){
+          _this.end();
+          return true;
+        } 
+        return false;
       });
       $lightbox.find('.lb-prev').on('click', function(e) {
+        console.log("hola3");
         _this.changeImage(_this.currentImageIndex - 1);
         return false;
       });
       $lightbox.find('.lb-next').on('click', function(e) {
+        console.log("hola4");
         _this.changeImage(_this.currentImageIndex + 1);
         return false;
       });
       $lightbox.find('.lb-loader, .lb-close').on('click', function(e) {
+        console.log("hol5");
         _this.end();
         return false;
       });

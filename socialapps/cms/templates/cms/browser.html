@@ -106,12 +106,21 @@
     	    {% if portal_type != object.portal_type and portal_type != 'all' %}
                 <div class="selected-url">
         	        {% trans "No item selected" %}
-        	    </div>    	    
-    	    {% else %}
+        	    </div>  
+    	    {% elif object.portal_type == 'file' %}
+                <div class="selected-url">
+                    <img src="{{ STATIC_URL }}{{ object.icon }}" class="icon"/>
+                    <div class="title">{{ object.title }}</div>
+                    <div class="mimetype">{{ object.mimetype }}</div>
+                    <input type='text' class="url" name="url" value="/{{ object.get_absolute_url }}" style="display: none;"/>
+                    <input type='text' class="mult_url" name="mult_url" value="{{ object.file.url }}" style="display: none;"/>
+                    <input type='text' class="mult_type" name="mult_type" value="{{ object.true_mimetype }}" style="display: none;"/>
+                </div>
+            {% else %}
             	<div class="selected-url">
-                    <img src="{{ STATIC_URL }}{{ object.icon }}" />
+                    <img src="{{ STATIC_URL }}{{ object.icon }}" class="icon"/>
             		<div class="title">{{ object.title }}</div>
-            		<input type='text' class="url" name="url" value="/{{ object.get_absolute_url }}" style="display: none;"/>		
+            		<input type='text' class="url" name="url" value="/{{ object.get_absolute_url }}" style="display: none;"/>
             	</div>
             {% endif %}
         {% else %}
@@ -121,7 +130,7 @@
                             {% trans "original" %} ({{ im.size }})
                     {% endthumbnail %}
                     {% thumbnail object.image "128x128" as im %}
-                        <img src="{{ im.url }}" class="selected-image">
+                        <img src="{{ im.url }}" class="selected-image icon">
                     {% endthumbnail %}
             		<div class="title">{{ object.title }}</div>        		
             		<div>{% trans "Select size:" %}</div>

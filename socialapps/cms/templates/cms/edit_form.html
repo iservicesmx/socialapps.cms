@@ -42,6 +42,12 @@
 					'</div>' +
 					'<input type="button" class="btn save-link" value="{% trans "Insert" %}"/>' +
 				'</div>';
+
+			$.cleditor.buttons.multimedia.popupContent = 
+				'<div id="existing-multimedia" class="">'+
+					'<iframe width="500" height="250" name="existing" style="border:1px solid #CCC;" src="{% url ajax_browser parent.get_absolute_url "all" %}" />' +
+				'</div>' +
+				'<input type="button" class="btn save-multimedia" value="{% trans "Insert" %}"/>';
 		</script>
 	{% endif %}
 <script type="text/javascript">
@@ -98,7 +104,7 @@
         $.cleditor.defaultOptions.controls = "bold italic underline | style | " +
                                             "bullets numbering | outdent " +
                                             "indent | alignleft center alignright | undo redo | " +
-                                            "table image link unlink | pastetext | source";
+                                            "table image link unlink multimedia | pastetext | source";
         $.cleditor.defaultOptions.width = 650;
         $.cleditor.defaultOptions.height = 100;
 		$('#id_description').cleditor();
