@@ -10,7 +10,7 @@ from django.core.urlresolvers import reverse
 
 from socialapps.cms.models import BaseContent
 from socialapps.core.utils import python_to_json
-from socialapps.core.views import JSONTemplateView
+from socialapps.core.views import JSONTemplateView, LoginRequiredMixin
 
 from .registration import portal_types
 
@@ -22,7 +22,7 @@ class BaseContentSort(JSONTemplateView):
         obj.move_to(target, position = position)
         return self.render_to_response("holaa")
 
-class BaseContentView(JSONTemplateView):
+class BaseContentView(LoginRequiredMixin, JSONTemplateView):
     object = None
     parent = None
     children = None
@@ -92,7 +92,7 @@ class ShowBrowser(BaseContentView):
         })
         return super(ShowBrowser, self).get_context_data(**kwargs)
         
-class BaseContentEdit(FormView):
+class BaseContentEdit(LoginRequiredMixin, FormView):
     form_class = None
     template_name = None
     model = None
@@ -210,7 +210,7 @@ class BaseContentEdit(FormView):
     def form_invalid(self, form):
         return HttpResponse(python_to_json({"errors" : form.errors}), content_type='application/json')
 
-class BaseContentDelete(DeleteView):
+class BaseContentDelete(LoginRequiredMixin, DeleteView):
     template_name = "cms/confirm.html"
     object = None
 
@@ -245,7 +245,7 @@ class BaseContentDelete(DeleteView):
         })
         return super(BaseContentDelete, self).get_context_data(**kwargs)
 
-class BaseContentAdd(TemplateView):
+class BaseContentAdd(LoginRequiredMixin, TemplateView):
     """
         List portal types allowed
     """

@@ -157,7 +157,7 @@
 	margin: 0 3px 5px 0;
 	color: white;
 	font-family: 'Oswald',Helvetica,Arial,sans-serif;
-	background-image: url("/static/images/bgr_arrow-next.png");
+	background-image: url("../images/bgr_arrow-next.png");
 	left: 0;
 	top: 0;
 	text-transform: uppercase;
@@ -216,10 +216,9 @@
     }
 
 .cms-page { }
-    .cms-page .description {
-        font-weight: bold;
-        font-size: 11px;
-    }
+.cms-page .description {
+    font-weight: bold;
+}
 
 .multipage-toc img {
     float: left;
@@ -244,13 +243,13 @@
 
 .cms-nav .next {
     float: right;
-    background: url("/static/images/next.png") 105% -1px no-repeat;
+    background: url("../images/next.png") 105% -1px no-repeat;
     padding: 0px 27px 0px 5px;
 }
 
 .cms-nav .prev {
     float: left;
-    background: url("/static/images/prev.png") -1px -1px no-repeat;
+    background: url("../images/prev.png") -1px -1px no-repeat;
     padding: 0px 5px 0px 27px;
 }
 
@@ -280,7 +279,7 @@
 .move-child {
     cursor: move;
     width: 16px;
-	background:url("/static/images/arrow.png") no-repeat 98% 15%;
+	background:url("../images/arrow.png") no-repeat 98% 15%;
 }
 
 
