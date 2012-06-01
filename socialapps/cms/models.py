@@ -161,16 +161,15 @@ class File(BaseContent):
     true_mimetype = models.CharField(max_length = 200, blank = True, null = True)
 
     def save(self, *args, **kwargs):
-        if not self.id:
-            self.file.name = ''.join((c for c in unicodedata.normalize('NFD', self.file.name) if unicodedata.category(c) != 'Mn'))
-            if not self.title:
-                self.title = self.file.name
-            # super(File, self).save(*args, **kwargs)
-            mimetype = mimetypes.guess_type(self.file.path, False)
-            if mimetype[0]:
-                file_type = re.search("\w+", mimetype[0]).group()
-                self.mimetype = file_type;
-                self.true_mimetype = mimetype[0];
+        self.file.name = ''.join((c for c in unicodedata.normalize('NFD', self.file.name) if unicodedata.category(c) != 'Mn'))
+        if not self.title:
+            self.title = self.file.name
+        # super(File, self).save(*args, **kwargs)
+        mimetype = mimetypes.guess_type(self.file.path, False)
+        if mimetype[0]:
+            file_type = re.search("\w+", mimetype[0]).group()
+            self.mimetype = file_type
+            self.true_mimetype = mimetype[0]
         return super(File, self).save(*args, **kwargs)
     
     def delete(self, *args):

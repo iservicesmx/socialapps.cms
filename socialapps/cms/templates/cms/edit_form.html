@@ -15,12 +15,17 @@
 						'<input type="text" class="url" size="40" value="" />' +				
 					'</div>' +
 					'<div id="upload" class="tab-pane fade">' +
-						'<form method="post" enctype="multipart/form-data" action="{% url base_create parent.get_absolute_url "image" %}">' +
+						'<form method="post" enctype="multipart/form-data" action="{% url base_create parent.get_absolute_url "image" %}?X-Progress-ID={% now "U" %}">' +
 						"{% csrf_token %}" +
+						'<input type="hidden" name="X-Progress-ID" value="{% now "U" %}"  id="progress-id"/>' + 
 						'<input type="hidden" name="hide" value="1">' +
 						'<input id="id_image" name="image" type="file" />' +
-						'<input type="submit"  class="btn" value="{% trans "Upload" %}"/></form>' +
-						'<div class="data"></div>'+
+						'<div id="progress" class="progress progress-striped hide">' +
+                        	'<div class="bar"style="width: 0%;">{% trans "Uploading" %}</div>' +
+                    	'</div>' +
+                    	'<input type="submit"  class="btn" value="{% trans "Upload" %}"/>'+
+						'</form>' +
+						'<div class="data"></div>' +
 					'</div>' +
 					'<div class="tab-pane fade" id="existing">' +
 						'<iframe width="500" height="250" name="existing" style="border:1px solid #CCC;" src="{% url ajax_browser parent.get_absolute_url "image" %}" />' +
@@ -55,6 +60,16 @@
 		if (data.success) {
 			window.location = data.success_url;
 		} else {
+			$('input[type=submit]', $form).button('reset');
+			if($('#progress', $form).length > 0) {
+				$('#progress', $form).removeClass('active');
+				$('#progress', $form).addClass('hide');
+			}
+			if ($('#id_file', $form).length > 0) {
+				$('#id_file', $form).removeClass('hide');
+			} else if ($('#id_image', $form).length > 0) {
+				$('#id_image', $form).removeClass('hide');
+			}
 			for (var item in data.errors) {
 				$('#field-error-' + item + ' .errorlist').html('');
 				for (var error in data.errors[item]) {
@@ -69,6 +84,9 @@
 
 	function selectSize(data, statusText, xhr, $form) {
         $('input[type=submit]', $form).button('reset');
+        $('#id_image', $form).removeClass('hide');
+		$('#progress', $form).removeClass('active');
+		$('#progress', $form).addClass('hide');
 	    if(data.success) {
 	        $.get(data.success_url+'/get_image_thumb/128x128', function(image) {
 	        	if(image.success) {
@@ -100,7 +118,7 @@
     $(document).ready(function() {
         var availableTags = [ {% for t in tags %} '{{t}}',{% endfor %} ]
         $("#id_tags").tagit({availableTags   : availableTags});
-        $('#cms-form').ajaxForm({dataType : 'json', success : save });
+        $('#cms-form').ajaxForm({dataType : 'json', success : save , beforeSubmit: loadingForm});
         $.cleditor.defaultOptions.controls = "bold italic underline | style | " +
                                             "bullets numbering | outdent " +
                                             "indent | alignleft center alignright | undo redo | " +
@@ -120,8 +138,13 @@
 		<h3><img src="{{ STATIC_URL }}{{item.icon}}" alt="{{ item.title }}" width="16" height="16" class="type-icon"/>{% trans "Edit" %} {% trans title %}</h3>
 	{% endif %}
 </div>
-<form method="POST" id="cms-form" action="{{ url_form_post }}" enctype="multipart/form-data" class="form horizontal-form">
+{% if portal_type == 'file' or portal_type == 'image' %}
+	<form method="POST" id="cms-form" action="{{ url_form_post }}?X-Progress-ID={% now "U" %}" enctype="multipart/form-data" class="form horizontal-form">
+{% else %}
+	<form method="POST" id="cms-form" action="{{ url_form_post }}" enctype="multipart/form-data" class="form horizontal-form">
+{% endif %}
     {% csrf_token %}
+	<input type="hidden" name="X-Progress-ID" value="{% now "U" %}"  id="progress-id"/>
 	<div class="modal-body">
 	    <fieldset>
 	        {{ form|as_bootstrap }}
