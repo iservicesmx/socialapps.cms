@@ -1,0 +1,276 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-06-13 16:18-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: models.py:38
+msgid "Active"
+msgstr "Activo"
+
+#: models.py:39
+msgid "Inactive"
+msgstr "Inactivo"
+
+#: models.py:43
+msgid "Portal type"
+msgstr "Tipo"
+
+#: models.py:44
+msgid "Template"
+msgstr "Plantilla"
+
+#: models.py:45
+msgid "Status"
+msgstr "Estado"
+
+#: models.py:46
+msgid "Hide item"
+msgstr "Ocultar"
+
+#: models.py:47
+msgid "Number of children per page"
+msgstr "Número de elementos por página"
+
+#: models.py:135
+msgid "Text"
+msgstr "Texto"
+
+#: models.py:138 types.py:16 types.py:83
+msgid "Image"
+msgstr "Imagen"
+
+#: registration.py:121
+#, python-format
+msgid "the model %s don't have portal type registered"
+msgstr "el modelo %s no tiene un tipo asociado"
+
+#: registration.py:132
+#, python-format
+msgid "The portal type %s has already been registered."
+msgstr "El tipo %s ya ha sido registrado"
+
+#: registration.py:135
+msgid "is not a portal type"
+msgstr "No es un Portal Type"
+
+#: registration.py:141
+#, python-format
+msgid "The %s is not registered"
+msgstr "El %s no está registrado"
+
+#: registration.py:144
+msgid "is not a model"
+msgstr "no es un modelo"
+
+#: types.py:10 types.py:72
+msgid "File"
+msgstr ""
+
+#: types.py:22 types.py:116
+msgid "Folder"
+msgstr "Carpeta"
+
+#: types.py:28
+msgid "Folder Admin"
+msgstr "Carpeta Admin"
+
+#: types.py:34
+msgid "Folder Table"
+msgstr "Carpeta en Tabla"
+
+#: types.py:40
+#, fuzzy
+msgid "Folder Content"
+msgstr "Agregar Contenido"
+
+#: types.py:46
+msgid "Page Admin"
+msgstr "Página Admin"
+
+#: types.py:52 types.py:94
+msgid "Page"
+msgstr "Página"
+
+#: types.py:58
+msgid "Multi Page Admin"
+msgstr "Multi-Páginas Admin"
+
+#: types.py:64
+msgid "Multi Page"
+msgstr "Multi-Páginas"
+
+#: types.py:105
+msgid "MultiPage"
+msgstr "Multi-Páginas"
+
+#: templates/cms/add.html:26
+msgid "Add Content"
+msgstr "Agregar Contenido"
+
+#: templates/cms/add.html:40
+msgid "Add Container"
+msgstr "Agregar Contenedor"
+
+#: templates/cms/base_view.html:69 templates/cms/base_view.html.py:71
+msgid "Previous"
+msgstr "Anterior"
+
+#: templates/cms/base_view.html:71
+msgid "No previous object"
+msgstr "No hay anterior"
+
+#: templates/cms/base_view.html:76 templates/cms/base_view.html.py:78
+msgid "Next"
+msgstr "Siguiente"
+
+#: templates/cms/base_view.html:78
+msgid "No next object"
+msgstr "No hay elementos siguientes"
+
+#: templates/cms/browser.html:97
+msgid "No children"
+msgstr "No tiene hijos"
+
+#: templates/cms/browser.html:108
+msgid "No item selected"
+msgstr "No hay elemento seleccionado"
+
+#: templates/cms/browser.html:130 templates/cms/browser.html.py:143
+#: templates/cms/edit_form.html:102
+msgid "original"
+msgstr "original"
+
+#: templates/cms/browser.html:136 templates/cms/edit_form.html:96
+msgid "Select size:"
+msgstr "Tamaño:"
+
+#: templates/cms/browser.html:139 templates/cms/edit_form.html:98
+msgid "thumb"
+msgstr "Muy Pequeño"
+
+#: templates/cms/browser.html:140 templates/cms/edit_form.html:99
+msgid "mini"
+msgstr "Pequeño"
+
+#: templates/cms/browser.html:141 templates/cms/edit_form.html:100
+msgid "preview"
+msgstr "Mediano"
+
+#: templates/cms/browser.html:142 templates/cms/edit_form.html:101
+msgid "large"
+msgstr "Largo"
+
+#: templates/cms/browser.html:148
+msgid "No image selected"
+msgstr "No hay imagen seleccionada"
+
+#: templates/cms/children_list_admin.html:18
+#: templates/cms/cms_admin_menu.html:16
+msgid "Delete"
+msgstr "Eliminar"
+
+#: templates/cms/children_list_admin.html:19
+#: templates/cms/cms_admin_menu.html:14 templates/cms/edit_form.html:137
+msgid "Edit"
+msgstr "Editar"
+
+#: templates/cms/children_list_admin.html:22
+#: templates/cms/multipage_toc.html:13
+msgid "Hidden"
+msgstr "Oculto"
+
+#: templates/cms/cms_admin_menu.html:7
+msgid "Administration"
+msgstr "Administración"
+
+#: templates/cms/cms_admin_menu.html:12 templates/cms/edit_form.html:135
+msgid "Add"
+msgstr "Agregar"
+
+#: templates/cms/cms_admin_menu.html:19
+msgid "view as"
+msgstr "ver como"
+
+#: templates/cms/cms_admin_menu.html:20
+msgid "User"
+msgstr "Usuario"
+
+#: templates/cms/cms_admin_menu.html:21
+msgid "Administrator"
+msgstr "Administrador"
+
+#: templates/cms/confirm.html:2
+msgid "Delete content"
+msgstr "Eliminar contenido"
+
+#: templates/cms/confirm.html:6
+msgid "confirm"
+msgstr "Confirmar"
+
+#: templates/cms/confirm.html:7
+msgid "cancel"
+msgstr "Cancelar"
+
+#: templates/cms/edit_form.html:9
+msgid "Url from a external image"
+msgstr "Desde URL externa"
+
+#: templates/cms/edit_form.html:10
+msgid "Upload from your computer"
+msgstr "Desde tu computadora"
+
+#: templates/cms/edit_form.html:11
+msgid "Choose an existing one"
+msgstr "Desde una existente"
+
+#: templates/cms/edit_form.html:24
+msgid "Uploading"
+msgstr "Subiendo"
+
+#: templates/cms/edit_form.html:26
+msgid "Upload"
+msgstr "Subir"
+
+#: templates/cms/edit_form.html:33 templates/cms/edit_form.html.py:48
+#: templates/cms/edit_form.html:55
+msgid "Insert"
+msgstr "Insertar"
+
+#: templates/cms/edit_form.html:38
+msgid "External url"
+msgstr "URL externa"
+
+#: templates/cms/edit_form.html:39
+msgid "Choose an existing object to link"
+msgstr "Enlazar una existente"
+
+#: templates/cms/edit_form.html:150
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: templates/cms/file.html:17
+msgid "Download"
+msgstr "Descargar"
+
+#: templates/cms/multipage_toc.html:4
+msgid "Table Of Contents"
+msgstr "Tabla de contenidos"
+
+#: templates/cms/navigation_portlet.html:4
+msgid "Navigation"
+msgstr "Navegación"

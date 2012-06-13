@@ -234,7 +234,7 @@ class BaseContentDelete(LoginRequiredMixin, DeleteView):
         
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
-        if self.object.title == 'resources':
+        if self.object.slug == 'resources':
             return HttpResponseRedirect('/%s' % self.object.get_absolute_url())
         return super(BaseContentDelete, self).delete(request, *args, **kwargs)
         

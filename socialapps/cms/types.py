@@ -1,3 +1,4 @@
+from django.utils.translation import ugettext_lazy as _
 from socialapps.cms.models import *
 from socialapps.cms.registration import PortalTemplate, PortalType, portal_types
 from .forms import *
@@ -6,61 +7,61 @@ from .forms import *
 
 class FileTemplate(PortalTemplate):
     name = 'file'
-    title = 'File'
+    title = _('File')
     path = 'cms/file.html'
     image = '/static/images/types/file.png'
     
 class ImageTemplate(PortalTemplate):
     name = 'image'
-    title = 'Image'
+    title = _('Image')
     path = 'cms/image.html'
     image = '/static/images/types/image.png'
     
 class FolderTemplate(PortalTemplate):
     name = 'folder'
-    title = 'Folder'
+    title = _('Folder')
     path = 'cms/folder.html'
     image = '/static/images/types/folder.png'
     
 class FolderAdminTemplate(PortalTemplate):
     name = 'folder_admin'
-    title = 'Folder Admin'
+    title = _('Folder Admin')
     path = 'cms/folder_admin.html'
     image = '/static/images/types/folder.png'
 
 class FolderTableTemplate(PortalTemplate):
     name = 'folder_table'
-    title = 'Folder Table'
+    title = _('Folder Table')
     path = 'cms/folder_table.html'
     image = '/static/images/types/folder_table.png'
 
 class FolderContentTemplate(PortalTemplate):
     name = 'folder_content'
-    title = 'Folder Content'
+    title = _('Folder Content')
     path = 'cms/folder_content.html'
     image = '/static/images/types/folder_content.png'
     
 class PageAdminTemplate(PortalTemplate):
     name = 'page_admin'
-    title = 'Page Admin'
+    title = _('Page Admin')
     path = 'cms/page_admin.html'
     image = '/static/images/types/page.png'
     
 class PageTemplate(PortalTemplate):
     name = 'page'
-    title = 'Page'
+    title = _('Page')
     path = 'cms/page.html'
     image = '/static/images/types/page.png'
     
 class MultiPageAdminTemplate(PortalTemplate):
     name = 'multipage_admin'
-    title = 'Multi Page Admin'
+    title = _('Multi Page Admin')
     path = 'cms/multipage_admin.html'
     image = '/static/images/types/multipage.png'    
 
 class MultiPageTemplate(PortalTemplate):
     name = 'multipage'
-    title = 'Multi Page'
+    title = _('Multi Page')
     path = 'cms/multipage.html'
     image = '/static/images/types/multipage.png'
     
@@ -68,7 +69,7 @@ class MultiPageTemplate(PortalTemplate):
 
 class FileType(PortalType):
     name = "file"
-    title = "File"
+    title = _("File")
     global_addable = False
     icon = 'images/file-32.png'
     subtypes = []
@@ -79,7 +80,7 @@ class FileType(PortalType):
 
 class ImageType(PortalType):
     name = "image"
-    title = "Image"
+    title = _("Image")
     global_addable = False
     icon = 'images/image-32.png'
     subtypes = []
@@ -90,7 +91,7 @@ class ImageType(PortalType):
 
 class PageType(PortalType):
     name = "page"
-    title = "Page"
+    title = _("Page")
     global_addable = False
     icon = 'images/page-32.png'
     subtypes = [ImageType, FileType,]
@@ -101,7 +102,7 @@ class PageType(PortalType):
 
 class MultiPageType(PortalType):
     name = "multipage"
-    title = "MultiPage"
+    title = _("MultiPage")
     global_addable = False
     icon = 'images/multipage-32.png'
     subtypes = [PageType, ImageType, FileType]
@@ -112,7 +113,7 @@ class MultiPageType(PortalType):
 
 class FolderType(PortalType):
     name = 'folder'
-    title = 'Folder'
+    title = _('Folder')
     global_addable = True
     icon = 'images/folder-32.png'
     subtypes = [PageType, MultiPageType, FileType, ImageType]

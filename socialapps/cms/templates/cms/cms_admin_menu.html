@@ -16,7 +16,7 @@
 						<li><a href="#confirm-modal" class="modal-confirm-button" data-content="{% url base_delete path=object.get_absolute_url %}" data-toggle="modal"><i class="icon-trash"></i>&nbsp;{% trans "Delete" %}</a></li>
 					{% endif %}
 					<li class="divider"></li>
-					<li class="nav-header">view as</li>
+					<li class="nav-header">{% trans "view as" %}</li>
 					<li {% if request.GET.template == 'user' %}class="active"{% endif %}><a href="?template=user"><i class="icon-eye-open"></i> {% trans "User" %}</a></li>
 					<li {% if request.GET.template == "admin" or not request.GET.template %}class="active"{% endif %}><a href="?template=admin"><i class="icon-eye-close"></i> {% trans "Administrator" %}</a></li>
 				</ul>
