@@ -139,15 +139,10 @@ class Image(BaseContent):
     
     def save(self, *args, **kwargs):
         if not self.id:
-            self.image.name = ''.join((c for c in unicodedata.normalize('NFD', self.image.name) if unicodedata.category(c) != 'Mn'))
-            if not self.title:
-                self.title = self.image.name
-            # super(File, self).save(*args, **kwargs)
-            # mimetype = mimetypes.guess_type(self.file.path, False)
-            # if mimetype[0]:
-                # file_type = re.search("\w+", mimetype[0]).group()
-                # self.mimetype = file_type;
-                # self.true_mimetype = mimetype[0];
+            if self.image:
+                self.image.name = ''.join((c for c in unicodedata.normalize('NFD', self.image.name) if unicodedata.category(c) != 'Mn'))
+                if not self.title:
+                    self.title = self.image.name
         return super(Image, self).save(*args, **kwargs)
 
     def delete(self, *args):
@@ -161,15 +156,16 @@ class File(BaseContent):
     true_mimetype = models.CharField(max_length = 200, blank = True, null = True)
 
     def save(self, *args, **kwargs):
-        self.file.name = ''.join((c for c in unicodedata.normalize('NFD', self.file.name) if unicodedata.category(c) != 'Mn'))
-        if not self.title:
-            self.title = self.file.name
-        # super(File, self).save(*args, **kwargs)
-        mimetype = mimetypes.guess_type(self.file.path, False)
-        if mimetype[0]:
-            file_type = re.search("\w+", mimetype[0]).group()
-            self.mimetype = file_type
-            self.true_mimetype = mimetype[0]
+        if self.file:
+            self.file.name = ''.join((c for c in unicodedata.normalize('NFD', self.file.name) if unicodedata.category(c) != 'Mn'))
+            if not self.title:
+                self.title = self.file.name
+            # super(File, self).save(*args, **kwargs)
+            mimetype = mimetypes.guess_type(self.file.path, False)
+            if mimetype[0]:
+                file_type = re.search("\w+", mimetype[0]).group()
+                self.mimetype = file_type
+                self.true_mimetype = mimetype[0]
         return super(File, self).save(*args, **kwargs)
     
     def delete(self, *args):
