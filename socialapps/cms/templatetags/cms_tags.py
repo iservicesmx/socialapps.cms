@@ -4,12 +4,12 @@ import re
 
 register = template.Library()
 
-@register.inclusion_tag("cms/navigation_portlet.html")
-def show_navigation(obj):
+@register.inclusion_tag("cms/navigation_portlet.html", takes_context= True)
+def show_navigation(context, obj):
     if not hasattr(obj,'get_local_menu'):
         while not hasattr(obj,'get_local_menu'):
             obj = obj.parent.get_type_object()
-    return { 'menu' : obj.get_local_menu(), 'absolute_url': obj.get_absolute_url()}
+    return { 'menu' : obj.get_local_menu(context['user']), 'absolute_url': obj.get_absolute_url()}
     
 @register.inclusion_tag("cms/breadcrumb.html")
 def show_breadcrumb(obj):

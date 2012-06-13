@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load socialapps_tags %}
-{% load courses_tags %}
 {% load cms_tags %}
 
 {% block extra_css %}
@@ -96,16 +95,7 @@
 	</div>
 	<div class="span4">
         {% block content_right %}
-    		{% get_content_parent object %}
-    		{% if content_parent.parent.portal_type == 'course' %}
-    			{% load courses_tags %}
-    			{% get_user_section content_parent.parent %}
-    			{% if section %}
-    				{% show_navigation section %}
-    			{% endif %}
-    		{% else %}
-    			{% show_navigation object %}
-    		{% endif %}
+			{% show_navigation object %}
     		{% show_multipage_toc object %}
     	{% endblock %}
 	</div>

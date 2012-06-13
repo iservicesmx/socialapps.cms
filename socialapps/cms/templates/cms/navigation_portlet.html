@@ -1,17 +1,38 @@
 {% load i18n %}
 <div class="widget">
 	<div class="portlet_menu">
-		<div class="title">{% trans "Navigation" %}</div>
-		<div class="widget-content">
-		<ul>
-		{% for item in menu %}
-			<li>
-			  <a href="/{{ absolute_url }}/{{ item.url }}" class="btn">
-			    <img src="{{ item.icon }}" alt="{{ item.description }}" class="type-icon"/> {{ item.title }}
-			  </a>
-			</li>
-		{% endfor %}
-		</ul>
-		</div>
+		<div class="title">{% if menu.meta.title %} {{ menu.meta.title }} {% else %} {% trans "Navigation" %} {% endif %}</div>
+		{% if menu.meta.style == 'list' %}
+			<div class="widget-content list">
+				<ul class="nav nav-tabs nav-stacked">
+					{% for item in menu.items %}
+						<li>
+							{% if item.type == 'button' %}
+								<a class="modal-launch-button btn" href="#modal-dialog" data-content="/{{ absolute_url }}/{{ item.url }}" data-toggle="modal">
+									<i class="{{ item.icon }}"></i>&nbsp;{{item.title}}
+								</a>
+							{% else %}
+								<a href="/{{ absolute_url }}/{{ item.url }}">
+									{{ item.title }}
+						  		</a>
+						  	{% endif %}
+						</li>
+					{% endfor %}
+				</ul>	
+			</div>
+		{% else %}
+			<div class="widget-content default">
+				<ul>
+
+					{% for item in menu.items %}
+						<li>
+						  <a href="/{{ absolute_url }}/{{ item.url }}" class="btn">
+						    <img src="{{ item.icon }}" alt="{{ item.description }}" class="type-icon"/> {{ item.title }}
+						  </a>
+						</li>
+					{% endfor %}
+				</ul>	
+			</div>	
+		{% endif %}
 	</div>
 </div>
