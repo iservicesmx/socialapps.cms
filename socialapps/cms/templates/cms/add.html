@@ -1,25 +1,4 @@
 {% load i18n %}
-<script type="text/javascript"> 
-function facebox_tab(){
-	$('.cms_subtypes a')
-	.unbind('click')
-	.bind('click', function() {
-		var glink = $(this).attr('href');
-		if(glink.match(/^#/)){
-			jQuery.facebox({div: glink});
-		}else{
-			jQuery.facebox({ajax: glink});
-		}
-		facebox_tab();          
-		return false;
-	});
-}
- 
-jQuery(document).ready(function($){
-	$.ajaxSetup({cache: false});
-	facebox_tab();
-})
-</script>
 {% if type_content %}
 	<div class="modal-header">
 		<a class="close" data-dismiss="modal">×</a>

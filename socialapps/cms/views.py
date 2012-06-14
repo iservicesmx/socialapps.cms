@@ -205,10 +205,10 @@ class BaseContentEdit(LoginRequiredMixin, FormView):
         self.success_url = self.get_success_url()
         # if self.object.portal_type == 'image' and not self.request.is_ajax():
             # return HttpResponse(python_to_json({"image":self.object.image.url_128x128, "success": True, "success_url": self.success_url}), content_type='application/json')            
-        return HttpResponse(python_to_json({"success": True, "success_url": self.success_url}), content_type='application/json')
+        return HttpResponse(python_to_json({"success": True, "success_url": self.success_url}))
         
     def form_invalid(self, form):
-        return HttpResponse(python_to_json({"errors" : form.errors}), content_type='application/json')
+        return HttpResponse(python_to_json({"errors" : form.errors}))
 
 class BaseContentDelete(LoginRequiredMixin, DeleteView):
     template_name = "cms/confirm.html"
