@@ -12,6 +12,8 @@ from django.utils.translation import ugettext, ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.models import Site
 from mptt.models import MPTTModel, TreeForeignKey
+from django.db.models.signals import pre_save, pre_delete
+from django.dispatch import receiver
 
 from socialapps.core.models import BaseMetadata
 
@@ -145,10 +147,11 @@ class Image(BaseContent):
                     self.title = self.image.name
         return super(Image, self).save(*args, **kwargs)
 
-    def delete(self, *args):
-        if self.image:
-            self.image.delete()
-        return super(Image, self).delete(*args)
+@receiver(pre_delete, sender=Image)
+def delete_image(sender, **kwargs):
+    instance = kwargs['instance']
+    if instance.image:
+        instance.image.delete()
 
 class File(BaseContent):
     file = models.FileField(upload_to="files")
@@ -167,12 +170,13 @@ class File(BaseContent):
                 self.mimetype = file_type
                 self.true_mimetype = mimetype[0]
         return super(File, self).save(*args, **kwargs)
-    
-    def delete(self, *args):
-        if self.file:
-            self.file.delete()
-        return super(File, self).delete(*args)
 
     @property
     def filename(self):
         return os.path.split(self.file.name)[1]
+
+@receiver(pre_delete, sender=File)
+def delete_file(sender, **kwargs):
+    instance = kwargs['instance']
+    if instance.file:
+        instance.file.delete()
