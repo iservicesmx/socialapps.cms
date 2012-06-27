@@ -137,9 +137,8 @@
 		<h3><img src="{{ STATIC_URL }}{{item.icon}}" alt="{{ item.title }}" width="16" height="16" class="type-icon"/>{% trans "Edit" %} {% trans title %}</h3>
 	{% endif %}
 </div>
-	<form method="POST" id="cms-form" action="{{ url_form_post }}?X-Progress-ID={% now "U" %}" enctype="multipart/form-data" class="form horizontal-form">
+	<form method="POST" id="cms-form" action="{{ url_form_post }}" enctype="multipart/form-data" class="form horizontal-form">
     {% csrf_token %}
-	<input type="hidden" name="X-Progress-ID" value="{% now "U" %}"  id="progress-id"/>
 	<div class="modal-body">
 	    <fieldset>
 	        {{ form|as_bootstrap }}
