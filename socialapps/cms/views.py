@@ -36,7 +36,7 @@ class BaseContentView(LoginRequiredMixin, JSONTemplateView):
             self.context = self.get_context_data()
 
         return self.render_to_response(self.context)
-            
+
     def get_context_data(self, **kwargs):
         if self.request.is_ajax():
             if self.object.portal_type == 'image':
@@ -54,24 +54,32 @@ class BaseContentView(LoginRequiredMixin, JSONTemplateView):
                     'ancestors' : self.object.get_object_ancestors()[1:]
             })
             return kwargs
-            
-    def get_children(self, **kwargs):        
+
+    def get_children(self, **kwargs):
         if has_permission(self.object, self.request.user, 'edit'):
             if self.template_name != "user":
                 return self.object.get_object_children(True)
         return self.object.get_object_children(False)
 
-    
     def get_template_names(self, **kwargs):
         if not self.template_name == "user":
-            if has_permission(self.object, self.request.user, 'edit'):
-                return self.object.get_template("admin")
+            # print has_permission(self.object.get_base_object, self.request.user, 'edit')
+            temp = self.object
+            while temp:
+                if has_permission(temp, self.request.user, 'edit'):
+                    return self.object.get_template('admin')
+                if not hasattr(temp, 'parent'):
+                    break
+                if not temp.parent:
+                    break
+                temp = temp.parent.get_type_object()
         return self.object.get_template(None)
 
     def get_object(self):
         path = self.kwargs.get('path', None)
         site = self.request.site
         return BaseContent.objects.get_base_object(path, site)
+
 
 class ImageThumb(BaseContentView):
     def get(self, request, **kwargs):
@@ -81,17 +89,17 @@ class ImageThumb(BaseContentView):
         else:
             thumb_url = get_thumbnail(image.image, self.kwargs.get('size', None), upscale=False).url
             return HttpResponse(python_to_json({"success": True, "thumb_url": thumb_url, "original_size": "%dx%d" %  (image.image.width,image.image.height) }), content_type='application/json')
-                
+
 class ShowBrowser(BaseContentView):
     def get_template_names(self):
         return 'cms/browser.html'
-        
+
     def get_context_data(self, **kwargs):
         kwargs.update({
             'portal_type'   : self.kwargs.get('portal_type'),
         })
         return super(ShowBrowser, self).get_context_data(**kwargs)
-        
+
 class BaseContentEdit(LoginRequiredMixin, FormView):
     form_class = None
     template_name = None
@@ -148,7 +156,7 @@ class BaseContentEdit(LoginRequiredMixin, FormView):
             'portal_type'   : self.get_portal_type().name,
         })
         return super(BaseContentEdit, self).get_context_data(**kwargs)
-        
+
     def get_portal_type(self):
         if not self.object:
             return portal_types.get_portal_type(self.model)
@@ -176,13 +184,13 @@ class BaseContentEdit(LoginRequiredMixin, FormView):
     def get_form_class(self):
         if not self.form_class:
             return portal_types.get_portal_type(self.model).edit_form
-        return self.form_class 
+        return self.form_class
 
     def get_template_names(self):
         if not self.template_name:
             return "cms/edit_form.html"
         return self.template_name
-    
+
     def get_parent_object(self):
         if not self.parent:
             path = self.kwargs.get('path', None)
@@ -194,19 +202,19 @@ class BaseContentEdit(LoginRequiredMixin, FormView):
         self.object = form.save(commit = False)
         self.object.creator = self.request.user
         self.object.tags = ' '.join(self.request.POST.get('tags', '').split(','))
-        
+
         if hasattr(self.request, 'site'):
             self.object.site = self.request.site
-            
+
         if self.add:
             self.object.parent = self.parent
             self.object.portal_type = self.kwargs.get('portal_type', None)
         self.object.save()
         self.success_url = self.get_success_url()
         # if self.object.portal_type == 'image' and not self.request.is_ajax():
-            # return HttpResponse(python_to_json({"image":self.object.image.url_128x128, "success": True, "success_url": self.success_url}), content_type='application/json')            
+            # return HttpResponse(python_to_json({"image":self.object.image.url_128x128, "success": True, "success_url": self.success_url}), content_type='application/json')
         return HttpResponse(python_to_json({"success": True, "success_url": self.success_url}))
-        
+
     def form_invalid(self, form):
         return HttpResponse(python_to_json({"errors" : form.errors}))
 
@@ -215,7 +223,7 @@ class BaseContentDelete(LoginRequiredMixin, DeleteView):
     object = None
 
     def post(self, request, *args, **kwargs):
-        self.object = self.get_object()        
+        self.object = self.get_object()
         return super(BaseContentDelete, self).post(request, *args, **kwargs)
 
     def get(self, request, *args, **kwargs):
@@ -231,13 +239,13 @@ class BaseContentDelete(LoginRequiredMixin, DeleteView):
         if self.object.parent:
             return "/%s" % self.object.parent.get_absolute_url()
         return "/"
-        
+
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
         if self.object.slug == 'resources':
             return HttpResponseRedirect('/%s' % self.object.get_absolute_url())
         return super(BaseContentDelete, self).delete(request, *args, **kwargs)
-        
+
     def get_context_data(self, **kwargs):
         kwargs.update({
             'object'        : self.object,
@@ -250,7 +258,7 @@ class BaseContentAdd(LoginRequiredMixin, TemplateView):
         List portal types allowed
     """
     template_name = "cms/add.html"
-    
+
     def get_object(self):
         path = self.kwargs.get('path', None)
         site = self.request.site
@@ -265,10 +273,10 @@ class BaseContentAdd(LoginRequiredMixin, TemplateView):
                 type_content.append(item)
             else:
                 type_container.append(item)
-                
+
         if self.get_object().get_portal_type().name == 'folder':
             type_container.append(self.get_object().get_portal_type())
-            
+
         kwargs.update({
             'path'          : self.kwargs.get('path', None),
             'type_container': type_container,
