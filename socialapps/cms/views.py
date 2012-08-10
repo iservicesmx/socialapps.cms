@@ -200,7 +200,7 @@ class BaseContentEdit(LoginRequiredMixin, FormView):
 
     def form_valid(self, form):
         self.object = form.save(commit = False)
-        self.object.creator = self.request.user
+        # self.object.creator = self.request.user
         self.object.tags = ' '.join(self.request.POST.get('tags', '').split(','))
 
         if hasattr(self.request, 'site'):
@@ -209,6 +209,7 @@ class BaseContentEdit(LoginRequiredMixin, FormView):
         if self.add:
             self.object.parent = self.parent
             self.object.portal_type = self.kwargs.get('portal_type', None)
+            self.object.creator = self.request.user
         self.object.save()
         self.success_url = self.get_success_url()
         # if self.object.portal_type == 'image' and not self.request.is_ajax():
