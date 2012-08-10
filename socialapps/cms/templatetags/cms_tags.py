@@ -9,7 +9,7 @@ def show_navigation(context, obj):
     path_items = context['request'].path.split("/")
     if "courses" in path_items and ("resources" in path_items or "syllabus" in path_items):
         section = context['request'].session.get('current_section')
-        if section:
+        if section and obj.parent == section.parent:
             obj = section
     if not hasattr(obj, 'get_local_menu'):
         while not hasattr(obj, 'get_local_menu'):
