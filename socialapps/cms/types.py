@@ -82,7 +82,7 @@ class ImageType(PortalType):
     name = "image"
     title = _("Image")
     global_addable = False
-    icon = 'images/image-32.png'
+    icon = 'images/icons/32x32/image.png'
     subtypes = []
     templates = [ImageTemplate,]
     default_template = ImageTemplate
@@ -104,7 +104,7 @@ class MultiPageType(PortalType):
     name = "multipage"
     title = _("MultiPage")
     global_addable = False
-    icon = 'images/multipage-32.png'
+    icon = 'images/icons/32x32/multipage.png'
     subtypes = [PageType, ImageType, FileType]
     templates = [MultiPageTemplate, MultiPageAdminTemplate]
     default_template = MultiPageTemplate
