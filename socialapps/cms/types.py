@@ -64,6 +64,13 @@ class MultiPageTemplate(PortalTemplate):
     title = _('Multi Page')
     path = 'cms/multipage.html'
     image = '/static/images/types/multipage.png'
+    
+class LinkTemplate(PortalTemplate):
+    name = 'Link'
+    title = 'External Link'
+    path = 'cms/link.html'
+    image = '/static/images/types/link.png'
+
 
 #=============== Types Definition ===================
 
@@ -111,19 +118,31 @@ class MultiPageType(PortalType):
     add_form = MultiPageEditForm
     edit_form = MultiPageEditForm
 
+class LinkType(PortalType):
+    name = "link"
+    title = "External Link"
+    global_addable = True
+    icon = 'images/icons/32x32/hyperlink.png'
+    subtypes = []
+    templates = [LinkTemplate,]
+    default_template = LinkTemplate
+    add_form = LinkEditForm
+    edit_form = LinkEditForm
+
 class FolderType(PortalType):
     name = 'folder'
     title = _('Folder')
     global_addable = True
     icon = 'images/icons/32x32/folder.png'
-    subtypes = [PageType, MultiPageType, FileType, ImageType]
+    subtypes = [PageType, MultiPageType, FileType, ImageType, LinkType]
     templates = [FolderTemplate, FolderAdminTemplate, FolderTableTemplate, FolderContentTemplate]
     default_template = FolderTemplate
     add_form = FolderEditForm
     edit_form = FolderEditForm
-
+    
 portal_types.registry(File, FileType)
 portal_types.registry(Image, ImageType)
 portal_types.registry(Page, PageType)
 portal_types.registry(MultiPage, MultiPageType)
 portal_types.registry(Folder, FolderType)
+portal_types.registry(Link, LinkType)

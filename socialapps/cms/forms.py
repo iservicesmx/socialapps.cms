@@ -49,4 +49,13 @@ class FileEditForm(forms.ModelForm):
         fields = ("title", "description", "tags", "file", "hide")
         widgets = {
             'description' : RichTextEditor,
-        }    
+        }
+        
+class LinkEditForm(forms.ModelForm):
+    class Meta:
+        model = Link
+        fields = ("title", "description", "url", "frame", "redirect", "tags", "hide")
+        widgets = {
+            'description' : RichTextEditor,
+        }
+    

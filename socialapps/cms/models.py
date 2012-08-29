@@ -180,3 +180,8 @@ def delete_file(sender, **kwargs):
     instance = kwargs['instance']
     if instance.file:
         instance.file.delete()
+        
+class Link(BaseContent):
+    url = models.URLField(_("Link"), verify_exists = False)
+    frame = models.BooleanField(_('frame'), default=False)
+    redirect = models.BooleanField(_("Redirect"), default=False)

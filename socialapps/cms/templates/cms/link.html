@@ -1,0 +1,32 @@
+{% extends "cms/base_view.html" %}
+{% load i18n %}
+
+{% block extra_js %}
+<script type="text/javascript">
+	{% if object.redirect %}
+		window.open("{{ object.url }}","_newtab");
+		window.location = "/{{ parent.get_absolute_url}}";
+	{% endif %}
+</script>
+{% endblock %}
+
+{% block content_left %}
+<div class="template-list">
+	<h1>{{ object.title }}</h1>	
+	<p>{{ object.description|safe }}</p>
+	<br/>
+	{% if not object.frame %}
+	<a class="btn btn-large" href="{{ object.url }}" target="_blank">{% trans "View" %}</a>
+	{% else %}
+	<a class="btn btn-large" href="#" onclick='window.open("{{ object.url }}","_newtab","toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1");' >{% trans "View" %}</a>
+	{% endif %}
+	<br />
+	<ul class="tagit">
+	    {% for tag in object.tags.split %}
+	        <li class="tagit-show ui-state-default ui-corner-all">    
+	            {{ tag }}
+	        </li>
+	    {% endfor %}
+	</ul>
+</div>
+{% endblock %}
