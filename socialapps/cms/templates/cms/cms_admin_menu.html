@@ -10,8 +10,12 @@
 				<ul class="dropdown-menu  nav-list">
 					{% if object.get_portal_type.subtypes %}
 						<li><a href="#modal-dialog" class="modal-launch-button" data-toggle="modal" data-content="{% url base_add path=object.get_absolute_url %}"><i class="icon-plus"></i>&nbsp;{% trans "Add" %}</a></li>
-					{% endif %}		
-						<li><a class="modal-launch-button" href="#modal-dialog" data-toggle="modal" data-content="{% url base_edit path=object.get_absolute_url %}"><i class="icon-edit"></i>&nbsp;{% trans "Edit" %}</a></li>
+					{% endif %}
+							{% if object.portal_type in "exam,quiz,survey" %}
+								<li><a href="{% url questionnaire_builder path=object.get_absolute_url %}"><i class="icon-edit"></i>&nbsp;{% trans "Edit" %}</a></li>
+							{% else %}
+								<li><a class="modal-launch-button" href="#modal-dialog" data-toggle="modal" data-content="{% url base_edit path=object.get_absolute_url %}"><i class="icon-edit"></i>&nbsp;{% trans "Edit" %}</a></li>
+							{% endif %}
 					{% if object.slug != 'resources' and object.slug != 'syllabus' and object.slug != 'learningpath' %}											
 						<li><a href="#confirm-modal" class="modal-confirm-button" data-content="{% url base_delete path=object.get_absolute_url %}" data-toggle="modal"><i class="icon-trash"></i>&nbsp;{% trans "Delete" %}</a></li>
 					{% endif %}
