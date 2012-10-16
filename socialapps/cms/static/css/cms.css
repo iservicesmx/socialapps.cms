@@ -170,12 +170,14 @@
 	background-color: gray;
 }
 
+/*
 .cms-breadcrumb .current {
     font-weight: bold;
 }
+*/
 /* end base cms template */
 
-.template-list { margin: 0 0 0 20px; min-height: 435px; }
+.template-list { min-height: 435px; }
     .template-list #children-list {
         margin: 0;
         padding: 0;

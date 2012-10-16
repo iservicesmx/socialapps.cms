@@ -2,9 +2,9 @@
 {% load thumbnail %}
 {% load i18n %}
 
+{% block content_title %}{{ object.title }}{% endblock %}
 {% block content_left %}
 <div class="template-list">
-	<h1>{{ object.title }}</h1>
 	<p>{{ object.description|safe }}</p>
 	<br/>
 	<ul class="tagit">

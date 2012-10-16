@@ -1,9 +1,8 @@
 {% load i18n %}
 <div class="widget">
-	<div class="portlet_menu">
-		<div class="title">{% if menu.meta.title %} {{ menu.meta.title }} {% else %} {% trans "Navigation" %} {% endif %}</div>
+		<div class="widget-header"><h3>{% if menu.meta.title %} {{ menu.meta.title }} {% else %} {% trans "Navigation" %} {% endif %}</h3></div>
 		{% if menu.meta.style == 'list' %}
-			<div class="widget-content list">
+			<div class="widget-content portlet_menu list">
 				<ul class="nav nav-tabs nav-stacked">
 					{% for item in menu.items %}
 						<li>
@@ -21,7 +20,7 @@
 				</ul>	
 			</div>
 		{% else %}
-			<div class="widget-content default">
+			<div class="widget-content portlet_menu default">
 				<ul>
 
 					{% for item in menu.items %}
@@ -34,5 +33,4 @@
 				</ul>	
 			</div>	
 		{% endif %}
-	</div>
 </div>

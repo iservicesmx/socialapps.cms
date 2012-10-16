@@ -4,10 +4,10 @@
 {% load pagination_tags %}
 {% load socialapps_tags %}
 
+{% block content_title %}{{ object.title }}{% endblock %}
 {% block content_left %}
 <div class="cms-folder">
 	<div class="template-list">
-		<h1>{{ object.title }}</h1>
 	   	<p class="description">{{ object.description|safe }}</p>
 		<ul class="tagit">
 	       	{% for tag in object.tags.split %}

@@ -1,5 +1,12 @@
 import sys
+import mimetypes
+
 from socialapps.cms.registration import portal_types
+
+mimetypes.add_type('application/x-rar-compressed', '.rar', False)
+mimetypes.add_type('video/x-ms-wmv', '.wmv', False)
+mimetypes.add_type('video/x-flv', '.flv', False)
+
 
 LOADING = False
 

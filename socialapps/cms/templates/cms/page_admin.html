@@ -3,10 +3,10 @@
 {% load courses_tags %}
 {% load pagination_tags %}
 
+{% block content_title %}{{ object.title }}{% endblock %}
 {% block content_left %}
 <div class="cms-page">
 	<div class="template-list cms-page">
-	    <h1>{{ object.title }}</h1>
 	    <p class="description">{{ object.description|safe }}</p>
 	    <p>{{ object.text|safe }}</p>
 		<br/>

@@ -5,8 +5,8 @@
     				{% if not forloop.first %}
     					<div class="separator left"></div>
     				{% endif %}
-    				<div class="item">{{ item.title|truncatewords:2 }}</div>
-    				<div class="separator right"></div>	 									
+    				<div class="item">{{ item.title|truncatewords:3 }}</div>
+    				<div class="separator right"></div>									
     			</a>
     		</li>
 	{% endfor %}
@@ -15,7 +15,7 @@
 			{% if ancestors %}
 				<div class="separator left"></div>
 			{% endif %}
-			<div class="item">{{ object.title|truncatewords:2 }}</div>
+			<div class="item">{{ object.title|truncatewords:3 }}</div>
 			<div class="separator right"></div>
 		</a>
 	</li>

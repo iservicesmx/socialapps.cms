@@ -1,9 +1,5 @@
 import unicodedata
 import re
-import mimetypes
-mimetypes.add_type('application/x-rar-compressed', '.rar', False)
-mimetypes.add_type('video/x-ms-wmv', '.wmv', False)
-mimetypes.add_type('video/x-flv', '.flv', False)
 
 from django.db import models
 from django.conf import settings
@@ -15,6 +11,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 from django.db.models.signals import pre_save, pre_delete
 from django.dispatch import receiver
 
+from socialapps.cms import mimetypes
 from socialapps.core.models import BaseMetadata
 
 from .registration import portal_types
@@ -59,20 +56,12 @@ class BaseContent(MPTTModel, BaseMetadata):
         unique_together = ('parent', 'slug')
         ordering = ('tree_id', 'lft')
         order_insertion_by = 'slug'
-        
-#    def get_children(self):
-#        children = super(BaseContent, self).get_children()
-#        return [child.get_type_object() for child in children]
-
-#    def get_ancestors(self):
-#        ancestors = super(BaseContent, self).get_ancestors()
-#        return [ancestor.get_type_object() for ancestor in ancestors]
-        
-    def get_object_children(self, show_all=False):
+                
+    def get_object_children(self, show_all=False, **kwargs):
         if not show_all:
-            children = self.get_children().filter(hide__exact = False)
+            children = self.get_children().filter(hide__exact = False, **kwargs)
         else:
-            children = self.get_children()
+            children = self.get_children().filter(**kwargs)
         return [child.get_type_object() for child in children]
         
     def get_object_ancestors(self):

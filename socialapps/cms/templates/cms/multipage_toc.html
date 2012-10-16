@@ -1,7 +1,7 @@
 {% load i18n %}
 {% if toc %}
     <div class="widget">
-        <div class="title">{% trans "Table Of Contents" %}</div>
+        <div class="widget-header"><h3>{% trans "Table Of Contents" %}</h3></div>
         <div class="widget-content">
         	<ul class="nav nav-pills nav-stacked">
         		{% for item in toc %}
