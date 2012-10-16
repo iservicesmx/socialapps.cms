@@ -1,15 +1,18 @@
 {% load i18n %}
+
 {% if type_content %}
 	<div class="modal-header">
 		<a class="close" data-dismiss="modal">×</a>
 		<h3>{% trans "Add Content" %}</h3>
 	</div>
-	<div class="modal-body">	
-		{% for item in type_content %} 
-		  <a class="btn modal-launch-button" href="#modal-dialog" data-content="{% url base_create path item.name %}">
-		    <img src="{{ STATIC_URL }}{{item.icon}}" alt="{{ item.title }}" class="type-icon" width="32" height="32" />  {{ item.title }}
-		  </a>		
+	<div class="modal-body">
+	    <ul class="add_type_content clearfix">
+		{% for item in type_content %}
+		<li>
+		  <a class="modal-launch-button" href="#modal-dialog" data-content="{% url base_create path item.name %}" style="background-image: url({{ STATIC_URL }}{{item.icon}})">{{ item.title }}</a>
+		</li>
 		{% endfor %}
+		</ul>
 	</div>
 {% endif %}
 
@@ -19,10 +22,12 @@
 		<h3>{% trans "Add Container" %}</h3>
 	</div>
 	<div class="modal-body">
+	    <ul class="add_type_content clearfix">
 		{% for item in type_container %} 
-		  <a class="btn modal-launch-button" href="#modal-dialog" data-content="{% url base_create path item.name %}">
-		    <img src="{{ STATIC_URL }}{{item.icon}}" alt="{{ item.title }}" class="type-icon" width="32" height="32" />  {{ item.title }}
-		  </a>		
+		<li>
+		  <a class="modal-launch-button" href="#modal-dialog" data-content="{% url base_create path item.name %}" style="background-image: url({{ STATIC_URL }}{{item.icon}})">{{ item.title }}</a>
+		</li>	
 		{% endfor %}
+		</ul>
 	</div>
 {% endif %}
