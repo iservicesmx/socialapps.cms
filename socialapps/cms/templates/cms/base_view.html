@@ -52,57 +52,61 @@
 {% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="span12">
-        <div id="content-tabs" class="navbar">
-            <div class="navbar-inner">
-                <div class="container">
-		            {% block content_tabs %}
-					{% show_breadcrumb object %}
-					{% ifhasperm edit object %}
-						{% include "cms/cms_admin_menu.html" with object=object %}
-					{% endifhasperm %}			
-					{% if parent.portal_type == 'multipage' %}			
-						<ul class="nav pull-right">
-							<li>
-								<div class="btn-group">
-									{% with object.get_previous_sibling as previous %}
-										{% if previous %}									
-											<a class="btn primary" href="/{{ previous.get_absolute_url }}" rel="tooltip" data-original-title="{{previous.title}}" data-placement="bottom"><i class="icon-chevron-left"></i>{% trans "Previous" %}</a>
-										{% else %}
-											<a class="btn primary disabled" href="#" rel="tooltip" data-original-title="{% trans 'No previous object' %}" data-placement="bottom"><i class="icon-chevron-left"></i>{% trans "Previous" %}</a>	
-										{% endif %}
-									{% endwith %}
-									{% with object.get_next_sibling as next %}
-										{% if next %}
-											<a class="btn primary" href="/{{next.get_absolute_url }}" rel="tooltip" data-original-title="{{next.title}}" data-placement="bottom">{% trans "Next" %}<i class="icon-chevron-right"></i></a>
-										{% else %}
-											<a class="btn primary disabled" href="#" rel="tooltip" data-original-title="{% trans 'No next object' %}" data-placement="bottom">{% trans "Next" %}<i class="icon-chevron-right"></i></a>
-										{% endif %}
-									{% endwith %}
-								</div>
-							</li>
-						</ul>
-					{% endif %}
-				{% endblock %}
+	{% block content_top %}
+		<div class="row">
+		    <div class="span12">
+		        <div id="content-tabs" class="navbar">
+		            <div class="navbar-inner">
+		                <div class="container">
+				            {% block content_tabs %}
+							{% show_breadcrumb object %}
+							{% ifhasperm edit object %}
+								{% include "cms/cms_admin_menu.html" with object=object %}
+							{% endifhasperm %}			
+							{% if parent.portal_type == 'multipage' %}			
+								<ul class="nav pull-right">
+									<li>
+										<div class="btn-group">
+											{% with object.get_previous_sibling as previous %}
+												{% if previous %}									
+													<a class="btn primary" href="/{{ previous.get_absolute_url }}" rel="tooltip" data-original-title="{{previous.title}}" data-placement="bottom"><i class="icon-chevron-left"></i>{% trans "Previous" %}</a>
+												{% else %}
+													<a class="btn primary disabled" href="#" rel="tooltip" data-original-title="{% trans 'No previous object' %}" data-placement="bottom"><i class="icon-chevron-left"></i>{% trans "Previous" %}</a>	
+												{% endif %}
+											{% endwith %}
+											{% with object.get_next_sibling as next %}
+												{% if next %}
+													<a class="btn primary" href="/{{next.get_absolute_url }}" rel="tooltip" data-original-title="{{next.title}}" data-placement="bottom">{% trans "Next" %}<i class="icon-chevron-right"></i></a>
+												{% else %}
+													<a class="btn primary disabled" href="#" rel="tooltip" data-original-title="{% trans 'No next object' %}" data-placement="bottom">{% trans "Next" %}<i class="icon-chevron-right"></i></a>
+												{% endif %}
+											{% endwith %}
+										</div>
+									</li>
+								</ul>
+							{% endif %}
+						{% endblock %}
+					</div>
+				</div>
 			</div>
 		</div>
-	</div>
-</div>
-<div class="row">
-	<div class="span8">
-	    <div class="widget">
-	    <div class="widget-header"><h3>{% block content_title %}{% endblock %}</h3></div>
-		<div class="widget-content">
-			{% block content_left %}{% endblock %}
+	{% endblock %}
+	{% block content_middle %}
+		<div class="row">
+			<div class="span8">
+			    <div class="widget">
+			    <div class="widget-header"><h3>{% block content_title %}{% endblock %}</h3></div>
+				<div class="widget-content">
+					{% block content_left %}{% endblock %}
+				</div>
+				</div>
+			</div>
+			<div class="span4">
+		        {% block content_right %}
+					{% show_navigation object %}
+		    		{% show_multipage_toc object %}
+		    	{% endblock %}
+			</div>
 		</div>
-		</div>
-	</div>
-	<div class="span4">
-        {% block content_right %}
-			{% show_navigation object %}
-    		{% show_multipage_toc object %}
-    	{% endblock %}
-	</div>
-</div>
+	{% endblock %}
 {% endblock %}
