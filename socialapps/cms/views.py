@@ -43,17 +43,25 @@ class BaseContentView(LoginRequiredMixin, JSONTemplateView):
                 sizes = []
                 for size in self.object.image.sizes:
                     sizes.append({'size': '%dx%d' % size, 'url': getattr(self.object.image, 'url_%dx%d' % size)})
-                return {'object' : self.object.image.url_128x128, 'sizes': sizes }
+                kwargs.update({
+                    'object': self.object.image_url_128x128,
+                    'sizes': sizes
+                })
+                # return {'object' : self.object.image.url_128x128, 'sizes': sizes }
             else:
-                return{'title': self.object.title, 'url': '/'+self.object.get_absolute_url() }
+                kwargs.update({
+                    'title': self.object.title,
+                    'url': '/' + self.object.get_absolute_url()
+                })
+                # return{'title': self.object.title, 'url': '/'+self.object.get_absolute_url() }
         else:
             kwargs.update({
-                    'object'    : self.object,
-                    'parent'    : self.parent,
-                    'children'  : self.children,
-                    'ancestors' : self.object.get_object_ancestors()[1:]
+                    'object': self.object,
+                    'parent': self.parent,
+                    'children': self.children,
+                    'ancestors': self.object.get_object_ancestors()[1:]
             })
-            return kwargs
+        return kwargs
 
     def get_children(self, **kwargs):
         if has_permission(self.object, self.request.user, 'edit'):
