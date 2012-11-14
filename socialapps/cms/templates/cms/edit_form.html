@@ -70,13 +70,15 @@
 			} else if ($('#id_image', $form).length > 0) {
 				$('#id_image', $form).removeClass('hide');
 			}
-			for (var item in data.errors) {
-				$('#field-error-' + item + ' .errorlist').html('');
-				for (var error in data.errors[item]) {
-					$('#field-error-' + item + ' .errorlist').append('<li>' + data.errors[item][error] + '</li>');
-					$('#id_' + item).css('border', '1px solid #F00');
-				}
-			}
+            $('.help-inline').remove();
+            $('.control-group').removeClass('error');
+            for (var item in data.errors) {
+                for (var error in data.errors[item]) {
+                    $div = $('#div_id_' + item);
+                    $div.addClass('error');
+                    $div.find('.controls').append('<span id="error_' + item + '" class="help-inline">'+ data.errors[item][error] +'</span>');
+                }
+            }
 		}
 	}
 
