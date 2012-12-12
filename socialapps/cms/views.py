@@ -162,6 +162,7 @@ class BaseContentEdit(LoginRequiredMixin, FormView):
             'title'         : self.get_portal_type().title,
             'add'           : self.add,
             'portal_type'   : self.get_portal_type().name,
+            'icon'         : self.get_portal_type().icon,
         })
         return super(BaseContentEdit, self).get_context_data(**kwargs)
 

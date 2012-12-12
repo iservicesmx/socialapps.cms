@@ -1,75 +1,75 @@
 {% load i18n %}
 {% load bootstrap_tags %}
-	<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.cleditor.extimage.js"></script>
-	{% if parent %}
-		<script type="text/javascript">
-			$.cleditor.buttons.image.uploadUrl = '{% url base_create parent.get_absolute_url "image" %}';
-			$.cleditor.buttons.image.popupContent =	
-				'<ul class="nav nav-tabs browser-tabs">' +
-					'<li><a href="#url" data-toggle="tab">{% trans "Url from a external image" %}</a></li>' +				
-					'<li><a href="#upload" data-toggle="tab">{% trans "Upload from your computer" %}</a></li>' +
-					'<li><a href="#existing" data-toggle="tab">{% trans "Choose an existing one" %}</a></li>' +					
-				'</ul>' +
-				'<div class="tab-content">'+
-					'<div id="url" class="tab-pane fade">' +
-						'<input type="text" class="url" size="40" value="" />' +				
-					'</div>' +
-					'<div id="upload" class="tab-pane fade">' +
-						'<form method="post" enctype="multipart/form-data" action="{% url base_create parent.get_absolute_url "image" %}?X-Progress-ID={% now "U" %}">' +
-						"{% csrf_token %}" +
-						'<input type="hidden" name="X-Progress-ID" value="{% now "U" %}"  id="progress-id"/>' + 
-						'<input type="hidden" name="hide" value="1">' +
-						'<input id="id_image" name="image" type="file" />' +
-						'<div id="progress" class="progress progress-striped hide">' +
-                        	'<div class="bar"style="width: 0%;">{% trans "Uploading" %}</div>' +
-                    	'</div>' +
-                    	'<input type="submit"  class="btn" value="{% trans "Upload" %}"/>'+
-						'</form>' +
-						'<div class="data"></div>' +
-					'</div>' +
-					'<div class="tab-pane fade" id="existing">' +
-						'<iframe width="500" height="250" name="existing" style="border:1px solid #CCC;" src="{% url ajax_browser parent.get_absolute_url "image" %}" />' +
-					'</div>' +
-					'<input type="button" class="btn save-image" value="{% trans "Insert" %}"/>' + 
-				'</div>';
-		
-			$.cleditor.buttons.link.popupContent = 
-				'<ul class="nav nav-tabs browser-url-tabs">' +
-					'<li><a href="#link-url" data-toggle="tab">{% trans "External url" %}</a></li>' +								
-					'<li><a href="#existing-url" data-toggle="tab">{% trans "Choose an existing object to link" %}</a></li>' +
-				'</ul>' +
-				'<div class="tab-content">' +
-					'<div id="link-url" class="tab-pane fade">' +					
-						'<input type="text" class="url" size="40" value="" />' +
-					'</div>' +
-					'<div id="existing-url" class="tab-pane fade">'+
-						'<iframe width="500" height="250" name="existing" style="border:1px solid #CCC;" src="{% url ajax_browser parent.get_absolute_url "all" %}" />' +
-					'</div>' +
-					'<input type="button" class="btn save-link" value="{% trans "Insert" %}"/>' +
-				'</div>';
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.cleditor.extimage.js"></script>
+    {% if parent %}
+        <script type="text/javascript">
+            $.cleditor.buttons.image.uploadUrl = '{% url base_create parent.get_absolute_url "image" %}';
+            $.cleditor.buttons.image.popupContent = 
+                '<ul class="nav nav-tabs browser-tabs">' +
+                    '<li><a href="#url" data-toggle="tab">{% trans "Url from a external image" %}</a></li>' +               
+                    '<li><a href="#upload" data-toggle="tab">{% trans "Upload from your computer" %}</a></li>' +
+                    '<li><a href="#existing" data-toggle="tab">{% trans "Choose an existing one" %}</a></li>' +                 
+                '</ul>' +
+                '<div class="tab-content">'+
+                    '<div id="url" class="tab-pane fade">' +
+                        '<input type="text" class="url" size="40" value="" />' +                
+                    '</div>' +
+                    '<div id="upload" class="tab-pane fade">' +
+                        '<form method="post" enctype="multipart/form-data" action="{% url base_create parent.get_absolute_url "image" %}?X-Progress-ID={% now "U" %}">' +
+                        "{% csrf_token %}" +
+                        '<input type="hidden" name="X-Progress-ID" value="{% now "U" %}"  id="progress-id"/>' + 
+                        '<input type="hidden" name="hide" value="1">' +
+                        '<input id="id_image" name="image" type="file" />' +
+                        '<div id="progress" class="progress progress-striped hide">' +
+                            '<div class="bar"style="width: 0%;">{% trans "Uploading" %}</div>' +
+                        '</div>' +
+                        '<input type="submit"  class="btn" value="{% trans "Upload" %}"/>'+
+                        '</form>' +
+                        '<div class="data"></div>' +
+                    '</div>' +
+                    '<div class="tab-pane fade" id="existing">' +
+                        '<iframe width="500" height="250" name="existing" style="border:1px solid #CCC;" src="{% url ajax_browser parent.get_absolute_url "image" %}" />' +
+                    '</div>' +
+                    '<input type="button" class="btn save-image" value="{% trans "Insert" %}"/>' + 
+                '</div>';
+        
+            $.cleditor.buttons.link.popupContent = 
+                '<ul class="nav nav-tabs browser-url-tabs">' +
+                    '<li><a href="#link-url" data-toggle="tab">{% trans "External url" %}</a></li>' +                               
+                    '<li><a href="#existing-url" data-toggle="tab">{% trans "Choose an existing object to link" %}</a></li>' +
+                '</ul>' +
+                '<div class="tab-content">' +
+                    '<div id="link-url" class="tab-pane fade">' +                   
+                        '<input type="text" class="url" size="40" value="" />' +
+                    '</div>' +
+                    '<div id="existing-url" class="tab-pane fade">'+
+                        '<iframe width="500" height="250" name="existing" style="border:1px solid #CCC;" src="{% url ajax_browser parent.get_absolute_url "all" %}" />' +
+                    '</div>' +
+                    '<input type="button" class="btn save-link" value="{% trans "Insert" %}"/>' +
+                '</div>';
 
-			$.cleditor.buttons.multimedia.popupContent = 
-				'<div id="existing-multimedia" class="">'+
-					'<iframe width="500" height="250" name="existing" style="border:1px solid #CCC;" src="{% url ajax_browser parent.get_absolute_url "all" %}" />' +
-				'</div>' +
-				'<input type="button" class="btn save-multimedia" value="{% trans "Insert" %}"/>';
-		</script>
-	{% endif %}
+            $.cleditor.buttons.multimedia.popupContent = 
+                '<div id="existing-multimedia" class="">'+
+                    '<iframe width="500" height="250" name="existing" style="border:1px solid #CCC;" src="{% url ajax_browser parent.get_absolute_url "all" %}" />' +
+                '</div>' +
+                '<input type="button" class="btn save-multimedia" value="{% trans "Insert" %}"/>';
+        </script>
+    {% endif %}
 <script type="text/javascript">
-	function save(data, statusText, xhr, $form) {
-		if (data.success) {
-			window.location = data.success_url;
-		} else {
-			$('input[type=submit]', $form).button('reset');
-			if($('#progress', $form).length > 0) {
-				$('#progress', $form).removeClass('active');
-				$('#progress', $form).addClass('hide');
-			}
-			if ($('#id_file', $form).length > 0) {
-				$('#id_file', $form).removeClass('hide');
-			} else if ($('#id_image', $form).length > 0) {
-				$('#id_image', $form).removeClass('hide');
-			}
+    function save(data, statusText, xhr, $form) {
+        if (data.success) {
+            window.location = data.success_url;
+        } else {
+            $('input[type=submit]', $form).button('reset');
+            if($('#progress', $form).length > 0) {
+                $('#progress', $form).removeClass('active');
+                $('#progress', $form).addClass('hide');
+            }
+            if ($('#id_file', $form).length > 0) {
+                $('#id_file', $form).removeClass('hide');
+            } else if ($('#id_image', $form).length > 0) {
+                $('#id_image', $form).removeClass('hide');
+            }
             $('.help-inline').remove();
             $('.control-group').removeClass('error');
             for (var item in data.errors) {
@@ -79,43 +79,43 @@
                     $div.find('.controls').append('<span id="error_' + item + '" class="help-inline">'+ data.errors[item][error] +'</span>');
                 }
             }
-		}
-	}
+        }
+    }
 
 
 
-	function selectSize(data, statusText, xhr, $form) {
+    function selectSize(data, statusText, xhr, $form) {
         $('input[type=submit]', $form).button('reset');
         $('#id_image', $form).removeClass('hide');
-		$('#progress', $form).removeClass('active');
-		$('#progress', $form).addClass('hide');
-	    if(data.success) {
-	        $.get(data.success_url+'/get_image_thumb/128x128', function(image) {
-	        	if(image.success) {
-	        	$('#upload form').hide();
-	        	$('#upload .data').html('<div>'+
+        $('#progress', $form).removeClass('active');
+        $('#progress', $form).addClass('hide');
+        if(data.success) {
+            $.get(data.success_url+'/get_image_thumb/128x128', function(image) {
+                if(image.success) {
+                $('#upload form').hide();
+                $('#upload .data').html('<div>'+
                     '<img src="'+ image.thumb_url+'"/>' +
-            		'<div>{% trans "Select size:" %}</div>' +
-            		'<select name="size" class="selected-size">' +
-            		    '<option selected="selected" value="' + data.success_url + '/get_image_thumb/128x128">{% trans "thumb" %} (128x128)</option>' +
-            		    '<option value="' + data.success_url + '/get_image_thumb/200x200">{% trans "mini" %} (200x200)</option>' +
-            		    '<option value="' + data.success_url + '/get_image_thumb/400x400">{% trans "preview" %} (400x400)</option>' +
-            		    '<option value="' + data.success_url + '/get_image_thumb/768x768">{% trans "large" %} (768x768)</option>' +
-            		    '<option value="' + data.success_url + '/get_image_thumb/0">{% trans "original" %} ('+ image.original_size +')</option>' +
-            		'</select>' +
-            	'</div>');		
-	        	}
+                    '<div>{% trans "Select size:" %}</div>' +
+                    '<select name="size" class="selected-size">' +
+                        '<option selected="selected" value="' + data.success_url + '/get_image_thumb/128x128">{% trans "thumb" %} (128x128)</option>' +
+                        '<option value="' + data.success_url + '/get_image_thumb/200x200">{% trans "mini" %} (200x200)</option>' +
+                        '<option value="' + data.success_url + '/get_image_thumb/400x400">{% trans "preview" %} (400x400)</option>' +
+                        '<option value="' + data.success_url + '/get_image_thumb/768x768">{% trans "large" %} (768x768)</option>' +
+                        '<option value="' + data.success_url + '/get_image_thumb/0">{% trans "original" %} ('+ image.original_size +')</option>' +
+                    '</select>' +
+                '</div>');      
+                }
 
-	        });
-	        $('.errorlist').html(''); 
-	    } else {
-	        for (var key in data) {
-	            for (var error in data[key]) {
-	                $("#field-error-" + key + " ul").html('<li>'+ data[key][error] +'</li>');
-	            }
-	        }
-	    }
-	}
+            });
+            $('.errorlist').html(''); 
+        } else {
+            for (var key in data) {
+                for (var error in data[key]) {
+                    $("#field-error-" + key + " ul").html('<li>'+ data[key][error] +'</li>');
+                }
+            }
+        }
+    }
 
     $(document).ready(function() {
         var availableTags = [ {% for t in tags %} '{{t}}',{% endfor %} ]
@@ -127,27 +127,30 @@
                                             "table image link unlink multimedia | pastetext | source";
         $.cleditor.defaultOptions.width = 650;
         $.cleditor.defaultOptions.height = 100;
-		$('#id_description').cleditor();
-		$('#upload form').ajaxForm({ dataType : 'json', success : selectSize, beforeSubmit: loadingForm});
+        $('#id_description').cleditor();
+        $('#upload form').ajaxForm({ dataType : 'json', success : selectSize, beforeSubmit: loadingForm});
     });
 </script>
 <div class="modal-header">
-	<a class="close" data-dismiss="modal">×</a>
-	{% if add %}
-		<h3><img src="{{ STATIC_URL }}{{item.icon}}" alt="{{ item.title }}" width="16" height="16" class="type-icon"/>{% trans "Add" %} {% trans title %}</h3>
-	{% else %}
-		<h3><img src="{{ STATIC_URL }}{{item.icon}}" alt="{{ item.title }}" width="16" height="16" class="type-icon"/>{% trans "Edit" %} {% trans title %}</h3>
-	{% endif %}
+    <a class="close" data-dismiss="modal">×</a>
+    <h3>
+         <img src="{{ STATIC_URL }}{{icon}}" alt="{{ title }}" width="16" height="16" class="type-icon"/>
+        {% if add %}
+            {% trans "Add" %} {% trans title %}
+        {% else %}
+            {% trans "Edit" %} {% trans title %}
+        {% endif %}
+    </h3>
 </div>
-	<form method="POST" id="cms-form" action="{{ url_form_post }}" enctype="multipart/form-data" class="form horizontal-form">
+    <form method="POST" id="cms-form" action="{{ url_form_post }}" enctype="multipart/form-data" class="form horizontal-form">
     {% csrf_token %}
-	<div class="modal-body">
-	    <fieldset>
-	        {{ form|as_bootstrap }}
-	    </fieldset>
-	</div>
-	<div class="modal-footer">
+    <div class="modal-body">
+        <fieldset>
+            {{ form|as_bootstrap }}
+        </fieldset>
+    </div>
+    <div class="modal-footer">
         <input type="submit" value="Save" class="btn btn-primary"/>
-		<a href="#" class="btn cancel" data-dismiss="modal">{% trans "Cancel" %}</a>
+        <a href="#" class="btn cancel" data-dismiss="modal">{% trans "Cancel" %}</a>
     </div>
 </form>
