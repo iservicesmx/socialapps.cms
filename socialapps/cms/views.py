@@ -10,7 +10,10 @@ from django.core.urlresolvers import reverse
 
 from socialapps.cms.models import BaseContent
 from socialapps.core.utils import python_to_json
-from socialapps.core.views import JSONTemplateView, LoginRequiredMixin
+from account.mixins import LoginRequiredMixin
+from socialapps.core.views import JSONTemplateView
+from socialapps.core.mixins import PermissionMixin
+
 
 from .registration import portal_types
 
@@ -108,7 +111,8 @@ class ShowBrowser(BaseContentView):
         })
         return super(ShowBrowser, self).get_context_data(**kwargs)
 
-class BaseContentEdit(LoginRequiredMixin, FormView):
+class BaseContentEdit(LoginRequiredMixin, PermissionMixin, FormView):
+    permission = 'edit'
     form_class = None
     template_name = None
     model = None
@@ -228,7 +232,8 @@ class BaseContentEdit(LoginRequiredMixin, FormView):
     def form_invalid(self, form):
         return HttpResponse(python_to_json({"errors" : form.errors}))
 
-class BaseContentDelete(LoginRequiredMixin, DeleteView):
+class BaseContentDelete(LoginRequiredMixin, PermissionMixin, DeleteView):
+    permission = 'delete'
     template_name = "cms/confirm.html"
     object = None
 
@@ -263,10 +268,11 @@ class BaseContentDelete(LoginRequiredMixin, DeleteView):
         })
         return super(BaseContentDelete, self).get_context_data(**kwargs)
 
-class BaseContentAdd(LoginRequiredMixin, TemplateView):
+class BaseContentAdd(LoginRequiredMixin, PermissionMixin, TemplateView):
     """
         List portal types allowed
     """
+    permission = 'add'
     template_name = "cms/add.html"
 
     def get_object(self):
