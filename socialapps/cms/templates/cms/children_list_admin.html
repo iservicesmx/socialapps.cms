@@ -12,16 +12,16 @@
 				</a>
 				<span class="child-title"><a href="/{{ child.get_absolute_url }}"><h4>{{child.title }}</h4></a></span>
 				<div class="child-desc">{{child.description|safe }}</div>
-			</td>			
+			</td>
 				<td class="admin-child">
 						<div>
 							<a href="#confirm-modal" rel="tooltip" class="modal-confirm-button" data-content="{% url base_delete path=child.get_absolute_url %}" data-original-title="{% trans 'Delete' %}" data-toggle="modal"><i class="icon-trash"></i></a>
-							<a class="modal-launch-button" rel="tooltip" href="#modal-dialog" data-toggle="modal" data-content="{% url base_edit path=child.get_absolute_url %}" data-original-title="{% trans 'Edit' %}"><i class="icon-edit"></i></a>					
+							<a class="modal-launch-button" rel="tooltip" href="#modal-dialog" data-toggle="modal" data-content="{% url base_edit path=child.get_absolute_url %}" data-original-title="{% trans 'Edit' %}"><i class="icon-edit"></i></a>
 						</div>
-						{% if child.hide %}	
+						{% if child.hide %}
 							<span class="hidden label label-important">{% trans "Hidden" %}</span>
-						{% endif %}						
-				</td>				
+						{% endif %}
+				</td>
 		</tr>
     {% endfor %}
 </table>

@@ -10,7 +10,10 @@ from django.core.urlresolvers import reverse
 
 from socialapps.cms.models import BaseContent
 from socialapps.core.utils import python_to_json
-from socialapps.core.views import JSONTemplateView, LoginRequiredMixin
+from account.mixins import LoginRequiredMixin
+from socialapps.core.views import JSONTemplateView
+from socialapps.core.mixins import PermissionMixin
+
 
 from .registration import portal_types
 
@@ -43,17 +46,25 @@ class BaseContentView(LoginRequiredMixin, JSONTemplateView):
                 sizes = []
                 for size in self.object.image.sizes:
                     sizes.append({'size': '%dx%d' % size, 'url': getattr(self.object.image, 'url_%dx%d' % size)})
-                return {'object' : self.object.image.url_128x128, 'sizes': sizes }
+                kwargs.update({
+                    'object': self.object.image_url_128x128,
+                    'sizes': sizes
+                })
+                # return {'object' : self.object.image.url_128x128, 'sizes': sizes }
             else:
-                return{'title': self.object.title, 'url': '/'+self.object.get_absolute_url() }
+                kwargs.update({
+                    'title': self.object.title,
+                    'url': '/' + self.object.get_absolute_url()
+                })
+                # return{'title': self.object.title, 'url': '/'+self.object.get_absolute_url() }
         else:
             kwargs.update({
-                    'object'    : self.object,
-                    'parent'    : self.parent,
-                    'children'  : self.children,
-                    'ancestors' : self.object.get_object_ancestors()[1:]
+                    'object': self.object,
+                    'parent': self.parent,
+                    'children': self.children,
+                    'ancestors': self.object.get_object_ancestors()[1:]
             })
-            return kwargs
+        return kwargs
 
     def get_children(self, **kwargs):
         if has_permission(self.object, self.request.user, 'edit'):
@@ -100,7 +111,8 @@ class ShowBrowser(BaseContentView):
         })
         return super(ShowBrowser, self).get_context_data(**kwargs)
 
-class BaseContentEdit(LoginRequiredMixin, FormView):
+class BaseContentEdit(LoginRequiredMixin, PermissionMixin, FormView):
+    permission = 'edit'
     form_class = None
     template_name = None
     model = None
@@ -154,6 +166,7 @@ class BaseContentEdit(LoginRequiredMixin, FormView):
             'title'         : self.get_portal_type().title,
             'add'           : self.add,
             'portal_type'   : self.get_portal_type().name,
+            'icon'         : self.get_portal_type().icon,
         })
         return super(BaseContentEdit, self).get_context_data(**kwargs)
 
@@ -219,7 +232,8 @@ class BaseContentEdit(LoginRequiredMixin, FormView):
     def form_invalid(self, form):
         return HttpResponse(python_to_json({"errors" : form.errors}))
 
-class BaseContentDelete(LoginRequiredMixin, DeleteView):
+class BaseContentDelete(LoginRequiredMixin, PermissionMixin, DeleteView):
+    permission = 'delete'
     template_name = "cms/confirm.html"
     object = None
 
@@ -254,10 +268,11 @@ class BaseContentDelete(LoginRequiredMixin, DeleteView):
         })
         return super(BaseContentDelete, self).get_context_data(**kwargs)
 
-class BaseContentAdd(LoginRequiredMixin, TemplateView):
+class BaseContentAdd(LoginRequiredMixin, PermissionMixin, TemplateView):
     """
         List portal types allowed
     """
+    permission = 'add'
     template_name = "cms/add.html"
 
     def get_object(self):
