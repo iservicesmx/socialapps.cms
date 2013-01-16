@@ -120,16 +120,19 @@ class BaseContentEdit(LoginRequiredMixin, PermissionMixin, FormView):
     object = None
     url_form_post = None
     add = None
+    portal_type = None
 
     def check_create_or_update(self):
-        if 'portal_type' in self.kwargs:
-            return True
-        else:
-            return False
+        if not self.add:
+            if 'portal_type' in self.kwargs:
+                return True
+            else:
+                return False
+        return self.add
 
     def get_url_form_post(self):
         if self.add:
-            return reverse('base_create', kwargs={'path' : self.parent.get_absolute_url(), 'portal_type' : self.kwargs.get('portal_type', None)})
+            return reverse('base_create', kwargs={'path' : self.parent.get_absolute_url(), 'portal_type' : self.portal_type})
         else:
             return reverse('base_edit', kwargs={'path' : self.object.get_absolute_url()})
 
@@ -137,6 +140,8 @@ class BaseContentEdit(LoginRequiredMixin, PermissionMixin, FormView):
         return "/%s" % self.object.get_absolute_url()
 
     def post(self, request, *args, **kwargs):
+        if not self.portal_type:
+            self.portal_type = self.kwargs.get('portal_type', None)
         self.add = self.check_create_or_update()
         self.object = self.get_object()
         self.model = self.get_model()
@@ -144,6 +149,8 @@ class BaseContentEdit(LoginRequiredMixin, PermissionMixin, FormView):
         return super(BaseContentEdit, self).post(request, *args, **kwargs)
 
     def get(self, request, *args, **kwargs):
+        if not self.portal_type:
+            self.portal_type = self.kwargs.get('portal_type', None)
         self.add = self.check_create_or_update()
         self.object = self.get_object()
         self.model = self.get_model()
@@ -179,7 +186,7 @@ class BaseContentEdit(LoginRequiredMixin, PermissionMixin, FormView):
     def get_model(self):
         if not self.model:
             if self.add:
-                return portal_types.get_model(self.kwargs.get('portal_type'))
+                return portal_types.get_model(self.portal_type)
             else:
                 return self.object.__class__
         return self.model
@@ -221,7 +228,7 @@ class BaseContentEdit(LoginRequiredMixin, PermissionMixin, FormView):
 
         if self.add:
             self.object.parent = self.parent
-            self.object.portal_type = self.kwargs.get('portal_type', None)
+            self.object.portal_type = self.portal_type
             self.object.creator = self.request.user
         self.object.save()
         self.success_url = self.get_success_url()
@@ -281,6 +288,7 @@ class BaseContentAdd(LoginRequiredMixin, PermissionMixin, TemplateView):
         return BaseContent.objects.get_base_object(path, site)
 
     def get_context_data(self, **kwargs):
+        print "ok"
         kwargs = super(BaseContentAdd, self).get_context_data(**kwargs)
         type_container = []
         type_content = []
