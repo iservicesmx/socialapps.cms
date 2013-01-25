@@ -67,7 +67,17 @@ class BaseContent(MPTTModel, BaseMetadata):
     def get_object_ancestors(self):
         ancestors = self.get_ancestors()
         return [ancestor.get_type_object() for ancestor in ancestors]
-    
+
+    def get_parents(self):
+        parents = []
+        temp = self
+        while temp:
+            parents.append(temp.slug)
+            if not temp.parent:
+                parents.reverse()
+                return parents
+            temp = temp.parent
+
     def save(self, *args, **kwargs):
         if not self.portal_type:
             self.portal_type = self.get_portal_type().name
@@ -84,9 +94,9 @@ class BaseContent(MPTTModel, BaseMetadata):
         super(BaseContent, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        url = "/".join([ancestor.slug for ancestor in self.get_ancestors(include_self=True)]) #+ "/"
-        return url
-    
+        return "/".join(self.get_parents())
+        # url = "/".join([ancestor.slug for ancestor in self.get_ancestors(include_self=True)]) #+ "/"
+
     def get_type_object(self):
         if self.__class__.__name__.lower() == "basecontent":
             return getattr(self, self.portal_type)
