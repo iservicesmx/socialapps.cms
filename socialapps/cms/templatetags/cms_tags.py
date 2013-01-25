@@ -26,7 +26,7 @@ def show_navigation(context, obj):
 
 @register.inclusion_tag("cms/breadcrumb.html")
 def show_breadcrumb(obj):
-    ancestors = obj.get_object_ancestors()[1:]
+    ancestors = obj.get_parents()[1:]
     anc = []
     if len(ancestors) > 2:
         anc.append(ancestors[0])
@@ -38,15 +38,6 @@ def show_breadcrumb(obj):
         'object':       obj,
         'ancestors':    ancestors,
     }
-
-
-@register.simple_tag(takes_context=True)
-def get_content_parent(context, obj):
-    for item in obj.get_ancestors(include_self=True, ascending=True):
-        if item.slug in ['syllabus', 'resources', 'discussionroot', 'files']:
-            context['content_parent'] = item
-    return ""
-
 
 @register.inclusion_tag("cms/multipage_toc.html", takes_context=True)
 def show_multipage_toc(context, obj):

@@ -37,7 +37,6 @@ class BaseContentView(LoginRequiredMixin, JSONTemplateView):
             self.children = self.get_children()
             self.parent = self.object.parent
             self.context = self.get_context_data()
-
         return self.render_to_response(self.context)
 
     def get_context_data(self, **kwargs):
@@ -62,7 +61,7 @@ class BaseContentView(LoginRequiredMixin, JSONTemplateView):
                     'object': self.object,
                     'parent': self.parent,
                     'children': self.children,
-                    'ancestors': self.object.get_object_ancestors()[1:]
+                    'ancestors': self.object.get_parents()[1:]
             })
         return kwargs
 
@@ -288,7 +287,6 @@ class BaseContentAdd(LoginRequiredMixin, PermissionMixin, TemplateView):
         return BaseContent.objects.get_base_object(path, site)
 
     def get_context_data(self, **kwargs):
-        print "ok"
         kwargs = super(BaseContentAdd, self).get_context_data(**kwargs)
         type_container = []
         type_content = []
