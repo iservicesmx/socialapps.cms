@@ -11,7 +11,7 @@ def show_navigation(context, obj):
     if "courses" in path_items and ("resources" in path_items or "syllabus" in path_items):
         section = context['request'].session.get('current_section')
         if section:
-            if section['section'].parent in obj.get_ancestors(include_self=True, ascending=True):
+            if section['section'].parent in obj.get_parents(True):
                 obj = section['section']
                 absolute_url = section['path']
     if not hasattr(obj, 'get_local_menu'):
@@ -41,7 +41,8 @@ def show_breadcrumb(obj):
 
 @register.inclusion_tag("cms/multipage_toc.html", takes_context=True)
 def show_multipage_toc(context, obj):
-    for item in obj.get_ancestors(include_self=True, ascending=True):
+    for item in obj.get_parents(True):
+        print item
         if item.portal_type == 'multipage':
             if has_permission(item, context['user'], 'edit') and context['request'].GET.get('template', None) != 'user':
                 context['toc'] = item.get_object_children(True)
