@@ -68,14 +68,16 @@ class BaseContent(MPTTModel, BaseMetadata):
         ancestors = self.get_ancestors()
         return [ancestor.get_type_object() for ancestor in ancestors]
 
-    def get_parents(self):
+    def get_parents(self, include_self=False):
         parents = []
         temp = self
         while temp:
             parents.append(temp.slug)
             if not temp.parent:
                 parents.reverse()
-                return parents
+                if include_self:
+                    return parents
+                return parents[:-1]
             temp = temp.parent
 
     def save(self, *args, **kwargs):
@@ -94,7 +96,7 @@ class BaseContent(MPTTModel, BaseMetadata):
         super(BaseContent, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return "/".join(self.get_parents())
+        return "/".join(self.get_parents(True))
         # url = "/".join([ancestor.slug for ancestor in self.get_ancestors(include_self=True)]) #+ "/"
 
     def get_type_object(self):
