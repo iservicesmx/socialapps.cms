@@ -1,6 +1,5 @@
 {% load i18n %}
 {% load bootstrap_tags %}
-    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.cleditor.extimage.js"></script>
     {% if parent %}
         <script type="text/javascript">
             $.cleditor.buttons.image.uploadUrl = '{% url base_create parent.get_absolute_url "image" %}';
@@ -122,13 +121,6 @@
         var availableTags = [ {% for t in tags %} '{{t}}',{% endfor %} ]
         $("#id_tags").tagit({availableTags   : availableTags});
         $('#cms-form').ajaxForm({dataType : 'json', success : save , beforeSubmit: loadingForm});
-        $.cleditor.defaultOptions.controls = "bold italic underline | style | " +
-                                            "bullets numbering | outdent " +
-                                            "indent | alignleft center alignright | undo redo | " +
-                                            "table image link unlink multimedia | pastetext | source";
-        $.cleditor.defaultOptions.width = 650;
-        $.cleditor.defaultOptions.height = 100;
-        $('#id_description').cleditor();
         $('#upload form').ajaxForm({ dataType : 'json', success : selectSize, beforeSubmit: loadingForm});
     });
 </script>
