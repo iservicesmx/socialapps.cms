@@ -195,7 +195,10 @@ class BaseContentEdit(LoginRequiredMixin, PermissionMixin, FormView):
             if not self.add:
                 path = self.kwargs.get('path', None)
                 site = self.request.site
-                return BaseContent.objects.get_base_object(path, site)
+                obj = BaseContent.objects.get_base_object(path, site)
+                if obj.portal_type == 'discussionroot':
+                    self.permission = 'add'
+                return obj
             else:
                 return None
         return self.object
