@@ -97,7 +97,7 @@
 			    <div class="widget">
 			    <div class="widget-header"><h3>{% block content_title %}{% endblock %}</h3></div>
 				<div class="widget-content">
-					{% ifhasperm view object %}
+					{% ifhasperm socialize object %}
 						{% block content_left %}{% endblock %}
 					{% else %}
 						<h3>{% trans "You can't see this content" %}</h3>
