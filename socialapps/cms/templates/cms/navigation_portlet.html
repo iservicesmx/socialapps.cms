@@ -1,5 +1,4 @@
 {% load i18n %}
-<!-- {{ menus }} -->
 {% for menu in menus %}
     <div class="widget">
         <div class="widget-header"><h3>{% if menu.title %} {{ menu.title }} {% else %} {% trans "Navigation" %} {% endif %}</h3></div>
@@ -13,8 +12,18 @@
                                         <i class="{{ item.icon }}"></i>&nbsp;{{item.title}}
                                     </a>
                                 {% else %}
-                                    <a href="/{{ menu.absolute_url }}/{{ item.url }}">
+                                    {% if menu.absolute_url %}
+                                        <a href="/{{ menu.absolute_url }}/{{ item.url }}">
+                                    {% else %}
+                                        <a href="/{{ item.url }}">
+                                    {% endif %}
+                                        {% if item.icon %}
+                                            <img src="{{ item.icon }}" alt="{{ item.description }}" class="type-icon"/>
+                                        {% endif %}
                                         {{ item.title }}
+                                        {% if item.extra %}
+                                            {{ item.extra|safe }}
+                                        {% endif %}
                                     </a>
                                 {% endif %}
                             </li>
@@ -27,7 +36,10 @@
                         {% for item in menu.menu.items %}
                             <li>
                                 <a href="/{{ menu.absolute_url }}/{{ item.url }}" class="btn">
-                                <img src="{{ item.icon }}" alt="{{ item.description }}" class="type-icon"/> {{ item.title }}
+                                    {% if item.icon %}
+                                        <img src="{{ item.icon }}" alt="{{ item.description }}" class="type-icon"/>&nbsp;
+                                    {% endif %}
+                                    <p {% if item.title|length > 16 %}style="margin-top:-22px;"{% endif %}>{{ item.title }}</p>
                               </a>
                             </li>
                         {% endfor %}
