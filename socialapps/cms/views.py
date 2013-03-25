@@ -299,9 +299,6 @@ class BaseContentAdd(LoginRequiredMixin, PermissionMixin, TemplateView):
             else:
                 type_container.append(item)
 
-        if self.get_object().get_portal_type().name == 'folder':
-            type_container.append(self.get_object().get_portal_type())
-
         kwargs.update({
             'path'          : self.kwargs.get('path', None),
             'type_container': type_container,
