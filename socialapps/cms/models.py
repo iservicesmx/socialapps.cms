@@ -53,8 +53,6 @@ class BaseContent(MPTTModel, BaseMetadata):
         ordering = ('tree_id', 'lft')
     
     class MPTTMeta:
-        unique_together = ('parent', 'slug')
-        ordering = ('tree_id', 'lft')
         order_insertion_by = 'slug'
                 
     def get_object_children(self, show_all=False, **kwargs):
@@ -155,7 +153,7 @@ def delete_image(sender, **kwargs):
         instance.image.delete()
 
 class File(BaseContent):
-    file = models.FileField(upload_to="files")
+    file = models.FileField(upload_to="files", max_length=255)
     mimetype = models.CharField(max_length = 200, blank = True, null = True)
     true_mimetype = models.CharField(max_length = 200, blank = True, null = True)
 
