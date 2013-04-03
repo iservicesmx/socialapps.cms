@@ -166,7 +166,7 @@ class BaseContentEdit(LoginRequiredMixin, PermissionMixin, FormView):
 
     def get_context_data(self, **kwargs):
         kwargs.update({
-            'parent'        : self.parent,
+            'object'        : self.parent,
             'url_form_post' : self.get_url_form_post(),
             'tags'          : Tag.objects.all().values_list('name', flat=True),
             'title'         : self.get_portal_type().title,
