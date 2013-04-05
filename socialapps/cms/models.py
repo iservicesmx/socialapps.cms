@@ -13,6 +13,7 @@ from django.dispatch import receiver
 
 from socialapps.cms import mimetypes
 from socialapps.core.models import BaseMetadata
+from socialapps.core.utils import bleach_clean
 
 from .registration import portal_types
 from .managers import BaseContentManager
@@ -95,7 +96,6 @@ class BaseContent(MPTTModel, BaseMetadata):
 
     def get_absolute_url(self):
         return "/".join([ancestor.slug for ancestor in self.get_parents(True)])
-        # url = "/".join([ancestor.slug for ancestor in self.get_ancestors(include_self=True)]) #+ "/"
 
     def get_type_object(self):
         if self.__class__.__name__.lower() == "basecontent":
@@ -134,6 +134,10 @@ class MultiPage(BaseContent):
 
 class Page(BaseContent):
     text = models.TextField(_(u"Text"), blank=True)
+
+    def save(self, *args, **kwargs):
+        self.text = bleach_clean(self.text)
+        return super(Page, self).save(*args, **kwargs)
         
 class Image(BaseContent):
     image = models.ImageField(_(u"Image"), upload_to="uploads")
