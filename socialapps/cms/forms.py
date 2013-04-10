@@ -1,8 +1,12 @@
+import re
 from django import forms
-from .models import *
 from socialapps.core.widgets import RichTextEditor
+from socialapps.core.utils import form_title_validator
+from .models import *
+
 
 class BaseContentEditForm(forms.ModelForm):
+    title = forms.CharField(validators=[form_title_validator])
     class Meta:
         model = BaseContent
         fields = ("title", "description", "tags", "hide")
@@ -11,6 +15,7 @@ class BaseContentEditForm(forms.ModelForm):
         }
 
 class FolderEditForm(forms.ModelForm):
+    title = forms.CharField(validators=[form_title_validator])
     class Meta:
         model = Folder 
         fields = ("title", "description", "tags", "pagination", "hide")
@@ -19,6 +24,7 @@ class FolderEditForm(forms.ModelForm):
         }
         
 class MultiPageEditForm(forms.ModelForm):
+    title = forms.CharField(validators=[form_title_validator])
     class Meta:
         model = MultiPage 
         fields = ("title", "description", "tags", "show_toc", "hide")
@@ -27,6 +33,7 @@ class MultiPageEditForm(forms.ModelForm):
         }
 
 class PageEditForm(forms.ModelForm):
+    title = forms.CharField(validators=[form_title_validator])
     class Meta:
         model = Page 
         fields = ("title", "description", "text","tags", "hide")
@@ -36,6 +43,7 @@ class PageEditForm(forms.ModelForm):
         }
         
 class ImageEditForm(forms.ModelForm):
+    title = forms.CharField(validators=[form_title_validator])
     class Meta:
         model = Image 
         fields = ("title", "description", "tags", "image", "hide")
@@ -44,14 +52,17 @@ class ImageEditForm(forms.ModelForm):
         }
         
 class FileEditForm(forms.ModelForm):
+    title = forms.CharField(validators=[form_title_validator])
     class Meta:
         model = File 
         fields = ("title", "description", "tags", "file", "hide")
         widgets = {
             'description' : RichTextEditor,
         }
+
         
 class LinkEditForm(forms.ModelForm):
+    title = forms.CharField(validators=[form_title_validator])
     class Meta:
         model = Link
         fields = ("title", "description", "url", "frame", "redirect", "tags", "hide")
