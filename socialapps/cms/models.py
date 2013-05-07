@@ -10,6 +10,7 @@ from django.contrib.sites.models import Site
 from mptt.models import MPTTModel, TreeForeignKey
 from django.db.models.signals import pre_save, pre_delete
 from django.dispatch import receiver
+from django.template.loader import select_template
 
 from socialapps.cms import mimetypes
 from socialapps.core.models import BaseMetadata
@@ -58,7 +59,7 @@ class BaseContent(MPTTModel, BaseMetadata):
                 
     def get_object_children(self, show_all=False, **kwargs):
         if not show_all:
-            children = self.get_children().filter(hide__exact = False, **kwargs)
+            children = self.get_children().filter(hide=False, **kwargs)
         else:
             children = self.get_children().filter(**kwargs)
         return [child.get_type_object() for child in children]
@@ -112,7 +113,8 @@ class BaseContent(MPTTModel, BaseMetadata):
             if template_name:
                 for template in pt.templates:
                     if template.name == pt.default_template.name + '_admin':
-                        return template.path                    
+                        temp = select_template([template.path, pt.default_template.path])
+                        return temp.name
             return pt.default_template.path
         return self.template
         

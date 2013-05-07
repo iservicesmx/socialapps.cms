@@ -31,8 +31,8 @@ def show_navigation(context, obj):
                 })
         else:
             items = []
-            if has_permission(course, context['user'], 'view'):
-                sections = course.get_sections()
+            if has_permission(course, context['user'], 'rate'):
+                sections = course.get_sections(True)
             else:
                 sections = course.get_sections(False)
             for item in sections:
