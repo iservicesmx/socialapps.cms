@@ -112,9 +112,9 @@
                     <img src="{{ STATIC_URL }}{{ object.icon }}" class="icon"/>
                     <div class="title">{{ object.title }}</div>
                     <div class="mimetype">{{ object.mimetype }}</div>
-                    <input type='text' class="url" name="url" value="/{{ object.get_absolute_url }}" style="display: none;"/>
-                    <input type='text' class="mult_url" name="mult_url" value="{{ object.file.url }}" style="display: none;"/>
-                    <input type='text' class="mult_type" name="mult_type" value="{{ object.true_mimetype }}" style="display: none;"/>
+                    <input type='text' class="url hidden" name="url" value="/{{ object.get_absolute_url }}" style="display: none;"/>
+                    <input type='text' class="mult_url hidden" name="mult_url" value="{{ object.file.url }}"/>
+                    <input type='text' class="mult_true_type hidden" name="mult_true_type" value="{{ object.true_mimetype }}"/>
                 </div>
             {% else %}
             	<div class="selected-url">

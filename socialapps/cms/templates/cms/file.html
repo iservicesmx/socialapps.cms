@@ -4,24 +4,29 @@
 {% block content_title %}{{ object.title }}{% endblock %}
 {% block content_left %}
 <div class="template-list">
-	<p>{{ object.description|safe }}</p>
-	<br/>
-	{% if object.mimetype == 'video' or object.mimetype == 'audio' %}
-		<video class="video-js vjs-default-skin" controls
-	      width="560" height="315"
-	      data-setup="{}">
-	      <source src="{{ object.file.url }}" type="{{ object.true_mimetype }}">
-	    </video>
-	    <br/>
-	{% endif %} 
-	<a class="cms-file-download button" href="{{ object.file.url }}">{% trans "Download" %}</a>
-	<br />	
-	<ul class="tagit">
-	    {% for tag in object.tags.split %}
-	        <li class="tagit-show ui-state-default ui-corner-all">    
-	            {{ tag }}
-	        </li>
-	    {% endfor %}
-	</ul>
+    <p>{{ object.description|safe }}</p>
+    <br/>
+    {% if object.mimetype == 'video' or object.mimetype == 'audio' %}
+        <video class="video-js vjs-default-skin vjs-tech" 
+            {% if object.mimetype == 'video' %}
+                width="560" height="315" 
+            {% else %}
+                width="560" height="30" 
+            {% endif %}
+            controls preload="none">
+            <source src="{{ object.file.url }}" type="{{ object.true_mimetype }}">
+        </video>
+        <br/>
+    {% endif %} 
+    <hr/>
+    <a class="cms-file-download btn btn-primary" href="{{ object.file.url }}"><i class="icon-download"></i> {% trans "Download" %}</a>
+    <br />  
+    <ul class="tagit">
+        {% for tag in object.tags.split %}
+            <li class="tagit-show ui-state-default ui-corner-all">    
+                {{ tag }}
+            </li>
+        {% endfor %}
+    </ul>
 </div>
 {% endblock %}
